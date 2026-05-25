@@ -1,0 +1,14 @@
+# Local environments
+.venv/
+node_modules/
+.cache/
+tmp/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Generated retrieval artifacts
+data/processed/chunks/
+data/processed/embeddings/
+data/manifests/build/
