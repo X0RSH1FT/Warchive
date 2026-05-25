@@ -1,19 +1,18 @@
 ---
 name: "Documentation Writing Guidance"
-description: "Markdown authoring guidance for Glyphmancer docs under doc/. Use when editing durable docs, repo knowledge, or planning notes in the documentation tree."
-applyTo: "doc/**/*.md"
+description: "Markdown authoring guidance for knowledge-base docs under docs/. Use when editing durable references, research notes, or planning notes in the documentation tree."
+applyTo: "docs/**/*.md"
 ---
 
 # Documentation Writing Guidance
 
-Use these rules when editing Markdown files under `doc/`.
+Use these rules when editing Markdown files under `docs/`.
 
 ## Ownership By Directory
 
-- `doc/app/` owns durable application and subsystem reference material for shipped behavior.
-- `doc/knowledge/` owns repo-level process, quality, customization, and research references.
-- `doc/plan/` owns active plans, deferred work, and other unshipped notes.
-- Keep `README.md` as the user-facing overview and top-level command index; do not duplicate that role inside `doc/`.
+- `docs/research/` owns durable research, customization, and reference material for this knowledge-base repository.
+- Keep other doc buckets aligned with the repository's current docs layout; ask before introducing new durable, planning, or canonical directories when no existing home is obvious.
+- Keep `README.md` as the user-facing overview and top-level navigation when it already serves that role; do not duplicate that role inside `docs/`.
 
 ## Authoring Rules
 
@@ -26,12 +25,12 @@ Use these rules when editing Markdown files under `doc/`.
 
 ## Cross-Document Consistency
 
-- Keep `doc/app/architecture.md` aligned with the durable reference suite when adding, moving, or removing durable docs.
+- Keep any top-level docs indexes or neighboring overview pages aligned when adding, moving, or removing durable docs.
 - Reconcile sibling links in the same pass when a document moves or ownership changes.
-- Promote shipped facts out of `doc/plan/` when an owning durable page now exists.
+- Promote settled facts out of temporary notes when an owning durable page now exists.
 
 ## Validation
 
 - Use the cheapest available proof for documentation claims: nearby source reads, targeted search, or a focused command.
-- When a doc mentions executable commands, prefer the repository's `uv` commands for validation.
+- When a doc mentions executable commands, prefer the repository's native commands for validation instead of assuming a specific toolchain.
 - Check diagnostics on touched Markdown files before concluding.

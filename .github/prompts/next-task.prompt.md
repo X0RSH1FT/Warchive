@@ -21,7 +21,7 @@ agent: Coordinator Agent
    - `Planner Agent` for task slicing, acceptance criteria, file targeting, or validation sequencing before implementation
    - `Explorer Agent` for broad read-only reconnaissance, source-anchored research, or fast comparison of candidate owning paths before another specialist takes over
    - `Implementation Agent` for production-code changes and small adjacent test edits
-   - `Documentation Agent` for documentation authoring, doc moves, cross-link reconciliation, research write-ups, or code changes that should update README, `doc/app`, `doc/knowledge`, or `doc/plan`
+   - `Documentation Agent` for documentation authoring, doc moves, cross-link reconciliation, research write-ups, or code changes that should update `README.md`, the existing durable docs surface, research or knowledge notes, planning notes, or another user-named documentation path
    - `Testing Agent` for writing or expanding tests, debugging pytest failures, choosing the narrowest useful validation slice, or reporting residual testing gaps
    - `Reviewer Agent` for findings-first review and signoff
 9. For planning, research, implementation, documentation, testing, exploration, or review work, use `#askQuestions` to clarify any design decisions, comparison baselines, audience, output paths, acceptance criteria, validation targets, or scope boundaries before work begins when user confirmation or clarification is still needed. Rank options by your preference, mark the recommended default, include the current working context, and keep freeform input enabled.
@@ -40,7 +40,7 @@ agent: Coordinator Agent
 16. If the task ends in research:
    - clarify the target surface, comparison baseline, intended audience, and output path when any of those are unclear
    - use `Explorer Agent` to survey the target surface first and keep observed facts separate from inferred intent and recommendations
-   - honor an explicit output path; otherwise default durable research notes to `doc/knowledge/<slug>.md` and shorter in-flight notes to `doc/plan/<slug>.md`
+   - honor an explicit output path; otherwise default durable research notes to `docs/research/<slug>.md` when that surface exists and ask before creating a separate planning-notes bucket or another new documentation directory
    - dispatch `Documentation Agent` when the deliverable should be authored or updated as a repo document
    - stay in research mode unless the user explicitly expands scope into implementation work
    - summarize the best next implementation or experiment path when one naturally follows
