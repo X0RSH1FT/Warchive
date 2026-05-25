@@ -1,0 +1,12 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "type": "command",
+        "comment": "Auto-format Python files after edits using Ruff",
+        "command": "uv run ruff format \"$TOOL_INPUT_FILE_PATH\"",
+        "timeout": 30
+      }
+    ]
+  }
+}
