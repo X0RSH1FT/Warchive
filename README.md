@@ -1,67 +1,50 @@
-# Warchive
+# warchive
 
-Neon-lit memory vault for humans and machines: a cyberpunk archive of knowledge, research, and agent playbooks.
+Warchive is a repository for agent prompts, working guidance, and knowledge documents. It is a practical archive first: a place to keep reusable instructions, research references, and support material organized enough for both humans and coding agents to navigate.
 
-## Purpose
+The tone can stay playful and a little cyberpunk, but the content is meant to be durable, readable, and useful during real work.
 
-Warchive is a personal knowledge repository designed for two readers:
+## What this repository is for
 
-- humans who need a clear, browsable archive
-- LLM-based agents that need predictable structure, metadata, and task playbooks
+- Keeping stable documentation about agent workflows and Copilot customization patterns.
+- Organizing prompt and instruction assets alongside supporting docs.
+- Holding tooling and visual assets that support ingestion, validation, and presentation work.
+- Providing a temporary inbox for material that has not been classified yet.
 
-The repository keeps curated knowledge separate from raw intake so the archive can grow without turning into noise.
+## Where to start
 
-## Layout
+If you are new to the repo, start here:
 
-```text
-docs/
-  canon/      trusted, curated knowledge
-  notes/      synthesis, essays, and working thoughts
-  research/   raw findings, source summaries, and intake
-  maps/       topic indexes and reading paths
-agents/
-  prompts/    reusable prompt assets
-  playbooks/  task-oriented workflows for agents
-  personas/   optional specialized operating modes
-  evaluations/ prompt tests and expected outcomes
-templates/    starter files for consistent entries
-data/
-  sources/    raw machine-readable imports
-  processed/  normalized or generated artifacts
-  manifests/  indexes, catalogs, and snapshots
-scripts/      ingestion, indexing, and validation tooling
-visuals/      diagrams and images
-meta/
-  standards/  content conventions and schemas
-  taxonomy/   tags and classification rules
-  glossary/   canonical terms
-inbox/        quick capture before triage
-```
+1. Read this file for the high-level map.
+2. Open the README inside the area you plan to work in, or start with `.github/copilot-instructions.md` if you are working on repository customizations.
+3. Use the research docs in `docs/research/` when you need background on agentic coding or VS Code Copilot customization behavior.
 
-## Operating Model
+## Repository layout
 
-1. Capture fast in `inbox/` or `docs/research/`.
-2. Synthesize into `docs/notes/`.
-3. Promote stable knowledge into `docs/canon/`.
-4. Record repeatable agent work in `agents/playbooks/`.
-5. Keep metadata consistent using the files in `templates/` and `meta/standards/`.
+| Path | Purpose | Start here |
+|---|---|---|
+| `.github/` | Repository-scoped Copilot customizations such as agents, prompts, instructions, and related workflow files. | [.github/copilot-instructions.md](.github/copilot-instructions.md) |
+| `docs/` | Durable documentation and research material. | `docs/research/` |
+| `inbox/` | Fast capture area for temporarily unclassified material. | [inbox/README.md](inbox/README.md) |
+| `scripts/` | Ingestion and validation tooling. | [scripts/README.md](scripts/README.md) |
+| `visuals/` | Diagrams, sketches, and image assets. | [visuals/README.md](visuals/README.md) |
 
-## Metadata
+## Key reference docs
 
-Markdown entries should use frontmatter when practical. The base schema is documented in `meta/standards/content-model.md`.
+- [docs/research/agentic-coding.md](docs/research/agentic-coding.md): practical notes on agentic delivery loops, validation, and role splits.
+- [docs/research/vscode-copilot-agent-customization-reference.md](docs/research/vscode-copilot-agent-customization-reference.md): local reference for always-on instructions, scoped instructions, prompts, agents, skills, and related VS Code Copilot behavior.
 
-Recommended core fields:
+## Working model
 
-- `title`
-- `type`
-- `status`
-- `tags`
-- `updated`
-- `source`
-- `confidence`
+Warchive is easier to maintain when each area keeps a clear job:
 
-## First Steps
+- Put stable reference material under `docs/`.
+- Use `inbox/` for short-lived capture, then move content into a durable home.
+- Keep tooling under `scripts/` and supporting visual material under `visuals/`.
+- Keep repository-wide Copilot context and customization assets under `.github/`.
 
-1. Add your first working note from `templates/note.md`.
-2. Write your first repeatable agent workflow from `templates/playbook.md`.
-3. Update `docs/maps/warchive-map.md` as major topics emerge.
+When a directory already has its own README, treat that file as the local entry point for the area.
+
+## Current shape
+
+At the moment, the repository is organized around documentation and agent support material rather than a traditional application codebase. The important orientation rule is simple: start with the nearest README, then step into the relevant research document only when you need deeper context.
