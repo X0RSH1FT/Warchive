@@ -16,7 +16,7 @@ agent: Coordinator Agent
 4. If scope or success criteria are ambiguous, use `#askQuestions` before dispatching and include enough context for a non-expert reader to understand what decision is being made and why it matters.
 5. Decide whether the selected task is primarily planning, implementation, documentation, testing, review, or research.
 6. Prefer `Planner Agent` when the task is ambiguous, cross-cutting, or driven by planning docs with multiple plausible next slices. Ask it for a bounded brief with target files, acceptance criteria, risks, scope exclusions, and the first validation step.
-7. Build a short execution plan with the `#todo` tool when the task spans multiple stages.
+7. Build a short execution plan with `#todo` when the task spans multiple stages.
 8. Use the most appropriate specialist:
    - `Planner Agent` for task slicing, acceptance criteria, file targeting, or validation sequencing before implementation
    - `Explorer Agent` for broad read-only reconnaissance, source-anchored research, or fast comparison of candidate owning paths before another specialist takes over

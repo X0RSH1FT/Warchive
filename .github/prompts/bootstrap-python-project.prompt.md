@@ -8,15 +8,15 @@ agent: Coordinator Agent
 1. Treat this as full-project scaffolding work, not as a request for a single file.
 2. Start by identifying the concrete bootstrap target: project folder, project name, package name, project type, and whether the destination is empty.
 3. If any of that is missing, use `#askQuestions` before dispatching. Explain why each decision matters, describe the options in plain language, recommend a default when one exists, and keep freeform input enabled.
-4. Prefer `project-setup-info-local` when the destination is empty and a full project template or workspace bootstrap is the fastest safe way to create the initial structure.
+4. If the destination is empty and a full project scaffold is the fastest safe path, prefer an existing project-setup workflow or explicit setup instructions that are actually available in the current environment before creating files one by one.
 5. Use this repository as a source of reusable patterns rather than as a fully mirrored Python baseline, and carry forward only the parts that are broadly applicable to the new Python project:
     - Python project metadata, environment setup, and package-management patterns that fit the new project
     - quality-gate patterns for tests, linting, formatting, typing, dependency hygiene, and builds when applicable
-    - `.vscode/tasks.json` and `.vscode/settings.json` patterns when they help the target workspace
-    - `.github/copilot-instructions.md`
-    - scoped `.github/instructions/`
-    - reusable `.github/agents/`, `.github/prompts/`, and `.github/skills/` patterns when they fit the new project
-    - `.github/workflows/` patterns and any other applicable automation setup
+    - editor-task and workspace-setting patterns such as `.vscode/tasks.json` and `.vscode/settings.json` when they are present in the source repo and help the target workspace
+    - repository-scoped Copilot instructions such as `.github/copilot-instructions.md` when they are present in the source repo
+    - scoped `.github/instructions/` files when they are present in the source repo
+    - reusable `.github/agents/`, `.github/prompts/`, and `.github/skills/` patterns when they are present in the source repo and fit the new project
+    - CI patterns such as `.github/workflows/` and any other applicable automation setup when they are present in the source repo
     - `README.md`, `docs/`, `tests/`, and other project structure patterns when those surfaces add value
 6. Adapt copied patterns to the new project's shape instead of blindly mirroring repo-specific names, commands, docs, or runtime assumptions.
 7. Build a short plan with `#todo` when the bootstrap spans multiple stages such as planning, scaffolding, docs, testing, and review.

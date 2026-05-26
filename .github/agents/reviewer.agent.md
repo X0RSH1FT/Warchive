@@ -58,8 +58,8 @@ Example review shape:
 
 ```text
 Findings:
-1. Medium: `.github/prompts/review-changes.prompt.md` does not name the first validation boundary in the draft, which weakens the validation-first contract.
-2. Low: `.github/prompts/document-update.prompt.md` repeats durable workflow rationale that should live in the repository's long-lived documentation surface instead.
+1. Medium: `.github/prompts/bootstrap-python-project.prompt.md` implies repo-local setup surfaces that may not exist in a copied target, which can send users down broken paths.
+2. Low: `.github/prompts/document-update.prompt.md` uses inconsistent tool-reference notation, which makes the customization surface harder to follow.
 
 Residual risk: diagnostics are clean, but runtime prompt dispatch was not exercised.
 Recommendation: revise before signoff.

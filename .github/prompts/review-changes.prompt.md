@@ -7,12 +7,12 @@ agent: Coordinator Agent
 
 1. Decide whether the review target is staged changes, unstaged changes, or both.
 2. Retrieve only enough context to define the review target and any likely high-risk owning paths before dispatching.
-3. If the target is unclear, use the `#askQuestions` tool to confirm the review scope before dispatching, explain what staged, unstaged, or mixed review would cover in the current situation, and keep freeform input enabled.
+3. If the target is unclear, use `#askQuestions` to confirm the review scope before dispatching, explain what staged, unstaged, or mixed review would cover in the current situation, and keep freeform input enabled.
 4. Name the first validation boundary for the review before dispatching. Default to diff inspection and targeted file reads; escalate to diagnostics, tests, or commands only when a concrete risk justifies it.
 5. Route the evaluation to `Reviewer Agent` and keep the review findings-first.
 6. Ask for targeted validation only when it sharpens a concrete concern.
 7. Do not stage, unstage, discard, or revert files unless the user explicitly requests it.
-8. If the review finds actionable issues, use the `#askQuestions` tool to confirm whether they should be fixed now, summarize the concrete findings and affected files, recommend the default next pass when one exists, and keep freeform input enabled for follow-up discussion.
+8. If the review finds actionable issues, use `#askQuestions` to confirm whether they should be fixed now, summarize the concrete findings and affected files, recommend the default next pass when one exists, and keep freeform input enabled for follow-up discussion.
 9. If the user approves follow-up work, route to:
    - `Testing Agent` when the dominant follow-up is validation, runtime inspection, or test authoring
    - `Documentation Agent` when the dominant follow-up is documentation alignment

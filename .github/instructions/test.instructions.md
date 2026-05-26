@@ -1,14 +1,14 @@
 ---
 name: "Test Conventions"
-description: "Pytest conventions for Glyphmancer tests. Use when editing files under tests/."
+description: "Pytest conventions for test files. Use when editing files under tests/ in repositories that expose a pytest surface."
 applyTo: "tests/**/*.py"
 ---
 
 # Test Conventions
 
-Use these rules when editing or creating tests in Glyphmancer.
+Use these rules when editing or creating tests in repositories that expose a pytest-backed `tests/` tree.
 
-This file is the automatic, file-scoped policy for `tests/`. Command recipes, debugging flow, and broader pytest workflow guidance live in `.github/skills/pytest-testing/SKILL.md`.
+This file is the automatic, file-scoped policy for `tests/` when that directory exists. Command recipes, debugging flow, and broader pytest workflow guidance live in `.github/skills/pytest-testing/SKILL.md`.
 
 ## Test Structure
 

@@ -1,16 +1,16 @@
 ---
 name: "Python Code Style"
-description: "Python coding guidance for Glyphmancer source files. Use when editing modules under src/glyphmancer."
+description: "Python coding guidance for source files. Use when editing Python modules in this repository or in copied template repositories."
 applyTo: "src/**/*.py"
 ---
 
 # Python Code Style
 
-Use these rules when editing Python source files in Glyphmancer.
+Use these rules when editing Python source files in this repository or in a repository that copied these templates.
 
 ## Project Context
 
-- Preserve the `src/glyphmancer` package layout.
+- Preserve the existing source layout unless the task explicitly changes it.
 - Keep dependencies minimal and mainstream.
 - Prefer the standard library unless a third-party dependency clearly simplifies the design.
 - Use Python 3.12 features and modern type syntax when they improve clarity.

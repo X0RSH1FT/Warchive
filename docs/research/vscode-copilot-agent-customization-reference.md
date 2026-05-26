@@ -2,7 +2,7 @@
 
 **Research Date:** May 20, 2026  
 **Author:** GitHub Copilot  
-**Context:** EverTome local knowledge base for working with VS Code Copilot agent files and related customizations
+**Context:** Warchive local knowledge base for working with VS Code Copilot agent files and related customizations
 
 ---
 
@@ -21,7 +21,7 @@
 11. [Context Engineering Guidance](#11-context-engineering-guidance)
 12. [TDD Workflow Guidance](#12-tdd-workflow-guidance)
 13. [Troubleshooting and Operational Notes](#13-troubleshooting-and-operational-notes)
-14. [Recommended Authoring Patterns for EverTome](#14-recommended-authoring-patterns-for-evertome)
+14. [Recommended Authoring Patterns for Warchive](#14-recommended-authoring-patterns-for-warchive)
 15. [Quick Reference Templates](#15-quick-reference-templates)
 16. [Sources](#16-sources)
 
@@ -64,7 +64,7 @@ Use `*.instructions.md` files when rules should apply only to certain files, fol
 Examples:
 
 - Python-specific rules for `**/*.py`
-- UI rules for `evertome/interface/ui/**/*.py`
+- UI rules for `src/ui/**/*.py`
 - test conventions for `test/**/*.py`
 
 ### 2.3 Prompt files
@@ -178,7 +178,7 @@ Conditions noted in the docs:
 - a parent folder contains `.git`
 - the parent repository is trusted
 
-This matters if EverTome is ever opened from a subfolder instead of the repo root.
+This matters if Warchive is ever opened from a subfolder instead of the repo root.
 
 ### 3.5 Agent Customizations editor
 
@@ -825,7 +825,7 @@ When building repository workflows, prefer stable mechanisms first.
 
 ---
 
-## 14. Recommended Authoring Patterns for EverTome
+## 14. Recommended Authoring Patterns for Warchive
 
 These recommendations are specific to how this repository already uses `.github/` customization files.
 
@@ -837,10 +837,10 @@ Do not turn it into a dump of every specialized workflow.
 
 ### 14.2 Keep file-specific behavior in `*.instructions.md`
 
-EverTome already benefits from scoped rules for:
+Warchive already benefits from scoped rules for:
 
 - Python files
-- Streamlit UI files
+- customization docs and other focused file groups when they exist
 - tests
 
 Continue using scoped instructions whenever a rule applies only to a layer, technology, or path.

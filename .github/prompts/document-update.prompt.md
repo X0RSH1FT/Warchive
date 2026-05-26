@@ -13,15 +13,15 @@ agent: Coordinator Agent
 6. When the task spans multiple docs, keep a catalog of keep / rewrite / merge / delete candidates and confirm any deletes with the user before removal.
 7. If the user names a specific path under `.github/` or another docs-adjacent surface, honor that path instead of forcing relocation into the main docs tree.
 8. If the user names only a topic and no path, default to:
-	- `README.md` for top-level overview and navigation when the document is repo-facing
-	- `docs/research/<slug>.md` for durable research, customization, or reference notes when that surface exists
-	- an existing planning-notes surface for active planning or deferred work
-	Use `#askQuestions` when the intended home is still ambiguous, when the repository does not already have the needed docs bucket, or when a new directory would need to be introduced.
+   - `README.md` for top-level overview and navigation when the document is repo-facing
+   - `docs/research/<slug>.md` for durable research, customization, or reference notes when that surface exists
+   - an existing planning-notes surface for active planning or deferred work
+   Use `#askQuestions` when the intended home is still ambiguous, when the repository does not already have the needed docs bucket, or when a new directory would need to be introduced.
 9. Keep repository doc ownership consistent:
-	- `README.md` owns the user-facing overview and top-level navigation when it already serves that role
-	- the existing durable docs surface owns stable reference material
-	- the existing research or knowledge-notes surface such as `docs/research/` owns repo-level process, customization, and research notes
-	- the existing planning-notes surface owns active planning and deferred work; if no such surface exists, ask before creating one
+   - `README.md` owns the user-facing overview and top-level navigation when it already serves that role
+   - the existing durable docs surface owns stable reference material
+   - the existing research or knowledge-notes surface such as `docs/research/` owns repo-level process, customization, and research notes
+   - the existing planning-notes surface owns active planning and deferred work; if no such surface exists, ask before creating one
 10. Require source-anchored documentation updates rather than prose written from plan language alone.
 11. For single-page work, verify cited symbols, file paths, commands, config keys, and links before concluding.
 12. When a doc refresh changes indexes or ownership boundaries, update sibling links in the same pass and keep any owning overview or index documents aligned when they currently index that suite.
