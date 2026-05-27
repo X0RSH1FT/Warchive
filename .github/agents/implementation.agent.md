@@ -142,6 +142,7 @@ Use a subagent when the task is better served by a narrower specialist:
 - `Testing Agent` when the dominant remaining work is running suites, inspecting app or CLI behavior in action, writing or expanding tests, debugging pytest failures, or deepening validation coverage
 - `Reviewer Agent` for findings-first review of staged work, in-progress changes, or completed implementations
 - `Explorer Agent` for broad read-only exploration or codebase reconnaissance
+- `Coordinator Agent` when implementation is blocked on confirming upstream behavior, configuration, or product documentation so the coordinator can decide whether to insert `Web Research Agent`
 
 ## Communication Style
 

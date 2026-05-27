@@ -17,7 +17,7 @@ Use these rules when editing Copilot hook files under `.github/hooks/`.
 ## Workflow Fit
 
 - Keep the shared workflow small: the default shared path is `Coordinator Agent`, `Implementation Agent`, and `Reviewer Agent`.
-- Treat `Documentation Agent` and `Testing Agent` as optional specialists for documentation-heavy or test-heavy work, not as mandatory stages on every task.
+- Treat `Documentation Agent`, `Testing Agent`, and `Web Research Agent` as optional specialists for documentation-heavy, test-heavy, or external-doc-heavy work, not as mandatory stages on every task.
 - Use hooks to reinforce that workflow with automation, not to replace routing or agent responsibilities.
 
 ## Validation

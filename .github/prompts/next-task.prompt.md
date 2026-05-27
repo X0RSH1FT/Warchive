@@ -22,6 +22,7 @@ agent: Coordinator Agent
    - `Explorer Agent` for broad read-only reconnaissance, source-anchored research, or fast comparison of candidate owning paths before another specialist takes over
    - `Implementation Agent` for production-code changes and small adjacent test edits
    - `Documentation Agent` for documentation authoring, doc moves, cross-link reconciliation, research write-ups, or code changes that should update `README.md`, the existing durable docs surface, research or knowledge notes, planning notes, or another user-named documentation path
+   - `Web Research Agent` for narrow upstream-doc validation when planning, implementation, or documentation work depends on trusted external product facts before editing should continue
    - `Testing Agent` for writing or expanding tests, debugging pytest failures, choosing the narrowest useful validation slice, or reporting residual testing gaps
    - `Reviewer Agent` for findings-first review and signoff
 9. For planning, research, implementation, documentation, testing, exploration, or review work, use `#askQuestions` to clarify any design decisions, comparison baselines, audience, output paths, acceptance criteria, validation targets, or scope boundaries before work begins when user confirmation or clarification is still needed. Rank options by your preference, mark the recommended default, include the current working context, and keep freeform input enabled.
@@ -35,16 +36,18 @@ agent: Coordinator Agent
 14. If the active stage uncovers scope drift, a new owner, or a missing prerequisite, reroute instead of forcing the current specialist to keep going out of lane.
 15. If the task ends in planning:
    - confirm whether the planned slice should proceed now
+   - dispatch `Web Research Agent` first when the plan shows that a narrow upstream-doc check is the cheapest missing prerequisite
    - dispatch `Implementation Agent` when code changes are the next step
    - dispatch `Documentation Agent` or `Testing Agent` first only when the plan shows that code is not the immediate next owner
 16. If the task ends in research:
    - clarify the target surface, comparison baseline, intended audience, and output path when any of those are unclear
-   - use `Explorer Agent` to survey the target surface first and keep observed facts separate from inferred intent and recommendations
+   - use `Web Research Agent` first when the target question depends on trusted upstream product or external documentation; use `Explorer Agent` first when the question is about the local repository surface or owning path
    - honor an explicit output path; otherwise default durable research notes to `docs/research/<slug>.md` when that surface exists and ask before creating a separate planning-notes bucket or another new documentation directory
    - dispatch `Documentation Agent` when the deliverable should be authored or updated as a repo document
    - stay in research mode unless the user explicitly expands scope into implementation work
    - summarize the best next implementation or experiment path when one naturally follows
 17. If the task ends in implementation:
+   - dispatch `Web Research Agent` before further edits when the implementation is blocked on an external product fact that the repository has not already validated locally
    - dispatch `Documentation Agent` before review when code changes alter user-facing behavior, file layout, commands, config, or durable docs
    - dispatch `Testing Agent` before review when the remaining work is primarily test authoring, pytest debugging, or focused validation coverage
    - if the user explicitly wants a package or app version bump, use the `increment-python-project-version` prompt as a separate focused workflow instead of changing `[project].version` implicitly inside `next-task`
