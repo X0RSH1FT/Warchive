@@ -24,7 +24,7 @@ If you are new to the repo, start here:
 | Path | Purpose | Start here |
 |---|---|---|
 | `.github/` | Repository-scoped Copilot customizations such as agents, prompts, instructions, and related workflow files. | [.github/copilot-instructions.md](.github/copilot-instructions.md) |
-| `docs/` | Durable documentation and research material. | `docs/research/` |
+| `docs/` | Durable documentation, research material, and sprint planning notes. | `docs/research/` |
 | `inbox/` | Fast capture area for temporarily unclassified material. | [inbox/README.md](inbox/README.md) |
 | `scripts/` | Ingestion and validation tooling. | [scripts/README.md](scripts/README.md) |
 | `visuals/` | Diagrams, sketches, and image assets. | [visuals/README.md](visuals/README.md) |
