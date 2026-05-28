@@ -60,6 +60,14 @@ agent: Coordinator Agent
    - if the user declines, stop after the review summary and record that the fix pass was waived
 19. If the task ends in review with no actionable findings, say so explicitly and then summarize residual risk or validation gaps if any remain.
 
+Example response shape:
+- Task: update the import workflow described in an attached planning note.
+- Anchor: the unchecked implementation item in that note plus the owning prompt file.
+- Workflow: `Implementation Agent`, then `Reviewer Agent` because the change is non-trivial.
+- First validation: Markdown diagnostics on the touched customization files.
+- Summary: implemented the selected slice, recorded validation, and updated the planning note if it drove the work.
+- Commit message: Refine import workflow prompt guidance.
+
 If no actionable task can be derived from attached documents because the remaining work is ambiguous, use `#askQuestions` to explain the ambiguity, summarize the most plausible areas to work on next, and ask the user which area should be handled next while keeping freeform input enabled.
 
 If no actionable task can be derived because the attached documents are already exhausted or fully implemented, stop and say so directly. You may mention optional future ideas only with an explicit disclaimer that they are suggestions, not derived required work.

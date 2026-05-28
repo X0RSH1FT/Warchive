@@ -21,3 +21,10 @@ agent: Coordinator Agent
 11. If the review finds no actionable issues, say so explicitly and summarize any residual validation gaps.
 12. If the review uncovers a different owner or broader task shape than expected, reroute instead of keeping the work inside review.
 13. Provide a concise, imperative commit message when the reviewed changes are ready to keep.
+
+Example response shape:
+- Review target: unstaged changes in two prompt files.
+- First validation boundary: diff inspection plus Markdown diagnostics on those files.
+- Outcome: revise.
+- Findings: one prompt weakens routing clarity; one example shape does not match the requested output.
+- Next pass: `Implementation Agent` for the prompt fix.

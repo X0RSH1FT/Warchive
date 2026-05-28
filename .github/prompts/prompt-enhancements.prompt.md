@@ -61,6 +61,13 @@ Deliverables:
 3. A mapping of each major prompt to the techniques it uses and why.
 4. A brief note on techniques intentionally not used everywhere, and why.
 
+Example response shape:
+- Updated files: focused prompt and agent-customization files plus the durable documentation that explains the prompting strategy changes.
+- Design summary: tighter routing, clearer validation cues, and compact examples where structure matters.
+- Technique mapping: few-shot examples on structured-output prompts; validation-first and retrieval-first guidance kept in task-routing prompts.
+- Durable docs: updated the owning repository documentation so the prompt body and durable reference stay aligned.
+- Intentionally limited: no prompt-level tools and no blanket reasoning scaffolds where they would add bloat.
+
 Working style:
 - Start by auditing the existing customization files.
 - Form a short implementation plan before broad edits.

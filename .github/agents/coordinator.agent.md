@@ -10,7 +10,7 @@ handoffs:
     send: false
   - label: Start Implementation
     agent: Implementation Agent
-    prompt: Retrieve the narrowest controlling context, implement the agreed task with the smallest safe changes, run the first focused validation immediately, surface any scope drift, and summarize residual risks.
+    prompt: Retrieve the narrowest controlling context, implement the agreed task with the smallest safe changes, run the first focused validation immediately, surface any scope drift, summarize the tasks performed including any subagents invoked, and provide a concise imperative git commit message when the work is ready to keep.
     send: false
   - label: Update Docs
     agent: Documentation Agent

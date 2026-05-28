@@ -47,4 +47,12 @@ Output expectations:
 5. Validation result.
 6. Any follow-up suggestion only if the workflow would materially benefit from a second file type or bundled resource.
 
+Example response shape:
+- Type: Prompt file, because the workflow is a reusable user-invoked entry point rather than always-on scoped guidance.
+- Target path: `.github/prompts/example.prompt.md`
+- Implemented customization content: frontmatter plus a short task-scoped prompt body for the requested workflow.
+- Supporting assets: None.
+- Validation: Markdown diagnostics clean on the touched customization files, and referenced agents, prompts, skills, and named repository paths verified to exist.
+- Follow-up: Add a skill only if the workflow later needs bundled templates or scripts.
+
 If the request is derived from a broader process discussion, keep the implementation focused on the active customization slice instead of trying to solve the whole upstream process in one pass.

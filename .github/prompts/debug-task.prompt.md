@@ -17,3 +17,12 @@ agent: Coordinator Agent
 10. After the active debugging pass, summarize the root cause, what changed, and what was validated.
 11. If the debug work ends in implementation, return to the same post-implementation coordinator path used by `next-task`, including any needed testing, documentation, and review follow-up.
 12. Provide a concise, imperative commit message when the fix is ready to keep.
+
+Example response shape:
+- Failure anchor: `pytest tests/test_cli.py::test_empty_input` fails with a traceback in `src/app/cli.py`.
+- Owning path: input normalization in `src/app/cli.py`.
+- First check: rerun that one failing test before widening scope.
+- Root cause: empty input bypasses the default branch and reaches an invalid parse path.
+- What changed: add the missing empty-input fallback before parsing.
+- Validation: the same focused test passes after the fix.
+- Commit message: Fix CLI empty-input handling.

@@ -43,3 +43,12 @@ agent: Coordinator Agent
 16. After scaffolding, validate the new project with the narrowest commands that prove the environment works, then widen to the intended quality-gate path.
 17. Summarize what was created, what was adapted from the baseline repository, what was intentionally skipped, and any manual follow-up the user still needs to do.
 18. Provide a concise, imperative commit message scoped to the created bootstrap surface.
+
+Example response shape:
+- Target: `I:\Work\sample-app`, package `sample_app`, CLI-oriented Python project.
+- Created: `pyproject.toml`, `src/sample_app/`, `tests/`, `.vscode/`, and `.github/` baseline files.
+- Adapted from baseline: `pytest`, `ruff`, `mypy`, editor tasks, and repository-scoped Copilot instructions.
+- Validation: environment setup check plus one focused test and one lint pass.
+- Skipped: release workflow and dev container until the project needs them.
+- Manual follow-up: create the virtual environment and install the dev dependency group.
+- Commit message: Bootstrap sample-app Python project baseline.

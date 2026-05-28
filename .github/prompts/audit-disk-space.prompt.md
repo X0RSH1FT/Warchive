@@ -44,4 +44,10 @@ Output expectations:
 3. Prioritized reclaim opportunities with a short safety note for each.
 4. Any follow-up read-only command that would best reduce uncertainty.
 
+Example response shape:
+- Space snapshot: `C:` has about 112 GB free and 476 GB used.
+- Largest confirmed consumers: temp folders about 6 GB, package caches about 2 GB, recycle bin about 1.4 GB.
+- Reclaim opportunities: temp data first, then package cache; user-profile app data needs caution.
+- Follow-up read-only check: inspect Windows-managed cleanup candidates with an elevated read-only command.
+
 If the user also wants to preserve the audit workflow as a repository customization, treat that as a separate follow-up stage instead of expanding this audit prompt into customization design.

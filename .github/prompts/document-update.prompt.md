@@ -29,3 +29,10 @@ agent: Coordinator Agent
 14. If the documentation pass discovers that the missing fact is still undecided in source, reroute to `Implementation Agent` or back to `Coordinator Agent` instead of hardening an assumption into prose.
 15. After the documentation pass, summarize what changed, what was verified, and whether any follow-up implementation or review pass is still needed.
 16. Provide a concise, imperative commit message scoped to the changed files.
+
+Example response shape:
+- Scope: update `README.md` and `docs/research/example.md` for the same workflow change.
+- Ownership: `README.md` keeps overview text; `docs/research/example.md` keeps durable reference detail.
+- Validation: links checked, paths confirmed, and Markdown diagnostics clean.
+- Follow-up: review pass only if the rewrite changes doc ownership or deletes stale pages.
+- Commit message: Update README and research note for workflow change.

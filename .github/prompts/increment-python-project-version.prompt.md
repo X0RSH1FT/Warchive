@@ -20,3 +20,10 @@ agent: Coordinator Agent
 9. If the version bump should also update release notes or packaging docs, ask whether a follow-up `Documentation Agent` pass should update those doc-owned surfaces too.
 10. Summarize the old version, the new version, any additional synced surfaces, and the validation that was run.
 11. Provide a concise, imperative commit message scoped to the version bump.
+
+Example response shape:
+- Target: `pyproject.toml` at the project root.
+- Version change: `0.4.2` -> `0.4.3`.
+- Additional synced surfaces: none.
+- Validation: parsed `pyproject.toml` successfully, confirmed the new `[project].version` value is present, and checked clean file diagnostics.
+- Commit message: Bump project version to 0.4.3.
