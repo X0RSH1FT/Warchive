@@ -27,7 +27,7 @@ Reference anchor:
 What to do:
 1. Identify the most concrete anchor in the described workflow.
 2. Retrieve only enough repository context to choose the owning customization type and the first validation boundary.
-3. If scope, audience, or output shape is materially ambiguous, use `#askQuestions` to clarify before editing.
+3. If scope, audience, or output shape is materially ambiguous, use `#askQuestions` to summarize the requested customization pass first, then clarify before editing.
 4. Explain the recommended customization type in plain language, including why the other nearby options are a worse fit.
 5. Name the target path under `.github/` before editing.
 6. If the result is a skill, define the smallest coherent capability boundary first: trigger, audience, prerequisites, supporting assets, and the validation path.
@@ -45,7 +45,8 @@ Output expectations:
 3. Implemented customization content.
 4. Supporting assets included, if any, and why they belong with this customization.
 5. Validation result.
-6. Any follow-up suggestion only if the workflow would materially benefit from a second file type or bundled resource.
+6. Whether the plan-derived customization work is exhausted, and the next planned slice if it is not.
+7. Any follow-up suggestion only if the workflow would materially benefit from a second file type or bundled resource, labeled explicitly as a suggestion outside the plan.
 
 Example response shape:
 - Type: Prompt file, because the workflow is a reusable user-invoked entry point rather than always-on scoped guidance.

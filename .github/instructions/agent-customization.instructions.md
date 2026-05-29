@@ -88,6 +88,17 @@ When you rely on an upstream web doc for a rule in this repository, prefer to al
 - Do not add a new default workflow agent unless it owns a distinct domain or workflow stage.
 - Prefer coordinator -> implementation -> review handoffs over packing every behavior into one agent.
 
+## Prompt-Technique Use
+
+- Apply the repository's prompting techniques intentionally when authoring or refactoring customizations: `task decomposition`, `few-shot prompting`, `reasoning scaffolds`, `tool use`, `retrieval`, `planner-executor workflow`, and `review loop`.
+- Use `task decomposition` to keep broad workflow changes bounded to one coherent slice at a time.
+- Use `few-shot prompting` only when a short example materially improves output shape, handoff wording, or repeated file structure.
+- Use `reasoning scaffolds` for explicit checklists, comparison criteria, and completion contracts when they make a workflow easier to execute or review.
+- Use `tool use` and `retrieval` together: inspect the owning files, docs, and current graph before changing workflow rules instead of relying on memory.
+- Use `planner-executor workflow` to keep planning, implementation, documentation, testing, and review responsibilities distinct instead of collapsing them into one overpowered file.
+- Use a `review loop` after non-trivial workflow refactors so naming drift, missing validation, and routing regressions are checked independently.
+- Do not force every technique into every file. Omit a technique when it adds noise without improving correctness or maintainability.
+
 ## Discovery and Routing
 
 - Write `description` fields as discovery text, not labels.
@@ -148,6 +159,7 @@ When you rely on an upstream web doc for a rule in this repository, prefer to al
 - If a customization relies on planning memory, note that plan state is session-scoped rather than durable and should not be treated as repository documentation.
 - Start small and iterate. Fix recurring failures at the narrowest appropriate layer instead of expanding the always-on instructions file.
 - Avoid context dumping, contradictory rules, and one-size-fits-all agent design.
+- When a workflow change adds structure, make the technique choice legible in the file body so the added scaffold is clearly tied to a repository need.
 
 ## Stability and Troubleshooting
 

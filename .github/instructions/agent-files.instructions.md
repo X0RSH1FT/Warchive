@@ -38,6 +38,17 @@ Reference anchors:
 - Prefer concise operational language over long narrative explanations.
 - When an agent can work directly in a small slice, say so explicitly and define the boundary.
 
+## Prompt-Technique Coverage
+
+- Agent bodies should use the repository's prompting techniques intentionally: `task decomposition`, `few-shot prompting`, `reasoning scaffolds`, `tool use`, `retrieval`, `planner-executor workflow`, and `review loop`.
+- Use `task decomposition` to bound the role's default slice and prevent one agent from absorbing the full workflow.
+- Use `few-shot prompting` sparingly for agent-specific response shapes or handoff examples, not as filler.
+- Use `reasoning scaffolds` for checklists, decision criteria, validation order, and completion contracts when they improve repeatability.
+- Use `tool use` and `retrieval` to require nearby source checks before the agent changes routing, policy, or validation guidance.
+- Use `planner-executor workflow` to keep delegation and handoffs explicit whenever another agent owns planning, implementation, testing, documentation, or review.
+- Use a `review loop` whenever a non-trivial agent refactor could create routing drift or validation gaps.
+- Leave a technique out when it does not help the role; explicit restraint is better than prompt bloat.
+
 ## Handoffs and Delegation
 
 - Use handoffs for real stage transitions such as planning -> implementation or implementation -> review.

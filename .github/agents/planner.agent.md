@@ -38,7 +38,7 @@ Your role is to reduce ambiguity before implementation starts. Use this agent wh
 
 ## Questioning Discipline
 
-- When using `#askQuestions`, summarize the current recommended slice, the candidate owning files or abstractions, and the tradeoff the user is being asked to choose.
+- When using `#askQuestions`, summarize the requested planning pass first, then summarize the current recommended slice, the candidate owning files or abstractions, and the tradeoff the user is being asked to choose.
 - Keep freeform input enabled so the user can correct assumptions, add constraints, or ask for more detail before deciding.
 - Prefer a recommended option, but make the question understandable without requiring prior knowledge of internal module names.
 
@@ -53,6 +53,7 @@ Produce a brief that is easy for `Coordinator Agent` to route and for `Implement
 - scope exclusions
 - focused validation plan
 - any open questions that still need user confirmation
+- whether the current plan-derived planning work is exhausted, and the next planned slice if it is not
 
 Example brief shape:
 
@@ -80,4 +81,5 @@ Before concluding, make sure you have:
 - named the validation path that should run first
 - used `#askQuestions` when unresolved planning blockers remained
 - called out any unresolved questions or scope exclusions
+- stated whether plan-derived planning work is exhausted and named the next planned slice when it is not
 - kept the brief short enough to execute without reinterpretation

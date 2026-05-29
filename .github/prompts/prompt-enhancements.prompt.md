@@ -2,10 +2,14 @@
 name: prompt-enhancements
 description: Audit and improve this repository's prompt, instruction, and agent-customization system. Use when you want a focused prompt workflow refactor.
 argument-hint: "[Optional: target customization files, workflow goals, known routing issues, validation expectations, or docs to keep in sync.]"
-agent: Coordinator Agent
+agent: Meta Agent
 ---
 
-Refactor this repository’s prompt, instruction, and agent-customization system so it becomes a strong reference implementation for practical agentic software delivery.
+Refactor the current repository's prompt, instruction, agent, and workflow-customization system without turning the shared workflow into a generic coordinator-owned catch-all.
+
+Use this workflow when the task is broader than creating one customization file and specifically targets prompt-system, routing, validation-contract, or customization-workflow improvements.
+
+If the task is only to draft one new prompt, instruction, skill, or agent, prefer `create-customization.prompt.md` instead.
 
 Goal:
 Make this repository a “golden” example of prompt design for engineering work. Improve the prompts and related customization files so they use established techniques where they add value, without turning the system into prompt bloat or cargo-cult patterns.
@@ -43,6 +47,7 @@ What to do:
 7. Preserve or improve readability. Prefer short operational wording over long theoretical explanations.
 8. Add or update durable documentation explaining the prompting strategy and why certain techniques are used.
 9. Validate the changed files and summarize the final design.
+10. After each completed pass, say whether the plan-derived customization work is exhausted. If not, recommend the next planned slice before mentioning any extra ideas.
 
 Specific expectations:
 - Distinguish clearly between prompting techniques, agent workflow design, and model architecture topics.
@@ -53,6 +58,7 @@ Specific expectations:
 - Ensure prompts encourage the cheapest meaningful validation after changes.
 - Ensure review-oriented prompts are findings-first.
 - Ensure documentation prompts reinforce clear ownership of durable docs, workflow notes, and planning artifacts.
+- Keep shared workflow wording copy-friendly across repositories, while preserving genuinely local source-of-truth context where a repository file actually owns it.
 - Keep terminology defensible for experienced software engineers.
 
 Deliverables:
@@ -67,12 +73,14 @@ Example response shape:
 - Technique mapping: few-shot examples on structured-output prompts; validation-first and retrieval-first guidance kept in task-routing prompts.
 - Durable docs: updated the owning repository documentation so the prompt body and durable reference stay aligned.
 - Intentionally limited: no prompt-level tools and no blanket reasoning scaffolds where they would add bloat.
+- Plan status: not exhausted; next planned slice is the reusable external-refresh prompt.
+- Suggestion outside the plan: add a skill only if the workflow later needs bundled evaluation assets.
 
 Working style:
 - Start by auditing the existing customization files.
 - Form a short implementation plan before broad edits.
 - Make the smallest coherent set of changes that improves the whole system.
-- Validate touched files before concluding.
+- Run Markdown diagnostics on touched customization files after the first substantive edit, then continue iteratively.
 - If the work is non-trivial, include a review pass before closing.
 
 Success criteria:

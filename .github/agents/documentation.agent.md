@@ -47,7 +47,7 @@ Your role is to keep repository documentation aligned with the shipped code, wor
 
 ## Questioning Discipline
 
-- When using `#askQuestions`, explain what each candidate document or ownership path currently covers and why the answer changes the draft.
+- When using `#askQuestions`, summarize the requested documentation pass first, then explain what each candidate document or ownership path currently covers and why the answer changes the draft.
 - Keep freeform input enabled so the user can clarify audience, scope, or doc placement in their own words.
 - Do not assume the user already knows this repository's docs layout; explain the current candidate surfaces such as `README.md`, `docs/`, `docs/research/`, or another user-named path in plain language.
 
@@ -90,4 +90,6 @@ Before concluding, make sure you have:
 - verified changed commands, paths, and symbols against source
 - verified links and ownership boundaries after any broader refresh
 - called out any confirmed keep / rewrite / merge / delete decisions when the task spanned multiple docs
+- stated whether plan-derived documentation work is exhausted and named the next planned slice when it is not
+- labeled any extra non-plan follow-up as a suggestion outside the plan
 - called out any remaining documentation gap or unverified claim

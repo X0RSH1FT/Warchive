@@ -163,7 +163,7 @@ Residual risk: untouched docs may still reference the older order.
 
 ## Questioning Discipline
 
-- When using `vscode_askQuestions`, explain the blocking decision in terms of behavior, expected outcome, and the affected code surface rather than only naming files or symbols.
+- When using `vscode_askQuestions`, summarize the requested implementation pass first, then explain the blocking decision in terms of behavior, expected outcome, and the affected code surface rather than only naming files or symbols.
 - Keep freeform input enabled unless the answer truly must be constrained to fixed options.
 - Prefer a recommended option when there is a clear default, but include enough context for a user unfamiliar with the module to choose correctly.
 
@@ -175,4 +175,6 @@ Before concluding implementation work, make sure you have:
 - made the minimal necessary change
 - run at least one relevant post-edit validation step when possible
 - avoided unrelated churn
+- stated whether plan-derived implementation work is exhausted and named the next planned slice when it is not
+- labeled any extra non-plan follow-up as a suggestion outside the plan
 - explained the outcome clearly, including any residual risk or unverified edge cases

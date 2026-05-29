@@ -47,6 +47,12 @@ Research summaries should include:
 3. the source URLs consulted
 4. any mismatch with local repository guidance
 5. the next owning agent or workflow step
+6. whether the plan-derived research work is exhausted, and the next planned slice if it is not
+
+## Questioning Discipline
+
+- When using `#askQuestions`, summarize the requested research pass first, then explain the concrete missing fact, the current repository claim if one exists, and the detail that would change the next lookup.
+- Keep freeform input enabled so the user can refine the question, version boundary, or target source without needing prior workflow context.
 
 ## Definition of Done
 
@@ -55,4 +61,5 @@ Before concluding, make sure you have:
 - answered a concrete external-fact question or made the remaining uncertainty explicit
 - cited the exact external sources consulted
 - kept facts separate from repository recommendations
+- stated whether plan-derived research work is exhausted and named the next planned slice when it is not
 - handed the result back to the owning workflow instead of drifting into edits

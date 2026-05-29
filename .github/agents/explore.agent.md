@@ -39,6 +39,7 @@ Summaries should include:
 2. the observed facts that matter
 3. the most likely owning path or workflow
 4. the next recommended specialist or validation step
+5. whether the explored plan-derived work is exhausted, and the next planned slice if it is not
 
 ## Definition of Done
 
@@ -47,4 +48,5 @@ Before concluding, make sure you have:
 - gathered enough source-backed context to narrow the owner or workflow
 - kept facts separate from recommendations
 - avoided editing files or expanding into implementation, testing, or documentation work
+- stated whether plan-derived exploration work is exhausted and named the next planned slice when it is not
 - returned a concise brief that another specialist can act on immediately
