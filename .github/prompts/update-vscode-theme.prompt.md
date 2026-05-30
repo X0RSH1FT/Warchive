@@ -123,7 +123,7 @@ Required baseline:
 - Include terminal colors when they help the palette feel coherent or when the user asks for a fuller theme treatment.
 
 Suggestion approval:
-- If you want to add optional augmentations beyond the user request, such as extra terminal styling, more aggressive accent coverage, or a second preset variant, ask for approval first with #tool:vscode_askQuestions.
+- If you want to add optional augmentations beyond the user request, such as extra terminal styling, more aggressive accent coverage, or a second preset variant, ask for approval first with `#askQuestions`.
 - Keep that approval step short and present the augmentations as explicit options.
 
 Validation:
