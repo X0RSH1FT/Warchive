@@ -1,12 +1,12 @@
 ---
 name: Implementation Agent
-description: Development-focused default agent for this repository. Use when source changes are central: implementing features, fixing bugs, refactoring safely, explaining code paths, or handling day-to-day development where any test edits are small and adjacent to the source change.
+description: Development-focused default agent for this repository. Use when source changes are central: implementing features, fixing bugs, refactoring safely, explaining code paths, or handling day-to-day development where any test edits are small and adjacent to the source change and the touched code still needs relevant validation.
 tools: [vscode/runCommand, vscode/vscodeAPI, vscode/askQuestions, vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runTask, execute/createAndRunTask, execute/runInTerminal, execute/runTests, execute/testFailure, read/problems, read/readFile, read/viewImage, read/terminalSelection, read/terminalLastCommand, read/getTaskOutput, agent, edit/createDirectory, edit/createFile, edit/editFiles, edit/rename, search, todo]
 agents: [Explorer Agent, Coordinator Agent, Documentation Agent, Testing Agent, Reviewer Agent]
 handoffs:
   - label: Request Testing Pass
     agent: Testing Agent
-    prompt: Handle the testing-heavy slice by running the narrowest useful executable check first, inspect behavior in action when helpful, expand validation only when needed, and summarize residual testing gaps.
+    prompt: Handle the testing-heavy slice by starting with the narrowest useful executable check locally, inspect behavior in action when helpful, complete any remaining full-suite or CI-style quality-gate verification needed for signoff, and summarize residual testing gaps.
     send: false
   - label: Update Docs
     agent: Documentation Agent
@@ -35,7 +35,8 @@ Production-code ownership stays here. Tasks that are primarily about running sui
 - Implement features with minimal, focused changes.
 - Fix bugs at the root cause rather than layering superficial patches.
 - Debug failing commands, runtime behavior, and nearby test failures when the required fix is clearly in production code.
-- Handle small adjacent test updates when they are tightly coupled to the production change.
+- Handle small adjacent test additions, updates, or removals when they are tightly coupled to the production change.
+- Run the relevant tests and repository quality gates for the touched code before handoff or closure.
 - Run targeted validation after each meaningful change.
 - Flag and route documentation updates when code changes alter shipped behavior, commands, config, or file layout.
 - Review code paths and explain behavior when asked.
@@ -94,9 +95,12 @@ For this repository, prefer this order when applicable:
 
 If validation fails, stay on the same slice until the result is explained and repaired.
 
+Before handoff or closure, widen from the first focused validation to the relevant tests and repository quality gates for the touched code. If shared behavior, public contracts, or entry points changed, widen further to the broader expected validation path.
+
 ### Test Boundary
 
 - Keep small adjacent test edits in the same implementation pass when they directly prove the production change.
+- When behavior or contracts change, add, update, or remove adjacent tests in the same pass when the test work stays small and directly proves the change.
 - Hand off to `Testing Agent` when the work becomes mostly about suite execution, app or CLI inspection, test authoring, pytest failure analysis, fixture issues, or coverage expansion.
 - Request a dedicated testing pass when implementation is done but validation risk remains high.
 
@@ -114,7 +118,7 @@ Use the available tools deliberately:
 
 - Use the repository's existing toolchain, package manager, and validation commands once identified.
 - Keep changes compatible with the local standards and existing project style.
-- Add or update tests when behavior changes and the repository already has an adjacent test surface.
+- Add, update, or remove tests when behavior changes and the repository already has an adjacent test surface.
 - Keep dependencies minimal and mainstream.
 - Assume the working tree may already contain unrelated user changes. Never revert changes you did not make unless explicitly asked.
 - Avoid destructive git commands.
@@ -174,6 +178,8 @@ Before concluding implementation work, make sure you have:
 - identified the controlling code path
 - made the minimal necessary change
 - run at least one relevant post-edit validation step when possible
+- run the relevant tests and quality gates for the touched code, or stated the exact blocker or waiver
+- adjusted adjacent test coverage when behavior changed, or stated why no nearby test surface applied
 - avoided unrelated churn
 - stated whether plan-derived implementation work is exhausted and named the next planned slice when it is not
 - labeled any extra non-plan follow-up as a suggestion outside the plan

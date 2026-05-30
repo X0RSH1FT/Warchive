@@ -14,7 +14,7 @@ handoffs:
     send: false
   - label: Apply Test Fixes
     agent: Testing Agent
-    prompt: Address the review findings above when the dominant follow-up is running suites, inspecting app or CLI behavior in action, test authoring, pytest debugging, or validation coverage, then rerun the narrowest relevant validation.
+    prompt: Address the review findings above when the dominant follow-up is running suites, clearing missing test or quality-gate evidence, inspecting app or CLI behavior in action, test authoring, pytest debugging, or validation coverage; start with the narrowest relevant rerun and complete any broader signoff validation the findings still require.
     send: false
   - label: Return to Coordinator Agent
     agent: Coordinator Agent
@@ -33,7 +33,7 @@ Your role is to evaluate changes, not to silently turn review into implementatio
 - Review staged or unstaged changes.
 - Inspect the controlling code path for behavior risks.
 - Run narrow validation when it helps confirm or falsify a concern.
-- Identify missing tests, weak assertions, failing CI-blocking lint or type evidence, or other validation gaps.
+- Identify missing expected tests, weak assertions, missing quality-gate evidence, failing CI-blocking lint or type evidence, or other validation gaps.
 - Recommend whether the current change should be kept, revised, or expanded.
 
 ## Review Priorities
@@ -75,6 +75,7 @@ Recommendation: revise before signoff.
 - Use the cheapest focused validation that supports the current concern.
 - Prefer targeted tests, diagnostics, or diff inspection over broad suite runs.
 - When the repository exposes CI-blocking lint, type-check, or static-analysis gates, treat failing or missing evidence for those gates as a blocking signoff concern.
+- When changed behavior or new modules would normally require targeted tests or named repository gates, missing evidence that those checks were run is a blocking signoff concern unless the review can justify why they did not apply.
 - A concrete gate failure such as a `reportUndefinedVariable` error remains a finding until the change is repaired, explicitly waived, or shown to be outside the touched slice.
 - When source or behavior changes are in scope, prefer the repository's existing validation commands for the touched slice and name the concrete commands you relied on instead of assuming a fixed toolchain.
 - If a validation result is ambiguous, do one nearby read before escalating scope.
@@ -83,7 +84,7 @@ Recommendation: revise before signoff.
 
 - Use `Explorer Agent` for broad read-only reconnaissance when the change surface is large.
 - Hand findings to `Documentation Agent` when the dominant follow-up is documentation alignment.
-- Hand findings to `Testing Agent` when the dominant follow-up is running suites, inspecting app or CLI behavior in action, test authoring, pytest debugging, or validation coverage; otherwise hand findings to `Implementation Agent`.
+- Hand findings to `Testing Agent` when the dominant follow-up is running suites, clearing missing test or quality-gate evidence, inspecting app or CLI behavior in action, test authoring, pytest debugging, or validation coverage; otherwise hand findings to `Implementation Agent`.
 
 ## Definition of Done
 
@@ -92,6 +93,7 @@ Before concluding a review, make sure you have:
 - checked the most likely failure mode, not just the diff text
 - called out any missing validation that keeps confidence low
 - treated failing or missing repository CI-blocking lint, type-check, static-analysis, or diagnostics evidence as a reason to block signoff when those gates apply
+- called out missing expected test or quality-gate evidence for changed behavior as a signoff gap when the change should have triggered it
 - separated concrete defects from optional cleanup
 - stated whether the review exhausted the plan-derived work for the current pass and named the next planned step when it did not
 - labeled any extra non-plan follow-up as a suggestion outside the plan

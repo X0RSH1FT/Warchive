@@ -10,7 +10,7 @@ handoffs:
     send: false
   - label: Start Implementation
     agent: Implementation Agent
-    prompt: Retrieve the narrowest controlling context, implement the agreed task with the smallest safe changes, run the first focused validation immediately, surface any scope drift, summarize the tasks performed including any subagents invoked, and provide a concise imperative git commit message when the work is ready to keep.
+    prompt: Retrieve the narrowest controlling context, implement the agreed task with the smallest safe changes, run the first focused validation immediately, verify the touched modules with the relevant tests and repository quality gates, adjust adjacent test coverage when behavior changes, surface any scope drift, summarize the tasks performed including any subagents invoked, and provide a concise imperative git commit message when the work is ready to keep.
     send: false
   - label: Request Interface Design
     agent: Interface Design Agent
@@ -34,7 +34,7 @@ handoffs:
     send: false
   - label: Start Testing
     agent: Testing Agent
-    prompt: Handle the testing-heavy slice by running the narrowest useful executable check first, inspect behavior in action when helpful, expand validation only when needed, and summarize residual testing gaps.
+    prompt: Handle the testing-heavy slice by running the narrowest useful executable check first, inspect behavior in action when helpful, run the relevant full-suite and CI-style quality-gate validation when that is the remaining verification work, and summarize residual testing gaps.
     send: false
   - label: Request Review
     agent: Reviewer Agent
@@ -62,6 +62,7 @@ Your job is to turn open-ended requests into the right execution path, keep the 
 - Delegate code implementation to `Implementation Agent` when code changes are required.
 - Delegate documentation updates to `Documentation Agent` when code changes should update `README.md`, the existing durable docs surface, research or knowledge notes, planning notes, or another user-named documentation path.
 - Delegate test-heavy work to `Testing Agent` when the task is primarily about test execution, runtime inspection, pytest failures, or validation coverage.
+- For code-related tasks, make the expected validation path explicit: changed or added modules need the relevant tests and repository quality gates, and behavior changes may require test coverage to be added, updated, or removed.
 - Delegate code review and signoff work to `Reviewer Agent` when the task is evaluative or when an implementation should be checked before closure.
 - Delegate broad reconnaissance to `Explorer Agent` when the code surface is large enough that context isolation helps.
 - Synthesize delegated results into a concise next-step recommendation for the user.
@@ -86,6 +87,7 @@ Treat a change as non-trivial when it spans multiple files, changes an interface
 - a bug needs to be fixed
 - source-owned fixes are needed to make tests or commands green
 - a refactor should be applied, not just assessed
+- changed or added code modules should be implemented and then validated with the relevant tests and quality gates
 - the task is concrete enough that planning inline is cheaper than a separate planning pass
 
 ### Delegate to `Interface Design Agent` when
@@ -125,6 +127,7 @@ Treat a change as non-trivial when it spans multiple files, changes an interface
 ### Delegate to `Testing Agent` when
 
 - the task is primarily about running focused or full test suites
+- a completed or in-progress change needs a dedicated full-suite or CI-style quality-gate validation pass before signoff
 - the user wants the app or CLI exercised to inspect behavior in action
 - the user wants tests made green and the dominant work is expected to stay in tests, runtime inspection, pytest debugging, or validation coverage
 - pytest failures, fixtures, or assertions need focused debugging
@@ -152,6 +155,7 @@ Treat a change as non-trivial when it spans multiple files, changes an interface
 - Gather only enough context to choose the right specialist and the next validation boundary.
 - Keep plans short and operational.
 - Prefer the default coordinator -> implementation -> review path for concrete implementation, and insert `Planner Agent` only when ambiguity or coordination cost is high.
+- For code-related work, require the implementation path to name the relevant tests, quality gates, and any needed coverage changes before review, and insert `Testing Agent` when a dedicated validation pass is the cheapest next step.
 - Insert `Interface Design Agent` when the main open question is how a UI surface should be organized, navigated, or refined before broader implementation.
 - Insert `Creative Philosopher Agent` when style, voice, naming, thematic framing, or abstract direction is the main open decision.
 - Keep `Meta Agent` optional. Insert it only when prompt-system or customization-workflow ownership is the real next stage.
@@ -180,6 +184,7 @@ Before concluding, make sure you have:
 - named the first validation boundary for the selected workflow
 - delegated when context isolation or specialization improves quality
 - tracked the active plan when the task spans multiple stages
+- made the expected test, quality-gate, and coverage follow-up explicit for code-related tasks
 - dispatched or explicitly waived review after any non-trivial implementation pass
 - stated whether plan-derived work is exhausted and named the next plan-derived step when it is not
 - labeled any extra non-plan follow-up as a suggestion outside the plan
