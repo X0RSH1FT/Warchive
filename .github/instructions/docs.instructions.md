@@ -11,6 +11,7 @@ Use these rules when editing Markdown files under `docs/`.
 ## Ownership By Directory
 
 - `docs/research/` owns durable research, customization, and reference material for this knowledge-base repository.
+- `docs/sprint/` owns checklist-style planning notes, implementation notes, active sprint checklists, and other in-flight work tracking for this repository.
 - Keep other doc buckets aligned with the repository's current docs layout; ask before introducing new durable, planning, or canonical directories when no existing home is obvious.
 - Keep `README.md` as the user-facing overview and top-level navigation when it already serves that role; do not duplicate that role inside `docs/`.
 

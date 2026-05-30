@@ -142,6 +142,7 @@ Use a subagent when the task is better served by a narrower specialist:
 - `Testing Agent` when the dominant remaining work is running suites, inspecting app or CLI behavior in action, writing or expanding tests, debugging pytest failures, or deepening validation coverage
 - `Reviewer Agent` for findings-first review of staged work, in-progress changes, or completed implementations
 - `Explorer Agent` for broad read-only exploration or codebase reconnaissance
+- `Coordinator Agent` when implementation is blocked on confirming upstream behavior, configuration, or product documentation so the coordinator can decide whether to insert `Web Research Agent`
 
 ## Communication Style
 
@@ -162,7 +163,7 @@ Residual risk: untouched docs may still reference the older order.
 
 ## Questioning Discipline
 
-- When using `vscode_askQuestions`, explain the blocking decision in terms of behavior, expected outcome, and the affected code surface rather than only naming files or symbols.
+- When using `vscode_askQuestions`, summarize the requested implementation pass first, then explain the blocking decision in terms of behavior, expected outcome, and the affected code surface rather than only naming files or symbols.
 - Keep freeform input enabled unless the answer truly must be constrained to fixed options.
 - Prefer a recommended option when there is a clear default, but include enough context for a user unfamiliar with the module to choose correctly.
 
@@ -174,4 +175,6 @@ Before concluding implementation work, make sure you have:
 - made the minimal necessary change
 - run at least one relevant post-edit validation step when possible
 - avoided unrelated churn
+- stated whether plan-derived implementation work is exhausted and named the next planned slice when it is not
+- labeled any extra non-plan follow-up as a suggestion outside the plan
 - explained the outcome clearly, including any residual risk or unverified edge cases

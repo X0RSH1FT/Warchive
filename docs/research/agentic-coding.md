@@ -51,6 +51,7 @@ Not every setup needs named agents. One strong implementation agent plus review 
 |---|---|
 | Coordinator | Routes work to the next owner. |
 | Planner | Turns an ambiguous request into a bounded slice. |
+| Web Research | Confirms narrow external-product facts whenever planning, documentation, or implementation depend on them. |
 | Implementation | Makes the code or config change. |
 | Review | Looks for bugs, regressions, and scope drift. |
 | Testing | Reproduces failures and runs validation. |
@@ -61,7 +62,7 @@ Not every setup needs named agents. One strong implementation agent plus review 
 
 | Workflow | Typical sequence | Output |
 |---|---|---|
-| Code implementation | Planner -> Implementation -> Review -> Testing -> Documentation | A bounded change with validation and doc updates if behavior changed. |
+| Code implementation | Coordinator-owned spine with Planner, Web Research, or Explorer inserted only when needed -> Implementation -> Testing or Documentation if needed -> Review | A bounded change with optional fact-gathering, validation, and doc updates inserted only when they add value. |
 | Technical decision | Frame question -> Compare options -> Recommend one | A short decision note, not necessarily code. |
 | Debugging | Reproduce -> Inspect controlling path -> Fix -> Rerun | A focused fix tied to a concrete failure. |
 | Inquiry | Find owner -> Read minimal context -> Answer with sources | A clear answer with uncertainty called out if needed. |

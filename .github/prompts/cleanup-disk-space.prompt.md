@@ -57,6 +57,13 @@ Output expectations:
 4. A concise report of what was cleaned and the approximate space recovered.
 5. Any remaining high-value targets that were not touched because they need separate approval or deeper inspection.
 
+Example response shape:
+- Read-only confirmation: `C:\Users\Joel\AppData\Local\Temp`, about 3.1 GB, mostly temp cache files.
+- Risk summary: Low risk, usually regenerated automatically, no admin rights required.
+- Approval gate: `#askQuestions` before deletion for `C:\Users\Joel\AppData\Local\Temp`, about 3.1 GB, temp cache, low risk, usually regenerated automatically, no admin rights required: Approve cleanup now / Inspect deeper first / Skip this target / Cancel cleanup.
+- Approved handoff: after approval, route the exact temp-folder cleanup to the implementation path with the approved scope limited to `C:\Users\Joel\AppData\Local\Temp`.
+- Implementation result: Removed about 2.8 GB from the approved temp-folder target; browser cache left untouched because it needs separate approval.
+
 If the user has not already audited the disk or the target is still ambiguous, begin with a narrow audit step instead of guessing what should be deleted.
 
 When cleanup is approved, keep the workflow in the repository's normal coordinator to implementation path instead of treating destructive execution as a coordination-only task.

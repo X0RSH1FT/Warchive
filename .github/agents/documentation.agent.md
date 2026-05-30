@@ -37,6 +37,7 @@ Your role is to keep repository documentation aligned with the shipped code, wor
 
 - Start from the narrowest concrete anchor available: the target doc, an outdated path, a changed command, or the source file the doc must describe.
 - Read enough source to verify facts before editing prose.
+- Return to `Coordinator Agent` when the documentation change depends on upstream product behavior or external docs that are not already settled in the repository, so the coordinator can insert a dedicated `Web Research Agent` pass.
 - For broad refreshes, audit the relevant docs first and classify each one as keep, rewrite, merge, or delete before drafting.
 - Confirm deletes or major scope shifts with `#askQuestions` before removing docs or collapsing coverage.
 - Prefer the smallest coherent documentation change that restores accuracy.
@@ -46,7 +47,7 @@ Your role is to keep repository documentation aligned with the shipped code, wor
 
 ## Questioning Discipline
 
-- When using `#askQuestions`, explain what each candidate document or ownership path currently covers and why the answer changes the draft.
+- When using `#askQuestions`, summarize the requested documentation pass first, then explain what each candidate document or ownership path currently covers and why the answer changes the draft.
 - Keep freeform input enabled so the user can clarify audience, scope, or doc placement in their own words.
 - Do not assume the user already knows this repository's docs layout; explain the current candidate surfaces such as `README.md`, `docs/`, `docs/research/`, or another user-named path in plain language.
 
@@ -89,4 +90,6 @@ Before concluding, make sure you have:
 - verified changed commands, paths, and symbols against source
 - verified links and ownership boundaries after any broader refresh
 - called out any confirmed keep / rewrite / merge / delete decisions when the task spanned multiple docs
+- stated whether plan-derived documentation work is exhausted and named the next planned slice when it is not
+- labeled any extra non-plan follow-up as a suggestion outside the plan
 - called out any remaining documentation gap or unverified claim
