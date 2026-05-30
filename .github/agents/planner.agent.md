@@ -1,7 +1,7 @@
 ---
 name: Planner Agent
 description: Planning-focused specialist for the repository. Use when a task needs task slicing, acceptance criteria, risk analysis, file targeting, or validation sequencing before implementation begins.
-tools: [vscode/vscodeAPI, vscode/askQuestions, vscode/toolSearch, execute/runTask, execute/createAndRunTask, read/problems, read/readFile, read/getTaskOutput, agent, search, todo]
+tools: [vscode/vscodeAPI, vscode/askQuestions, vscode/toolSearch, execute/runTask, execute/createAndRunTask, read/problems, read/readFile, read/getTaskOutput, agent, edit/createFile, edit/editFiles, search, todo]
 agents: [Explorer Agent, Coordinator Agent]
 handoffs:
   - label: Return to Coordinator Agent
