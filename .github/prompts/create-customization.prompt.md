@@ -1,11 +1,13 @@
 ---
 name: create-customization
-description: Turn a described workflow into the right Copilot customization for this repository. Use when you want a prompt, skill, or instruction drafted to match VS Code requirements and the repo's .github layout.
-argument-hint: "[Describe the workflow, audience, trigger, target files, desired outputs, validation expectations, and any supporting assets or examples.]"
+description: Create or update one bounded Copilot customization slice in this repository. Use when you want a single prompt, instruction, skill, or agent drafted to match VS Code requirements and the repo's .github layout.
+argument-hint: "[Describe the single workflow slice: audience, trigger, target files, desired outputs, validation expectations, and any supporting assets or examples.]"
 agent: Coordinator Agent
 ---
 
-Turn the described workflow into the right repository customization type and implement it in the correct `.github` location.
+Turn the described single workflow slice into the right repository customization type and implement it in the correct `.github` location.
+
+Use this prompt for one bounded customization task at a time: drafting or revising one prompt, one instructions file, one skill, one agent, or one tightly scoped supporting asset set.
 
 Classification rules:
 - Prefer a prompt file for reusable user-invoked workflows or task entry points.
@@ -28,7 +30,7 @@ What to do:
 1. Identify the most concrete anchor in the described workflow.
 2. Retrieve only enough repository context to choose the owning customization type and the first validation boundary.
 3. If scope, audience, or output shape is materially ambiguous, use `#askQuestions` to summarize the requested customization pass first, then clarify before editing.
-4. Explain the recommended customization type in plain language, including why the other nearby options are a worse fit.
+4. Explain the recommended customization type in plain language, including why the other nearby options are a worse fit for this single customization slice.
 5. Name the target path under `.github/` before editing.
 6. If the result is a skill, define the smallest coherent capability boundary first: trigger, audience, prerequisites, supporting assets, and the validation path.
 7. Implement the smallest coherent customization that satisfies the request.
@@ -36,7 +38,7 @@ What to do:
 9. When a skill includes supporting files, verify that the file links or paths named from `SKILL.md` actually exist.
 10. Avoid experimental customization metadata unless the request explicitly needs it and the repository has validated it.
 11. Keep prompt files task-scoped and do not add prompt-level tool declarations in this repository.
-12. If the workflow is agent-shaped, keep the implementation focused on the smallest coherent agent file or agent update needed for the request.
+12. If the workflow is agent-shaped, keep the implementation focused on the smallest coherent agent file or agent update needed for the request rather than widening into workflow-system cleanup.
 13. Validate the touched customization files and confirm that referenced agents, prompts, skills, and paths exist.
 
 Output expectations:
