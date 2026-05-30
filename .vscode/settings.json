@@ -1,5 +1,4 @@
 {
-  "window.titleBarStyle": "custom",
   "workbench.colorCustomizations": {
     "titleBar.activeBackground": "#140d28",
     "titleBar.activeForeground": "#f7f3ff",
@@ -75,5 +74,8 @@
     "terminal.ansiBrightMagenta": "#ff79ea",
     "terminal.ansiBrightCyan": "#8df8ff",
     "terminal.ansiBrightWhite": "#ffffff"
-  }
+  },
+  "chat.tools.terminal.autoApprove": {
+    "ollama": true,
+  },
 }
