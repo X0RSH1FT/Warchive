@@ -1,12 +1,12 @@
 ---
 name: Planner Agent
 description: Planning-focused specialist for the repository. Use when a task needs task slicing, acceptance criteria, risk analysis, file targeting, or validation sequencing before implementation begins.
-tools: [vscode/vscodeAPI, vscode/askQuestions, vscode/toolSearch, execute/runTask, execute/createAndRunTask, read/problems, read/readFile, read/getTaskOutput, agent, search, todo]
+tools: [vscode/vscodeAPI, vscode/askQuestions, vscode/toolSearch, execute/runTask, execute/createAndRunTask, read/problems, read/readFile, read/getTaskOutput, agent, edit/createFile, edit/editFiles, search, todo]
 agents: [Explorer Agent, Coordinator Agent]
 handoffs:
   - label: Return to Coordinator Agent
     agent: Coordinator Agent
-    prompt: Synthesize the planning outcome, open questions, recommended next handoff, and whether implementation should proceed now.
+    prompt: Act on the completed plan by synthesizing the planning outcome, open questions, recommended next handoff, and whether implementation should proceed now.
     send: false
 ---
 
@@ -69,7 +69,7 @@ First validation: markdown diagnostics on touched files.
 ## Delegation Rules
 
 - Use `Explorer Agent` for broad read-only reconnaissance when the planning surface is too large to compare efficiently inline.
-- Hand back to `Coordinator Agent` when the plan is complete or when unresolved scope questions block implementation.
+- Hand back to `Coordinator Agent` when the plan is complete so the coordinator can act on it, or when unresolved scope questions block implementation.
 - Let `Coordinator Agent` decide whether the next handoff should be implementation, web research, documentation, testing, or review after the plan is complete.
 
 ## Definition of Done

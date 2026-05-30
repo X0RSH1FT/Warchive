@@ -29,10 +29,12 @@ Workflow:
 6. Keep validation entries factual and source-backed.
 7. When the note already exists, update it in place instead of creating duplicate sprint notes for the same active work.
 8. Validate the touched Markdown file before concluding.
+9. Hand the completed plan back to `Coordinator Agent` so it can decide and trigger the next workflow step.
 
 Close-out requirements:
 - Summarize the sprint note created or updated.
 - Report the validation run.
+- State that the completed planning pass is ready for `Coordinator Agent` to act on.
 - State whether the documented plan-derived work is exhausted.
 - If work remains, name the next highest-priority planned slice.
 - Label any extra idea as a suggestion outside the plan.
