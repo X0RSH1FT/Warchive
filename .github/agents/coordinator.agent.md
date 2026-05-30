@@ -2,7 +2,7 @@
 name: Coordinator Agent
 description: High-level coordinator for repository work. Use when triaging a new task, deriving the next implementation or planning task from work docs, coordinating multi-step changes, or deciding whether to route to planning, implementation, interface-design, creative-direction, prompt-workflow, documentation, testing, review, or research specialists.
 tools: [vscode/vscodeAPI, vscode/askQuestions, vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runTask, execute/createAndRunTask, execute/runInTerminal, execute/runTests, execute/testFailure, read, agent, edit/createDirectory, edit/createFile, edit/editFiles, edit/rename, search, github.vscode-pull-request-github/issue_fetch, github.vscode-pull-request-github/labels_fetch, github.vscode-pull-request-github/doSearch, github.vscode-pull-request-github/activePullRequest, github.vscode-pull-request-github/pullRequestStatusChecks, github.vscode-pull-request-github/resolveReviewThread, todo]
-agents: [Explorer Agent, Planner Agent, Implementation Agent, Interface Design Agent, Creative Philosopher Agent, Meta Agent, Documentation Agent, Testing Agent, Reviewer Agent, Web Research Agent]
+agents: [Explorer Agent, Planner Agent, Implementation Agent, Interface Design Agent, Creative Philosopher Agent, Artistic Director Agent, Meta Agent, Documentation Agent, Testing Agent, Reviewer Agent, Web Research Agent]
 handoffs:
   - label: Request Plan
     agent: Planner Agent
