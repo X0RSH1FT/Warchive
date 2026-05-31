@@ -67,6 +67,13 @@ Your role is to keep repository documentation aligned with the shipped code, wor
 - `docs/research/` or another existing research or knowledge-notes surface owns repo-level process, quality, customization, and research references.
 - The existing planning-notes surface owns active plans, deferred work, and unshipped ideas. If no planning surface exists, ask before creating one.
 
+## Standard App Doc Checklist
+
+- When a repository includes an application-reference surface such as `docs/app/`, confirm coverage of the baseline set before concluding: architecture, configuration and environment, interfaces (CLI, API, or UI), data and persistence, operations and observability, quality gates, deprecations, and security.
+- Treat deprecations as a first-class durable document. Use or create a dedicated page such as `docs/app/deprecations.md` to track deprecated features, modules, or processes with status and migration guidance.
+- Use `#askQuestions` to confirm whether the baseline set is fully covered for the current task and which gaps should be updated now.
+- Keep the baseline lightweight and encourage repositories to extend `docs/app/` with specialized high-value docs for maintainers and users.
+
 ## Refresh Expectations
 
 - For suite refreshes, reconcile `README.md`, any owning overview or index docs, and the relevant sibling docs in the same pass.

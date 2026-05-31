@@ -2,10 +2,12 @@
 name: create-customization
 description: Create or update one bounded Copilot customization slice in this repository. Use when you want a single prompt, instruction, skill, or agent drafted to match VS Code requirements and the repo's .github layout.
 argument-hint: "[Describe the single workflow slice: audience, trigger, target files, desired outputs, validation expectations, and any supporting assets or examples.]"
-agent: Coordinator Agent
+agent: Meta Agent
 ---
 
 Turn the described single workflow slice into the right repository customization type and implement it in the correct `.github` location.
+
+This prompt routes directly to `Meta Agent` so one-off customization work has a valid specialist owner without requiring `Coordinator Agent` to perform substantive customization work inline.
 
 Use this prompt for one bounded customization task at a time: drafting or revising one prompt, one instructions file, one skill, one agent, or one tightly scoped supporting asset set.
 
