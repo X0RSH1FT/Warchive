@@ -8,6 +8,7 @@ handoffs:
     agent: Artistic Director Agent
     prompt: Synthesize the naming or voice options explored, the recommended wording direction, and any unresolved tradeoffs before deciding the next creative step.
     send: false
+<!-- user-invocable: false -->
 ---
 
 # Voice & Naming Agent
