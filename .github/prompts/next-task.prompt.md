@@ -56,7 +56,7 @@ agent: Coordinator Agent
    - dispatch `Documentation Agent` before review when code changes alter user-facing behavior, file layout, commands, config, or durable docs
    - dispatch `Testing Agent` before review when the remaining work is primarily full-suite or CI-style quality-gate validation, test authoring, pytest debugging, or deeper validation coverage
    - if the user explicitly wants a package or app version bump, route that request as a separate focused implementation or planning slice instead of changing `[project].version` implicitly inside `next-task`
-   - update the planning document that guided the work with completed work, validation run, and remaining follow-up items
+   - update the implementation checklist or planning document that guided the work with completed items, validation run, and remaining follow-up items before review handoff
    - automatically dispatch `Reviewer Agent` before closure when the scope is non-trivial, unless the user explicitly opts out
    - provide a concise, imperative commit message scoped to the changed files
 19. If the task ends in review and there are actionable findings:

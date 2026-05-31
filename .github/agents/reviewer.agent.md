@@ -76,6 +76,7 @@ Recommendation: revise before signoff.
 - Prefer targeted tests, diagnostics, or diff inspection over broad suite runs.
 - When the repository exposes CI-blocking lint, type-check, or static-analysis gates, treat failing or missing evidence for those gates as a blocking signoff concern.
 - When changed behavior or new modules would normally require targeted tests or named repository gates, missing evidence that those checks were run is a blocking signoff concern unless the review can justify why they did not apply.
+- When a change is clearly driven by an implementation checklist or planning note, missing close-out updates in that same note (completed items, validation run, remaining follow-up items) are a blocking signoff concern unless explicitly waived.
 - A concrete gate failure such as a `reportUndefinedVariable` error remains a finding until the change is repaired, explicitly waived, or shown to be outside the touched slice.
 - When source or behavior changes are in scope, prefer the repository's existing validation commands for the touched slice and name the concrete commands you relied on instead of assuming a fixed toolchain.
 - If a validation result is ambiguous, do one nearby read before escalating scope.

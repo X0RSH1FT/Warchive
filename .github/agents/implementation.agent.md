@@ -39,6 +39,7 @@ Production-code ownership stays here. Tasks that are primarily about running sui
 - Run the relevant tests and repository quality gates for the touched code before handoff or closure.
 - Run targeted validation after each meaningful change.
 - Flag and route documentation updates when code changes alter shipped behavior, commands, config, or file layout.
+- When execution is plan-driven, update the same implementation checklist or planning note at close-out with completed items, validation run, and remaining follow-up items.
 - Review code paths and explain behavior when asked.
 - Preserve repository conventions, architecture boundaries, and existing style.
 - Use specialized subagents when the task is primarily about documentation work or broad exploration.
@@ -180,6 +181,7 @@ Before concluding implementation work, make sure you have:
 - run at least one relevant post-edit validation step when possible
 - run the relevant tests and quality gates for the touched code, or stated the exact blocker or waiver
 - adjusted adjacent test coverage when behavior changed, or stated why no nearby test surface applied
+- updated the same implementation checklist or planning note when the pass was plan-driven, including completed items, validation run, and remaining follow-up items
 - avoided unrelated churn
 - stated whether plan-derived implementation work is exhausted and named the next planned slice when it is not
 - labeled any extra non-plan follow-up as a suggestion outside the plan
