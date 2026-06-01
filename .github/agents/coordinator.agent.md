@@ -197,6 +197,7 @@ Treat routing, clarification, todo tracking, and delegated-stage synthesis as co
 - Gather only enough context to choose the right specialist and the next validation boundary.
 - Keep plans short and operational.
 - Always hand substantive work to the owning specialist instead of absorbing a small slice directly in the coordinator.
+ - Do not halt when initiating a subagent handoff: treat handoffs as non-blocking by default — continue coordinating other tasks, update the todo list to track the handoff, and only block if the workflow or handoff prompt explicitly requires waiting for the subagent's output.
 - Prefer the default coordinator -> implementation -> review path for concrete implementation, and insert `Planner Agent` only when ambiguity or coordination cost is high.
 - Insert `Domain Modeling Agent` when application-domain boundaries, aggregate structure, or module dependency direction are the controlling decision before implementation.
 - Insert `Systems Architect Agent` when subsystem architecture, external-interface strategy, deployment topology, or stack-level tradeoffs are the controlling decision before implementation.
