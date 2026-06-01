@@ -14,9 +14,9 @@ agent: Artistic Director Agent
 7. If the request is explicitly to begin or continue in-character chat from an existing packet, route to `roleplay-character` as the enactment entry point.
 8. If more than one specialist is needed, choose the first controlling slice, route one pass, synthesize the result on return, and only then decide whether another specialist pass or a handoff to `Roleplay Character Agent` is necessary.
 9. Do not route specialists directly to one another. All specialist-to-specialist movement returns through `Artistic Director Agent`.
-10. Only exit the subsystem to `Documentation Agent`, `Meta Agent`, or `Reviewer Agent` when the approved creative result clearly needs that next owner.
+10. Only exit the subsystem to `Implementation Agent`, `Documentation Agent`, `Meta Agent`, or `Reviewer Agent` when the approved creative result clearly needs that next owner.
 11. If the approved direction broadens into prompt, agent, instruction, or workflow-customization refactoring, use `Meta Agent` as the next owner rather than continuing creative exploration inside this subsystem.
-12. If the user asks for direct file changes and the task is genuinely integrative rather than single-domain, edit the file with the smallest coherent revision and run the narrowest relevant validation immediately after the first substantive edit.
+12. If the user asks for direct file changes, route concrete source, config, or stylesheet edits to `Implementation Agent`; keep direct edits here only when the task is genuinely integrative rather than single-domain, and run the narrowest relevant validation immediately after the first substantive edit.
 13. End with a concise summary of the route taken, the recommendation or edits made, the validation run, any remaining taste or scope question, and a concise imperative commit message when the changes are ready to keep.
 
 ## Output

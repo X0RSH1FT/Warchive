@@ -28,6 +28,7 @@ Reference anchors:
 - Write `description` as routing text that says what the role owns and when to use it.
 - Keep `tools` least-privilege. Read-heavy roles should not gain edit or terminal access unless their job truly requires it.
 - Keep `agents` curated. Do not allow `*` unless broad delegation is a deliberate and defended design choice.
+- Use `model` only when the role has a clear, justified need for a distinct model profile; otherwise inherit the session model.
 - Do not add deprecated metadata such as `infer`.
 
 ## Body Content
@@ -53,9 +54,11 @@ Reference anchors:
 
 - Use handoffs for real stage transitions such as planning -> implementation or implementation -> review.
 - Keep handoff labels short and action-oriented.
+- Keep handoff metadata disciplined: use `label`, `agent`, `prompt`, and `send` to move to the next stage; add `model` only when that handoff needs a different model.
 - Make sure every referenced handoff target matches the exact current agent name in `.github/agents/`.
 - Do not duplicate the entire workflow in each handoff prompt. The handoff should name the next action, not restate the current agent body.
 - Add a new agent only when the repository needs a distinct role, tool policy, or workflow boundary that existing agents cannot represent cleanly.
+- Treat nested subagents as exceptional and avoid designing normal workflow paths that depend on them.
 
 ## Validation
 

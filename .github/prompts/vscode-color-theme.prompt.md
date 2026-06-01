@@ -1,5 +1,5 @@
 ---
-name: update-vscode-theme
+name: vscode-color-theme
 description: Update VS Code settings with a color palette for the current project or requested scope. Use when you want the editor surfaces recolored to match a palette, mood, or repository vibe.
 argument-hint: "[Optional: palette name or hex colors, target scope (workspace, .code-workspace, or user settings), mood controls like darker/calmer/higher contrast, and any surfaces to prioritize.]"
 agent: Implementation Agent
