@@ -3,6 +3,7 @@ name: Explorer Agent
 description: Read-only reconnaissance specialist for the repository. Use when the code or documentation surface is broad, multiple candidate owners need fast comparison, or another agent needs a source-anchored summary before planning or implementation.
 tools: [read, search, agent, todo]
 agents: [Coordinator Agent]
+model: GPT-5.4 mini (copilot)
 user-invocable: false
 handoffs:
   - label: Return to Coordinator Agent

@@ -2,7 +2,7 @@
 name: Web Research Agent
 description: External-documentation research specialist for this repository. Use when a task depends on validating behavior, commands, workflow facts, or customization details against trusted upstream documentation before planning, implementation, or documentation changes.
 tools: [vscode/vscodeAPI, vscode/toolSearch, vscode/askQuestions, search, web, vscode.mermaid-markdown-features/renderMermaidDiagram, github.vscode-pull-request-github/issue_fetch, github.vscode-pull-request-github/labels_fetch, github.vscode-pull-request-github/notification_fetch, github.vscode-pull-request-github/doSearch, github.vscode-pull-request-github/activePullRequest, github.vscode-pull-request-github/pullRequestStatusChecks, todo]
-<!-- user-invocable: false -->
+model: GPT-5.4 mini (copilot)
 ---
 
 # Web Research Agent
