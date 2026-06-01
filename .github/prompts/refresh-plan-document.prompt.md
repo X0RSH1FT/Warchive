@@ -2,7 +2,7 @@
 name: refresh-plan-document
 description: Refresh a planning document in docs/plan by removing completed or stale planning notes while preserving unresolved, actionable work and concise validation guidance.
 argument-hint: "[Target markdown planning document path under docs/plan. Optional modes: strict, keep-history, normalize-headings.]"
-agent: Documentation Agent
+agent: Coordinator Agent
 ---
 
 Use this prompt as `/refresh-plan-document` to keep sprint or planning documents lean, current, and actionable.
@@ -14,6 +14,9 @@ Workflow scope:
   - `keep-history`: retain a minimal completed-work summary.
   - `normalize-headings`: rebuild the document structure consistently.
 - Stay within `docs/plan` unless the user explicitly authorizes another path.
+- Route through `Coordinator Agent` by default, then delegate document editing to `Documentation Agent`.
+- Insert `Explorer Agent` when repository reconnaissance is needed to verify plan accuracy.
+- Insert `Reviewer Agent` when an independent findings-first gap check is the cheapest final safety step.
 
 Instruction hierarchy:
 - Prioritize repository instruction files and checklist hygiene rules over style preferences.
@@ -31,6 +34,16 @@ Operating rules:
 6. Preserve factual, still-actionable constraints and exclusions.
 7. Avoid TODO/TBD filler and avoid unsupported claims.
 
+Repository-grounded accuracy and gap check (required):
+1. Verify each retained unresolved item against the current repository state using focused evidence from relevant files, symbols, or commands.
+2. For each unresolved group, confirm there is no obvious planning gap in one of these categories:
+   - missing owner or owning surface
+   - missing dependency or prerequisite
+   - missing validation path
+   - stale assumption contradicted by current repository state
+3. If a claim cannot be verified safely, either remove it or keep it with an explicit assumption note.
+4. If unresolved ambiguity remains after focused checks, use `#askQuestions` before finalizing edits.
+
 Item lifecycle rules:
 - Allowed statuses: `open`, `in progress`, `blocked`, `done`.
 - Keep only `open`, `in progress`, and `blocked` items in active unresolved sections.
@@ -39,15 +52,18 @@ Item lifecycle rules:
 Deterministic cleanup order:
 1. Classify
 2. Remove stale and completed content
-3. Normalize sections
-4. Validate
-5. Summarize changes
+3. Check repository-grounded accuracy and gap coverage
+4. Normalize sections
+5. Validate
+6. Summarize changes
 
 Output contract:
 1. Update the same target file in place.
 2. Provide a short summary that includes:
    - what was removed
    - what unresolved groups remain
+   - repository-grounded corrections made
+   - gap checks completed and any unresolved uncertainty
    - assumptions used for ambiguous removals
 3. If no actionable unresolved tasks remain, state that explicitly.
 4. If ambiguity prevents safe cleanup, ask concise clarification questions before editing.
@@ -55,7 +71,8 @@ Output contract:
 Validation requirements:
 - Run Markdown diagnostics only on the touched target file.
 - Report the diagnostics result.
-- Do not run broad repository checks unless the user requests them.
+- Do focused repository checks required to verify retained unresolved items and detect gaps.
+- Do not run broad repository-wide sweeps unless the user requests them.
 
 Style requirements for the refreshed document:
 - Use scannable headings, compact bullets, and no redundant narrative.

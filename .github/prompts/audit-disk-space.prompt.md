@@ -2,7 +2,7 @@
 name: audit-disk-space
 description: Audit a Windows disk for reclaimable space, summarize likely bloat, and stop before cleanup automation. Use when you want a safe, read-first storage investigation on C: or another drive.
 argument-hint: "[Optional: drive letter or root path, audit depth, folders to prioritize, cleanup-risk tolerance, or whether to check elevated Windows-managed space.]"
-agent: Coordinator Agent
+agent: System Administration Agent
 ---
 
 Audit disk usage on Windows and identify the highest-value reclaim opportunities without deleting or modifying anything.
