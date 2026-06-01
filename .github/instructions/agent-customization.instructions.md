@@ -1,7 +1,7 @@
 ---
 name: "Agent Customization Patterns"
 description: "Shared high-level customization guidance for repository-wide Copilot behavior and root customization context."
-applyTo: ".github/copilot-instructions.md"
+applyTo: ".github/{copilot-instructions.md,agents/**,prompts/**,instructions/**,skills/**,hooks/**}"
 ---
 
 # Customization File Patterns
