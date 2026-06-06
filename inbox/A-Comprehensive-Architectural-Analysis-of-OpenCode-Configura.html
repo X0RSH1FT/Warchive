@@ -1,0 +1,1066 @@
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Comprehensive Architectural Analysis of OpenCode Configuration Parameters: Mastering System Modularity and Control Flo...</title>
+<meta name="description" content="Executive Summary
+
+OpenCode operates on a profoundly modular and hierarchical configuration architecture, allowing users to define system behavior at multipl">
+<meta property="og:title" content="A Comprehensive Architectural Analysis of OpenCode Configuration Parameters: Mastering System Modularity and Control Flo...">
+<meta property="og:description" content="Executive Summary
+
+OpenCode operates on a profoundly modular and hierarchical configuration architecture, allowing users to define system behavior at multipl">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://social-cards.sst.dev/opencode-docs/Q29uZmln.png?desc=Using%20the%20OpenCode%20JSON%20config.">
+<meta name="theme-color" content="#b8543a" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131214" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='75' font-size='75'&gt;O&lt;/text&gt;&lt;/svg&gt;">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --font-display: 'Charter', 'Iowan Old Style', Georgia, serif;
+  --font-body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --bg: #fbf9f4;
+  --bg-surface: #ffffff;
+  --bg-surface-alt: #f1ede4;
+  --border: rgba(0,0,0,0.08);
+  --border-strong: rgba(0,0,0,0.16);
+  --text: #1a1817;
+  --text-dim: #5a5651;
+  --text-muted: #8a8580;
+  --accent: #b8543a;
+  --accent-light: #d97a5e;
+  --accent-bg: rgba(184,84,58,0.06);
+  --gold: #c9952e;
+  --gold-bg: rgba(201,149,46,0.09);
+  --aurora-a: rgba(184,84,58,0.10);
+  --aurora-b: rgba(201,149,46,0.08);
+  --aurora-c: rgba(64,98,128,0.07);
+  --radius: 12px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 24px rgba(0,0,0,0.07);
+  --max-w: 760px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #131214; --bg-surface: #1c1a1e; --bg-surface-alt: #25232a;
+    --border: rgba(255,255,255,0.07); --border-strong: rgba(255,255,255,0.16);
+    --text: #ece8e2; --text-dim: #a8a39c; --text-muted: #6f6b66;
+    --accent: #e88f73; --accent-light: #f4ad95; --accent-bg: rgba(232,143,115,0.09);
+    --gold: #e8c05a; --gold-bg: rgba(232,192,90,0.09);
+    --aurora-a: rgba(232,143,115,0.13);
+    --aurora-b: rgba(232,192,90,0.09);
+    --aurora-c: rgba(125,180,224,0.10);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.4); --shadow-md: 0 4px 28px rgba(0,0,0,0.55);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Give smooth-scroll some breathing room so anchors land below the
+     fixed toolbar instead of being shoved straight under it. */
+  scroll-padding-top: 4rem;
+}
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  font-size: 17px;
+  font-feature-settings: 'ss01', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* ── Aurora background ─────────────────────────────────
+   Slowly-drifting layered blobs in the accent palette. Sits behind
+   the content, fixed to the viewport so scrolling doesn't reset the
+   composition. Subtle grain on top stops it reading as 'flat CSS'. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: -20vh -20vw;
+  z-index: -2;
+  background:
+    radial-gradient(40vw 50vh at 18% 22%, var(--aurora-a) 0%, transparent 60%),
+    radial-gradient(45vw 55vh at 82% 12%, var(--aurora-b) 0%, transparent 65%),
+    radial-gradient(55vw 60vh at 50% 88%, var(--aurora-c) 0%, transparent 70%);
+  filter: blur(20px);
+  animation: aurora-drift 28s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* Subtle film-grain — SVG turbulence baked to a data-URL. */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.32 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+}
+@keyframes aurora-drift {
+  0%   { transform: translate3d(0,0,0) scale(1);     }
+  50%  { transform: translate3d(2vw,-1vh,0) scale(1.04); }
+  100% { transform: translate3d(-1vw,1.5vh,0) scale(1.02); }
+}
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: none; }
+}
+
+/* ── Toolbar (top-right) ──────────────────────────── */
+.toolbar {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
+  display: flex;
+  gap: 0.4rem;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.toolbar:hover { opacity: 1; }
+.toolbar button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--bg-surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.15s;
+  position: relative;
+}
+.toolbar button:hover { background: var(--bg-surface-alt); }
+.toolbar button svg { width: 14px; height: 14px; flex-shrink: 0; }
+.toolbar .toast {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--text);
+  color: var(--bg);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s;
+  pointer-events: none;
+}
+.toolbar .toast.show { opacity: 1; }
+.dropdown { position: relative; }
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  min-width: 140px;
+}
+.dropdown-menu.open { display: block; }
+.dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 8px 14px;
+  border: none;
+  background: none;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.8rem;
+  text-align: left;
+  cursor: pointer;
+}
+.dropdown-menu button:hover { background: var(--bg-surface-alt); }
+
+/* ── Hero ──────────────────────────────────────────── */
+.hero {
+  position: relative;
+  background: transparent;
+  color: var(--text);
+  padding: 5.5rem 2rem 2.5rem;
+  text-align: center;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 40%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 70%);
+  pointer-events: none;
+}
+/* A hair-thin gradient hairline divider under the hero to anchor it
+   without putting it on a heavy boxed background. */
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 50%; bottom: 0;
+  width: min(60%, 320px);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+}
+.hero-label {
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--accent);
+  opacity: 0.85;
+  margin-bottom: 1.4rem;
+  font-family: var(--font-body);
+}
+.hero h1 {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 600;
+  font-variation-settings: 'opsz' 120, 'SOFT' 50;
+  line-height: 1.15;
+  max-width: 720px;
+  margin: 0 auto;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+/* ── Hero image ───────────────────────────────────── */
+.hero-image {
+  max-width: var(--max-w);
+  margin: -2rem auto 0;
+  position: relative;
+  z-index: 1;
+  padding: 0 2rem;
+}
+.hero-image img {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  display: block;
+}
+
+/* ── Section images ───────────────────────────────── */
+.section-image {
+  margin: 1.5rem 0;
+  position: relative;
+}
+.section-image img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  display: block;
+}
+
+/* ── Per-image hide button ────────────────────────────
+   A small X that appears on hover (or always on touch) so users can
+   remove irrelevant OG images. Click POSTs the URL to the backend so
+   the next render skips it. */
+.img-hide-btn {
+  position: absolute;
+  top: 10px; right: 10px;
+  width: 28px; height: 28px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease, transform 0.05s ease;
+  z-index: 2;
+  padding: 0;
+}
+.hero-image .img-hide-btn { top: 14px; right: 2.5rem; }
+/* Reroll sits just to the left of the hide button. */
+.img-reroll-btn {
+  position: absolute;
+  top: 10px; right: 46px;
+  width: 28px; height: 28px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease, transform 0.05s ease;
+  z-index: 2;
+  padding: 0;
+}
+.hero-image .img-reroll-btn { top: 14px; right: calc(2.5rem + 36px); }
+.section-image:hover .img-hide-btn,
+.section-image:hover .img-reroll-btn,
+.hero-image:hover .img-hide-btn,
+.hero-image:hover .img-reroll-btn { opacity: 1; }
+.img-hide-btn:hover { background: var(--accent); }
+.img-reroll-btn:hover { background: var(--accent); }
+.img-hide-btn:active,
+.img-reroll-btn:active { transform: scale(0.92); }
+.img-reroll-btn.spinning svg { animation: img-reroll-spin 0.6s linear infinite; }
+.img-reroll-btn:disabled { display: none; }
+@keyframes img-reroll-spin { to { transform: rotate(360deg); } }
+@media (hover: none) {
+  /* Touch devices have no hover — show the buttons at low opacity always. */
+  .img-hide-btn, .img-reroll-btn { opacity: 0.7; }
+}
+.section-image.fading,
+.hero-image.fading {
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* ── Stats bar ─────────────────────────────────────── */
+.stats-bar {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 0.9rem 2rem;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+.stat { display: flex; align-items: center; gap: 0.35rem; }
+.stat-value { font-weight: 600; color: var(--text); }
+
+/* ── Layout ────────────────────────────────────────── */
+.layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  max-width: calc(var(--max-w) + 260px);
+  margin: 0 auto;
+}
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .toc-sidebar { display: none; }
+}
+
+/* ── TOC sidebar ───────────────────────────────────── */
+.toc-sidebar {
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  padding: 3.2rem 0.8rem 2rem 1.4rem;
+  border-right: 1px solid var(--border);
+  font-size: 0.78rem;
+}
+.toc-sidebar nav { position: relative; }
+.toc-sidebar nav a {
+  position: relative;
+  display: block;
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 0.42rem 0.7rem 0.42rem 0.85rem;
+  margin: 1px 0;
+  border-radius: 6px;
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+  transition: color 0.18s ease, background 0.18s ease, padding-left 0.18s ease;
+}
+/* Sliding accent indicator on the left edge of each TOC link */
+.toc-sidebar nav a::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  width: 2px; height: 0;
+  background: var(--accent);
+  transform: translateY(-50%);
+  border-radius: 1px;
+  transition: height 0.18s ease, opacity 0.18s ease;
+  opacity: 0;
+}
+.toc-sidebar nav a:hover {
+  color: var(--text);
+  background: var(--accent-bg);
+  padding-left: 1rem;
+}
+.toc-sidebar nav a:hover::before {
+  height: 60%;
+  opacity: 1;
+}
+.toc-sidebar nav a.active {
+  color: var(--accent);
+  font-weight: 600;
+  background: var(--accent-bg);
+}
+.toc-sidebar nav a.active::before {
+  height: 80%;
+  opacity: 1;
+}
+.toc-sidebar nav a.depth-3 {
+  padding-left: 1.3rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+.toc-sidebar nav a.depth-3:hover { padding-left: 1.45rem; }
+
+/* ── Content ───────────────────────────────────────── */
+.content { max-width: var(--max-w); padding: 3rem 2.5rem 4rem; }
+
+/* Display headings — Fraunces optical-size driven so they get more
+   contrast and personality at the larger end. */
+.content h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 2.4vw, 1.85rem);
+  font-weight: 600;
+  font-variation-settings: 'opsz' 96, 'SOFT' 50;
+  margin: 3rem 0 1rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(90deg, var(--accent) 0%, transparent 65%) 1;
+  letter-spacing: -0.022em;
+  line-height: 1.2;
+  color: var(--text);
+}
+.content h2:first-child { margin-top: 0; }
+.content h3 {
+  font-family: var(--font-display);
+  font-size: 1.22rem;
+  font-weight: 600;
+  font-variation-settings: 'opsz' 32;
+  margin: 2.2rem 0 0.6rem;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+.content h4 {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  margin: 1.6rem 0 0.5rem;
+}
+.content p { margin-bottom: 1.1rem; hanging-punctuation: first last; }
+
+/* Drop cap on the very first paragraph of the body — old-school editorial
+   touch that anchors the reader. */
+.content > p:first-of-type::first-letter,
+.content > h2:first-child + p::first-letter {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-variation-settings: 'opsz' 144;
+  font-size: 3.6em;
+  line-height: 0.85;
+  float: left;
+  margin: 0.15em 0.12em 0 -0.04em;
+  color: var(--accent);
+}
+
+.content a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s, color 0.15s;
+}
+.content a:hover {
+  text-decoration-color: var(--accent);
+  color: var(--accent-light);
+}
+.content ul, .content ol { margin: 0 0 1.1rem 1.6rem; }
+.content li { margin-bottom: 0.4rem; }
+.content li::marker { color: var(--accent); }
+.content li > ul, .content li > ol { margin-top: 0.4rem; margin-bottom: 0; }
+.content blockquote {
+  position: relative;
+  border-left: 3px solid var(--gold);
+  background: var(--gold-bg);
+  padding: 1.1rem 1.4rem 1.1rem 2.6rem;
+  margin: 1.5rem 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+.content blockquote::before {
+  content: '\201C';
+  position: absolute;
+  left: 0.5rem; top: 0.3rem;
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-style: normal;
+  color: var(--gold);
+  opacity: 0.5;
+  line-height: 1;
+}
+.content hr { border: none; height: 1px; background: linear-gradient(90deg, transparent, var(--border-strong), transparent); margin: 2rem 0; }
+.content code { font-family: var(--font-mono); font-size: 0.86em; background: var(--bg-surface-alt); padding: 0.15em 0.4em; border-radius: 4px; }
+.content pre { background: var(--bg-surface-alt); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; overflow-x: auto; margin: 1.25rem 0; font-size: 0.86rem; line-height: 1.6; }
+.content pre code { background: none; padding: 0; }
+.content table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.9rem; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
+.content th { text-align: left; padding: 0.7rem 1rem; background: var(--accent-bg); font-weight: 600; border-bottom: 2px solid var(--border-strong); }
+.content td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+.content tr:last-child td { border-bottom: none; }
+.content tr:hover td { background: var(--accent-bg); }
+
+/* ── Sources (collapsible list) ───────────────────── */
+.sources-panel { margin-top: 3rem; border-top: 2px solid var(--border); padding-top: 1.5rem; }
+.sources-panel details { margin: 0; }
+.sources-panel summary {
+  display: flex; align-items: center; gap: 0.5rem;
+  cursor: pointer; font-size: 1rem; font-weight: 600;
+  color: var(--text); padding: 0.5rem 0; list-style: none;
+  user-select: none;
+}
+.sources-panel summary::-webkit-details-marker { display: none; }
+.sources-panel summary::before {
+  content: '\25B6'; font-size: 0.65em; color: var(--text-muted);
+  transition: transform 0.2s;
+}
+.sources-panel details[open] summary::before { transform: rotate(90deg); }
+.sources-list { padding: 0.5rem 0 0 0.25rem; }
+.sources-list a {
+  display: flex; align-items: baseline; gap: 0.5rem;
+  padding: 0.35rem 0; font-size: 0.85rem;
+  color: var(--text); text-decoration: none;
+  transition: color 0.15s;
+}
+.sources-list a:hover { color: var(--accent); }
+.sources-list .snum {
+  color: var(--text-muted); font-size: 0.75rem;
+  min-width: 1.5rem; text-align: right; flex-shrink: 0;
+}
+.sources-list .sdomain {
+  color: var(--text-muted); font-size: 0.75rem;
+  margin-left: auto; flex-shrink: 0;
+}
+
+/* ── Chat-about CTA ────────────────────────────────── */
+.chat-cta {
+  margin: 3rem 0 1rem; padding: 1.5rem;
+  text-align: center;
+  border: 1px solid var(--border); border-radius: 12px;
+  background: var(--bg-surface);
+}
+.chat-cta-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px; font-size: 0.95rem; font-weight: 600;
+  background: var(--accent); color: #fff;
+  border: none; border-radius: 8px; cursor: pointer;
+  font-family: inherit;
+  transition: filter 0.15s, transform 0.05s;
+}
+.chat-cta-btn:hover:not(:disabled) { filter: brightness(1.1); }
+.chat-cta-btn:active:not(:disabled) { transform: translateY(1px); }
+.chat-cta-btn:disabled { opacity: 0.6; cursor: progress; }
+.chat-cta-hint {
+  margin-top: 8px; font-size: 0.8rem; color: var(--text-muted);
+}
+
+/* ── Footer ────────────────────────────────────────── */
+.report-footer {
+  text-align: center; padding: 2rem; font-size: 0.75rem;
+  color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 2rem;
+}
+
+/* ── Animations ────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .content h2, .content h3, .content p, .content ul, .content ol,
+  .content blockquote, .content table, .content pre, .section-image {
+    animation: fadeUp 0.4s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* ── Print ─────────────────────────────────────────── */
+@media print {
+  .toc-sidebar, .toolbar { display: none !important; }
+  .layout { grid-template-columns: 1fr; }
+  .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+</style>
+</head>
+<body class="">
+
+<!-- Toolbar: Export + Restore hidden images -->
+<div class="toolbar">
+  
+  <div class="dropdown">
+    <button id="btn-export" title="Export">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+      Export ▾
+    </button>
+    <div class="dropdown-menu" id="export-menu">
+      <button id="btn-pdf">Save as PDF</button>
+      <button id="btn-html">Download HTML</button>
+    </div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-label">Odysseus — Deep Research Report</div>
+  <h1>A Comprehensive Architectural Analysis of OpenCode Configuration Parameters: Mastering System Modularity and Control Flow</h1>
+</div>
+
+<div class="hero-image" data-img-url="https://social-cards.sst.dev/opencode-docs/Q29uZmln.png?desc=Using%20the%20OpenCode%20JSON%20config."><img src="https://social-cards.sst.dev/opencode-docs/Q29uZmln.png?desc=Using%20the%20OpenCode%20JSON%20config." alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><button class="img-reroll-btn" type="button" title="Swap for another image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg></button><button class="img-hide-btn" type="button" title="Hide image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div>
+
+<div class="stats-bar">
+  <div class="stat"><span class="stat-value">343.5s</span> Duration</div>
+  <div class="stat"><span class="stat-value">2</span> Rounds</div>
+  <div class="stat"><span class="stat-value">4</span> Queries</div>
+  <div class="stat"><span class="stat-value">12</span> URLs Analyzed</div>
+  <div class="stat"><span class="stat-value">g-bot:latest</span> Model</div>
+  <div class="stat"><span class="stat-value">duckduckgo</span> Search</div>
+</div>
+
+<div class="layout">
+  <aside class="toc-sidebar">
+    <nav>
+      <a href="#executive-summary" class="depth-2">Executive Summary</a>
+      <a href="#the-claim-summary-of-all-opencode-configuration-parameters-with-examples" class="depth-2">The Claim: Summary of All OpenCode Configuration Parameters with Examples</a>
+      <a href="#evidence-for" class="depth-3">Evidence For</a>
+      <a href="#evidence-against" class="depth-3">Evidence Against</a>
+      <a href="#verdict-supported" class="depth-3">Verdict: Supported</a>
+      <a href="#i-core-system-configuration-the-central-operating-system-opencode-json" class="depth-2">I. Core System Configuration: The Central Operating System (opencode.json)</a>
+      <a href="#the-model-parameter-defining-the-core-intelligence" class="depth-3">The model Parameter: Defining the Core Intelligence</a>
+      <a href="#the-providers-block-credentials-and-connectivity" class="depth-3">The providers Block: Credentials and Connectivity</a>
+      <a href="#the-plugins-block-intercepting-time-and-space" class="depth-3">The plugins Block: Intercepting Time and Space</a>
+      <a href="#ii-model-behavior-tuning-controlling-the-llm-s-mindset-llms" class="depth-2">II. Model Behavior Tuning: Controlling the LLM's Mindset (LLMs)</a>
+      <a href="#global-model-options-options" class="depth-3">Global Model Options (options)</a>
+      <a href="#provider-specific-overrides-the-budgettokens-example" class="depth-3">Provider-Specific Overrides: The budgetTokens Example</a>
+      <a href="#the-power-of-variants-managing-complexity" class="depth-3">The Power of variants: Managing Complexity</a>
+      <a href="#iii-defining-action-space-tools-and-custom-commands" class="depth-2">III. Defining Action Space: Tools and Custom Commands</a>
+      <a href="#tools-structured-api-interaction" class="depth-3">Tools: Structured API Interaction</a>
+      <a href="#custom-commands-workflow-orchestration" class="depth-3">Custom Commands: Workflow Orchestration</a>
+      <a href="#iv-agentic-roles-plugins-and-hooks-the-deep-customization-layer" class="depth-2">IV. Agentic Roles, Plugins, and Hooks: The Deep Customization Layer</a>
+      <a href="#agents-defining-identity-and-scope" class="depth-3">Agents: Defining Identity and Scope</a>
+      <a href="#plugins-the-event-interception-mechanism" class="depth-3">Plugins: The Event Interception Mechanism</a>
+      <a href="#v-security-and-resource-management-permissions-control" class="depth-2">V. Security and Resource Management: Permissions Control</a>
+      <a href="#granular-action-approval" class="depth-3">Granular Action Approval</a>
+      <a href="#hierarchy-of-control" class="depth-3">Hierarchy of Control</a>
+      <a href="#vi-advanced-and-specialized-configurations" class="depth-2">VI. Advanced and Specialized Configurations</a>
+      <a href="#environment-variable-overrides" class="depth-3">Environment Variable Overrides</a>
+      <a href="#zen-integration-specialized-model-identification" class="depth-3">Zen Integration: Specialized Model Identification</a>
+      <a href="#conclusion-the-unified-system-of-parameters" class="depth-2">Conclusion: The Unified System of Parameters</a>
+    </nav>
+  </aside>
+  <main class="content">
+    <hr>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>OpenCode operates on a profoundly modular and hierarchical configuration architecture, allowing users to define system behavior at multiple levels—from global defaults down to specific function execution hooks. The entire ecosystem is governed primarily by the central <strong><code>opencode.json</code></strong> file (or its commented variant, <code>opencode.jsonc</code>) <a href="https://open-code.ai/en/docs/config" rel="noopener noreferrer" target="_blank">OpenCode Config</a>.</p>
+<p>This report summarizes and analyzes the vast array of configuration parameters, demonstrating that OpenCode does not rely on a single list of settings but rather an interconnected system of control levers governing five primary domains: <strong>Core System Settings</strong>, <strong>Model Behavior Tuning</strong>, <strong>External Tool Definition</strong>, <strong>Agentic Roles &amp; Workflow Logic</strong>, <strong>Security Permissions</strong>, and <strong>Runtime Hooks (Plugins)</strong>.</p>
+<p>The parameters range from simple credential inputs (e.g., API keys under <code>providers</code>) to complex programmatic definitions, such as JSON schemas for tool input validation or event-intercepting hooks like <code>tool.execute.before</code>. Mastery of these parameters is essential for building reliable, secure, and highly specialized AI workflows, enabling developers to precisely control the LLM's decision-making process, resource consumption, and external interactions.</p>
+<hr>
+<h2 id="the-claim-summary-of-all-opencode-configuration-parameters-with-examples">The Claim: Summary of All OpenCode Configuration Parameters with Examples</h2>
+<figure class="section-image" data-img-url="https://social-cards.sst.dev/opencode-docs/VG9vbHM%3D.png?desc=Manage%20the%20tools%20an%20LLM%20can%20use."><img src="https://social-cards.sst.dev/opencode-docs/VG9vbHM%3D.png?desc=Manage%20the%20tools%20an%20LLM%20can%20use." alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><button class="img-reroll-btn" type="button" title="Swap for another image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg></button><button class="img-hide-btn" type="button" title="Hide image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></figure>
+
+<p>The claim asserts that a comprehensive summary of all configuration parameters exists within the OpenCode documentation structure, covering models, tools, agents, permissions, and more.</p>
+<h3 id="evidence-for">Evidence For</h3>
+<ul>
+<li><strong>Source Agreement:</strong> Multiple sources confirm the existence of a centralized configuration file (<code>opencode.json</code>) <a href="https://open-code.ai/en/docs/config" rel="noopener noreferrer" target="_blank">OpenCode Config</a>.</li>
+<li><strong>Scope Coverage:</strong> The evidence provided details parameters across six distinct, interconnected domains (Core, Model, Tools, Agents, Permissions, Plugins), confirming the breadth and depth of configurable elements.</li>
+<li><strong>Granularity:</strong> The documentation outlines both global settings (e.g., default model) and highly granular overrides (e.g., <code>budgetTokens</code> for Anthropic models).</li>
+</ul>
+<h3 id="evidence-against">Evidence Against</h3>
+<ul>
+<li><strong>Lack of Single List:</strong> No single document provides a monolithic list of every parameter, confirming that the configuration is inherently modular and distributed across different functional sections.</li>
+</ul>
+<h3 id="verdict-supported">Verdict: Supported</h3>
+<p>The OpenCode architecture does not present its parameters as a flat list; rather, it presents them as a <strong>system of interconnected modules</strong>, each requiring specific keys and values to define system behavior. The complexity lies in understanding how these modules interact (e.g., a tool requires both a definition <em>and</em> explicit permission).</p>
+<hr>
+<h2 id="i-core-system-configuration-the-central-operating-system-opencode-json">I. Core System Configuration: The Central Operating System (<code>opencode.json</code>)</h2>
+<p>The <code>opencode.json</code> file serves as the foundational manifest for the entire OpenCode environment. It is not merely a list of settings; it is the system's initial state machine, defining which components are active and how they interact by default <a href="https://open-code.ai/en/docs/config" rel="noopener noreferrer" target="_blank">OpenCode Config</a>.</p>
+<h3 id="the-model-parameter-defining-the-core-intelligence">The <code>model</code> Parameter: Defining the Core Intelligence</h3>
+<p>The most fundamental parameter is the <code>model</code> key. This dictates the primary Large Language Model (LLM) that will drive the agent's reasoning and output generation. Crucially, it requires a structured identifier format: <code>provider_id/model_id</code>.</p>
+<p><strong>Analysis:</strong> The necessity of this specific format (<code>provider_id/model_id</code>) is critical because it allows OpenCode to abstract away the underlying API calls. Instead of needing separate keys for OpenAI's key and Anthropic's endpoint, the system only needs to know <em>which</em> provider and <em>which</em> model variant are being used, enabling seamless switching between providers without rewriting core logic <a href="https://opencode.ai/docs/models/" rel="noopener noreferrer" target="_blank">Models</a>.</p>
+<p><strong>Example:</strong> Setting a default model might look like: <code>"model": "lmstudio/google/gemma-3n-e4b"</code>.</p>
+<h3 id="the-providers-block-credentials-and-connectivity">The <code>providers</code> Block: Credentials and Connectivity</h3>
+<p>The <code>providers</code> section is the secure vault for external API credentials. This block manages connectivity to services such as Anthropic, Azure OpenAI, or Amazon Bedrock <a href="https://opencode.ai/docs/providers/" rel="noopener noreferrer" target="_blank">Providers</a>.</p>
+<p><strong>Analysis:</strong> By centralizing provider keys here, OpenCode adheres to best practices in security and maintainability. Instead of embedding sensitive keys into the workflow logic, they are managed at a single point of configuration. This structure also allows for defining fallback providers or multiple credentials for redundancy.</p>
+<h3 id="the-plugins-block-intercepting-time-and-space">The <code>plugins</code> Block: Intercepting Time and Space</h3>
+<p>The <code>plugins</code> section is arguably the most advanced form of parameterization. It moves beyond simple settings and defines <strong>hooks</strong>—programmatic points in the execution lifecycle where custom code can be injected <a href="https://opencode.ai/docs/plugins/" rel="noopener noreferrer" target="_blank">Plugins</a>.</p>
+<p><strong>Analysis:</strong> Hooks are not static parameters; they are <em>runtime configuration rules</em>. They allow developers to intercept system events (e.g., "before a tool runs," or "after an environment variable is set") and execute custom logic, effectively allowing the user to programmatically modify the flow of execution itself. This elevates OpenCode from a simple prompt-based agent to a fully customizable development platform.</p>
+<hr>
+<h2 id="ii-model-behavior-tuning-controlling-the-llm-s-mindset-llms">II. Model Behavior Tuning: Controlling the LLM's Mindset (LLMs)</h2>
+<figure class="section-image" data-img-url="https://social-cards.sst.dev/opencode-docs/TW9kZWxz.png?desc=Configuring%20an%20LLM%20provider%20and%20model."><img src="https://social-cards.sst.dev/opencode-docs/TW9kZWxz.png?desc=Configuring%20an%20LLM%20provider%20and%20model." alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><button class="img-reroll-btn" type="button" title="Swap for another image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg></button><button class="img-hide-btn" type="button" title="Hide image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></figure>
+
+<p>While the <code>model</code> parameter defines <em>which</em> brain is used, the parameters within the model configuration sections define <em>how</em> that brain thinks. This tuning capability allows developers to optimize for specific outcomes—be it creativity, conciseness, or deep logical reasoning.</p>
+<h3 id="global-model-options-options">Global Model Options (<code>options</code>)</h3>
+<p>The <code>options</code> block provides global levers to adjust the LLM's operational characteristics across all connected providers. These parameters are crucial because they allow a single model definition to be optimized for multiple use cases without requiring code changes.</p>
+<p><strong>Detailed Parameters and Impact:</strong>
+1.  <strong><code>reasoningEffort</code></strong>: This parameter controls the depth of internal thought processes the LLM is encouraged to perform. A higher value forces the model to generate more detailed, step-by-step reasoning (Chain-of-Thought), which is vital for complex problem-solving but increases token usage and latency.
+2.  <strong><code>textVerbosity</code></strong>: This controls the expected length and detail of the final output. Setting this low can force the agent to be concise and actionable, ideal for API responses; setting it high encourages detailed explanation, suitable for reports or documentation.</p>
+<h3 id="provider-specific-overrides-the-budgettokens-example">Provider-Specific Overrides: The <code>budgetTokens</code> Example</h3>
+<p>OpenCode recognizes that different LLM providers have unique constraints and optimal usage patterns. For instance, Anthropic models may require a specific parameter like <code>budgetTokens</code>. By allowing these provider-specific overrides within the global configuration structure, OpenCode maintains its universal interface while respecting the technical limitations of the underlying API <a href="https://opencode.ai/docs/models/" rel="noopener noreferrer" target="_blank">Models</a>.</p>
+<h3 id="the-power-of-variants-managing-complexity">The Power of <code>variants</code>: Managing Complexity</h3>
+<p>The <code>variants</code> structure is a sophisticated organizational tool. Instead of creating three separate model definitions (one for 'Drafting,' one for 'Coding,' and one for 'Summarizing'), the user defines one core model and then creates named variants within it. Each variant inherits the base model but overrides specific parameters—for example, setting <code>reasoningEffort: high</code> only when the 'Debugging' variant is active. This prevents configuration sprawl and ensures consistency while maintaining specialized behavior <a href="https://opencode.ai/docs/models/" rel="noopener noreferrer" target="_blank">Models</a>.</p>
+<hr>
+<h2 id="iii-defining-action-space-tools-and-custom-commands">III. Defining Action Space: Tools and Custom Commands</h2>
+<p>OpenCode agents are powerful because they do not just talk; they <em>act</em>. The parameters defining these actions—Tools and Commands—are the agent's operational vocabulary, dictating what tasks it can perform outside of pure text generation. While both allow for external functionality, their configuration methods differ significantly.</p>
+<h3 id="tools-structured-api-interaction">Tools: Structured API Interaction</h3>
+<p>A Tool is configured as a formal interface to an external function or service. The parameters required are highly structured and mandatory:
+1.  <strong>Name &amp; Description:</strong> These define the tool's purpose, which the LLM uses in its reasoning step (the "why" it should use the tool).
+2.  <strong>JSON Schema:</strong> This is the most critical parameter. It dictates the <em>exact</em> structure of the inputs the tool requires (e.g., <code>{"type": "string", "description": "The file path to analyze."}</code>). The schema forces the LLM to generate valid, machine-readable arguments, eliminating ambiguity and making the interaction reliable <a href="https://opencode.ai/docs/tools" rel="noopener noreferrer" target="_blank">Tools</a>.</p>
+<p><strong>Analysis:</strong> By mandating a JSON Schema, OpenCode elevates tool usage from mere suggestion to guaranteed execution parameters. This is foundational for enterprise use cases where predictable data input is non-negotiable.</p>
+<h3 id="custom-commands-workflow-orchestration">Custom Commands: Workflow Orchestration</h3>
+<p>Custom commands are designed less for single API calls and more for wrapping complex, multi-step workflows. They require defining a unique command name and, crucially, providing the <em>prompt or logic</em> that guides the LLM through the sequence of steps <a href="https://opencode.ai/docs/commands/" rel="noopener noreferrer" target="_blank">Commands</a>.</p>
+<p><strong>Comparison (Tools vs. Commands):</strong>
+| Feature | Tools | Custom Commands |
+| :--- | :--- | :--- |
+| <strong>Purpose</strong> | Executing a single, defined external function (e.g., <code>read_file</code>). | Orchestrating a sequence of steps/prompts (e.g., "Research and summarize this topic"). |
+| <strong>Input Control</strong> | Strict JSON Schema validation. | Natural language prompt guidance; internal logic flow. |
+| <strong>Configuration Focus</strong> | What the function <em>does</em>. | How the LLM should <em>approach</em> the task. |</p>
+<hr>
+<h2 id="iv-agentic-roles-plugins-and-hooks-the-deep-customization-layer">IV. Agentic Roles, Plugins, and Hooks: The Deep Customization Layer</h2>
+<figure class="section-image" data-img-url="https://social-cards.sst.dev/opencode-docs/UHJvdmlkZXJz.png?desc=Using%20any%20LLM%20provider%20in%20OpenCode."><img src="https://social-cards.sst.dev/opencode-docs/UHJvdmlkZXJz.png?desc=Using%20any%20LLM%20provider%20in%20OpenCode." alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><button class="img-reroll-btn" type="button" title="Swap for another image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg></button><button class="img-hide-btn" type="button" title="Hide image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></figure>
+
+<p>This section covers the most advanced parameters, moving beyond simple settings into programmatic control over system flow.</p>
+<h3 id="agents-defining-identity-and-scope">Agents: Defining Identity and Scope</h3>
+<p>Agents are configured by defining a dedicated role, often using structured markdown files placed in designated directories (<code>~/.config/opencode/agents/</code>). These definition files contain the agent's persona, its core mission statement, and its operational constraints <a href="https://open-code.ai/docs/agents/" rel="noopener noreferrer" target="_blank">Agents</a>.</p>
+<p><strong>Analysis:</strong> The Agent configuration parameters are fundamentally about <strong>contextual grounding</strong>. They ensure that every interaction is filtered through a specific lens—a "System Prompt" writ large. An agent configured for 'Financial Analysis' will automatically constrain the LLM's output and reasoning to financial terminology, regardless of the global default settings.</p>
+<h3 id="plugins-the-event-interception-mechanism">Plugins: The Event Interception Mechanism</h3>
+<p>As noted previously, plugins utilize hooks, which are parameters that define <em>when</em> code runs. This is a profound level of control.</p>
+<p><strong>Example Hooks:</strong>
+*   <code>tool.execute.before</code>: Allows pre-validation or logging before an external tool is called.
+*   <code>shell.env</code>: Allows the programmatic setting or modification of environment variables specifically for shell operations, ensuring that sensitive data or necessary paths are available only when required <a href="https://open-code.ai/docs/plugins/" rel="noopener noreferrer" target="_blank">Plugins</a>.</p>
+<p><strong>Synthesis:</strong> The combination of Agents (defining <em>who</em> is acting) and Plugins (defining <em>when</em> code runs) provides the highest degree of control. A developer can create an agent that, upon starting a task, automatically executes a plugin hook to set specific environment variables, thereby restricting its available resources before it even attempts to call a tool.</p>
+<hr>
+<h2 id="v-security-and-resource-management-permissions-control">V. Security and Resource Management: Permissions Control</h2>
+<p>The <code>permissions</code> section is not merely advisory; it is the <strong>security gatekeeper</strong> of the entire system. It defines the boundaries of trust between the LLM's generated intent and the actual actions taken by the agent.</p>
+<h3 id="granular-action-approval">Granular Action Approval</h3>
+<p>Permissions parameters allow users to define which classes of actions require explicit human approval before execution. This mechanism mitigates the risk of "hallucinated actions," where an LLM might confidently plan a destructive or costly action (like deleting files or making financial transactions) that should never run without confirmation <a href="https://open-code.ai/docs/permissions/" rel="noopener noreferrer" target="_blank">Permissions</a>.</p>
+<p><strong>Key Parameters Controlled:</strong>
+1.  <strong>File System Access:</strong> Rules governing read/write access to specific paths (<code>/etc</code>, <code>~/data</code>). This prevents the agent from accidentally or maliciously traversing restricted areas.
+2.  <strong>External API Calls:</strong> Defining which external services (e.g., payment gateways, internal databases) are permissible targets for tool execution.</p>
+<h3 id="hierarchy-of-control">Hierarchy of Control</h3>
+<p>The configuration supports a hierarchy: Global rules can be set, but these can be overridden by specific Agent definitions or even individual Tool configurations. This ensures that while the system maintains strong default security, specialized agents can operate within necessary, tightly controlled exceptions.</p>
+<hr>
+<h2 id="vi-advanced-and-specialized-configurations">VI. Advanced and Specialized Configurations</h2>
+<figure class="section-image" data-img-url="https://social-cards.sst.dev/opencode-docs/UGx1Z2lucw%3D%3D.png?desc=Write%20your%20own%20plugins%20to%20extend%20OpenCode."><img src="https://social-cards.sst.dev/opencode-docs/UGx1Z2lucw%3D%3D.png?desc=Write%20your%20own%20plugins%20to%20extend%20OpenCode." alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><button class="img-reroll-btn" type="button" title="Swap for another image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg></button><button class="img-hide-btn" type="button" title="Hide image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></figure>
+
+<h3 id="environment-variable-overrides">Environment Variable Overrides</h3>
+<p>A critical architectural detail is the ability to override configuration parameters using environment variables. This provides a powerful mechanism for CI/CD pipelines or containerized deployments. If an API key must be changed without modifying the <code>opencode.json</code> file, setting the corresponding environment variable takes precedence over the static config value <a href="https://open-code.ai/docs/troubleshooting/" rel="noopener noreferrer" target="_blank">Troubleshooting</a>.</p>
+<h3 id="zen-integration-specialized-model-identification">Zen Integration: Specialized Model Identification</h3>
+<p>For specialized services like OpenCode Zen, the model identification parameters require a specific prefix (<code>opencode/&lt;model-id&gt;</code>) <a href="https://open-code.ai/docs/zen/" rel="noopener noreferrer" target="_blank">Zen</a>. This demonstrates that even within the same system, different integrated services may impose unique naming conventions, requiring developers to be hyper-aware of the target environment's required parameter format.</p>
+<hr>
+<h2 id="conclusion-the-unified-system-of-parameters">Conclusion: The Unified System of Parameters</h2>
+<p>OpenCode’s configuration parameters are not a static list but rather a dynamic, multi-layered control plane. They govern every aspect of the agent lifecycle—from initial model selection and resource allocation to final action execution and security validation.</p>
+<p>The comprehensive set of parameters can be summarized as follows:
+1.  <strong>Definition Parameters:</strong> (e.g., <code>model</code>, <code>providers</code>) — <em>What</em> resources are available.
+2.  <strong>Behavioral Parameters:</strong> (e.g., <code>reasoningEffort</code>, <code>textVerbosity</code>) — <em>How</em> the LLM should think and communicate.
+3.  <strong>Action Parameters:</strong> (Tools' JSON Schemas, Commands' Prompts) — <em>What</em> actions can be taken externally.
+4.  <strong>Control Parameters:</strong> (Permissions, Hooks/Plugins) — <em>When</em>, <em>where</em>, and <em>if</em> those actions are permitted to run.</p>
+<p>By mastering this modular structure—understanding that a change in the <code>providers</code> block affects the available models, which in turn influences the parameters used within an Agent's defined role—a developer gains complete control over the agent’s capabilities, ensuring both maximum utility and robust security boundaries. The sheer depth of these configurable elements solidifies OpenCode as a highly sophisticated, enterprise-grade platform for AI workflow automation.</p>
+
+    <div class="sources-panel">
+<details>
+<summary>Sources (11)</summary>
+<div class="sources-list">
+<a href="https://opencode.ai/docs/config/" target="_blank" rel="noopener noreferrer"><span class="snum">1.</span><span>Config | OpenCode</span><span class="sdomain">opencode.ai</span></a>
+<a href="https://opencode.ai/docs/plugins/" target="_blank" rel="noopener noreferrer"><span class="snum">2.</span><span>Plugins | OpenCode</span><span class="sdomain">opencode.ai</span></a>
+<a href="https://opencode.ai/docs/providers/" target="_blank" rel="noopener noreferrer"><span class="snum">3.</span><span>Providers | OpenCode</span><span class="sdomain">opencode.ai</span></a>
+<a href="https://opencode.ai/docs/models/" target="_blank" rel="noopener noreferrer"><span class="snum">4.</span><span>Models | OpenCode</span><span class="sdomain">opencode.ai</span></a>
+<a href="https://opencode.ai/docs/tools" target="_blank" rel="noopener noreferrer"><span class="snum">5.</span><span>Tools | OpenCode</span><span class="sdomain">opencode.ai</span></a>
+<a href="https://opencode.ai/docs/agents/" target="_blank" rel="noopener noreferrer"><span class="snum">6.</span><span>Agents | OpenCode</span><span class="sdomain">opencode.ai</span></a>
+<a href="https://opencode.ai/docs/troubleshooting/" target="_blank" rel="noopener noreferrer"><span class="snum">7.</span><span>Troubleshooting | OpenCode</span><span class="sdomain">opencode.ai</span></a>
+<a href="https://opencode.ai/docs/commands/" target="_blank" rel="noopener noreferrer"><span class="snum">8.</span><span>Commands | OpenCode</span><span class="sdomain">opencode.ai</span></a>
+<a href="https://opencode.ai/docs/zen/" target="_blank" rel="noopener noreferrer"><span class="snum">9.</span><span>Zen | OpenCode</span><span class="sdomain">opencode.ai</span></a>
+<a href="https://opencode.ai/docs/permissions/" target="_blank" rel="noopener noreferrer"><span class="snum">10.</span><span>Permissions | OpenCode</span><span class="sdomain">opencode.ai</span></a>
+<a href="https://open-code.ai/en/docs/config" target="_blank" rel="noopener noreferrer"><span class="snum">11.</span><span>OpenCode Config (opencode.json): Models, Tools, Agents, MCP - OpenCode Docs</span><span class="sdomain">open-code.ai</span></a>
+</div>
+</details>
+</div>
+
+    <div class="chat-cta"><button id="btn-chat-about" class="chat-cta-btn" data-research-id="rp-c2ab33e7619e"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Discuss</span></button><div class="chat-cta-hint">Opens a new chat with this report as context.</div></div>
+  </main>
+</div>
+
+<div class="report-footer">
+  Generated by Odysseus Deep Research · June 06, 2026 at 00:34
+</div>
+
+<script>
+(function() {
+  // ESC closes the report tab. window.close() works when the tab was
+  // opened via window.open() (which is how the panel launches it). If the
+  // browser blocks self-close (rare — e.g. report opened by direct URL),
+  // fall back to history.back() so ESC still feels responsive.
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'Escape' || e.defaultPrevented) return;
+    // Don't hijack ESC while typing in a field or with an open dropdown.
+    var t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    var menu = document.getElementById('export-menu');
+    if (menu && menu.classList.contains('open')) { menu.classList.remove('open'); return; }
+    try { window.close(); } catch (err) {}
+    // window.close() is a no-op when the tab wasn't script-opened; in that
+    // case fall back to navigation so the key isn't ignored.
+    setTimeout(function() { if (!window.closed) history.back(); }, 50);
+  });
+
+  // Export dropdown toggle
+  var exportBtn = document.getElementById('btn-export');
+  var exportMenu = document.getElementById('export-menu');
+  exportBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    exportMenu.classList.toggle('open');
+  });
+  document.addEventListener('click', function() { exportMenu.classList.remove('open'); });
+
+  // Save as PDF (browser print)
+  document.getElementById('btn-pdf').addEventListener('click', function() {
+    exportMenu.classList.remove('open');
+    window.print();
+  });
+
+  // Download HTML
+  document.getElementById('btn-html').addEventListener('click', function() {
+    exportMenu.classList.remove('open');
+    var blob = new Blob([document.documentElement.outerHTML], { type: 'text/html' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = document.title.replace(/[^a-z0-9]+/gi, '-').substring(0, 60) + '.html';
+    a.click();
+  });
+
+  // Per-image hide — fades the image out, then POSTs to the backend so
+  // future renders of this report skip the URL. Falls back to a silent
+  // no-op if there's no session_id (e.g. the report was opened from a
+  // saved-HTML download where the backend isn't reachable).
+  var __sessionId = "rp-c2ab33e7619e";
+  // Unused scraped images — the reroll pool. Each is used at most once.
+  var __spareImages = ["https://social-cards.sst.dev/opencode-docs/QWdlbnRz.png?desc=Configure%20and%20use%20specialized%20agents.", "https://social-cards.sst.dev/opencode-docs/VHJvdWJsZXNob290aW5n.png?desc=Common%20issues%20and%20how%20to%20resolve%20them.", "https://social-cards.sst.dev/opencode-docs/Q29tbWFuZHM%3D.png?desc=Create%20custom%20commands%20for%20repetitive%20tasks.", "https://social-cards.sst.dev/opencode-docs/WmVu.png?desc=Curated%20list%20of%20models%20provided%20by%20OpenCode.", "https://social-cards.sst.dev/opencode-docs/UGVybWlzc2lvbnM%3D.png?desc=Control%20which%20actions%20require%20approval%20to%20run."];
+
+  // Persist a rejected URL so future renders skip it.
+  function __persistHide(url) {
+    if (!__sessionId || !url) return;
+    fetch('/api/research/' + encodeURIComponent(__sessionId) + '/hide-image', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: url }),
+    }).catch(function(err) { console.warn('hide-image POST failed', err); });
+  }
+
+  // Once the pool is empty, there's nothing to swap to — hide all reroll btns.
+  function __syncRerollAvailability() {
+    if (__spareImages.length === 0) {
+      document.querySelectorAll('.img-reroll-btn').forEach(function(b) { b.disabled = true; });
+    }
+  }
+
+  document.querySelectorAll('.img-hide-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault(); e.stopPropagation();
+      var wrap = btn.closest('[data-img-url]');
+      if (!wrap) return;
+      var url = wrap.dataset.imgUrl;
+      wrap.classList.add('fading');
+      setTimeout(function() { wrap.remove(); }, 280);
+      __persistHide(url);
+    });
+  });
+
+  // Reroll — swap the current image for the next unused scraped one, and
+  // persist-hide the rejected URL so it won't resurface on reload.
+  document.querySelectorAll('.img-reroll-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault(); e.stopPropagation();
+      // Per-button busy flag — a rapid double-click would otherwise both
+      // shift the spare pool, but only the second probe's image would land,
+      // silently consuming the first one. Bail until finish() clears it.
+      if (btn.dataset._busy === '1') return;
+      if (__spareImages.length === 0) { btn.disabled = true; return; }
+      var wrap = btn.closest('[data-img-url]');
+      if (!wrap) return;
+      var img = wrap.querySelector('img');
+      if (!img) return;
+      btn.dataset._busy = '1';
+      var oldUrl = wrap.dataset.imgUrl;
+      var newUrl = __spareImages.shift();
+      btn.classList.add('spinning');
+      // Swap once the new image has loaded (or failed) to avoid a flash of empty.
+      var probe = new Image();
+      var done = false;
+      var finish = function(ok) {
+        if (done) return; done = true;
+        btn.classList.remove('spinning');
+        delete btn.dataset._busy;
+        if (ok) {
+          img.src = newUrl;
+          wrap.dataset.imgUrl = newUrl;
+          __persistHide(oldUrl);
+        } else {
+          // Bad candidate — persist-hide it so it can't resurface on reload,
+          // then try the next spare if any remain. Busy flag already cleared
+          // so the synthetic click below proceeds.
+          __persistHide(newUrl);
+          if (__spareImages.length) btn.click();
+        }
+        __syncRerollAvailability();
+      };
+      probe.onload = function() { finish(true); };
+      probe.onerror = function() { finish(false); };
+      probe.src = newUrl;
+    });
+  });
+  __syncRerollAvailability();
+
+  // "Show hidden (N)" button — clears the hidden_images list on the
+  // server, then reloads the page so all images come back.
+  var restoreBtn = document.getElementById('btn-restore-images');
+  if (restoreBtn && __sessionId) {
+    restoreBtn.addEventListener('click', function() {
+      restoreBtn.disabled = true;
+      restoreBtn.textContent = 'Restoring…';
+      fetch('/api/research/' + encodeURIComponent(__sessionId) + '/unhide-images', {
+        method: 'POST', credentials: 'same-origin',
+      }).then(function() { window.location.reload(); })
+        .catch(function(err) {
+          restoreBtn.disabled = false;
+          restoreBtn.textContent = 'Failed — retry?';
+          console.warn('unhide-images POST failed', err);
+        });
+    });
+  }
+
+  // TOC: explicit smooth-scroll handler (some browsers/anchor plugins
+  // bypass the CSS `scroll-behavior: smooth` rule on hash clicks).
+  // Also keeps the URL hash updated and toggles an `.active` highlight.
+  var tocLinks = document.querySelectorAll('.toc-sidebar nav a[href^="#"]');
+  tocLinks.forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      var id = link.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', '#' + id);
+    });
+  });
+
+  // Highlight the TOC entry that matches whichever heading is currently
+  // closest to the top of the viewport. IntersectionObserver keeps it
+  // cheap (no scroll listener spam).
+  var tocMap = {};
+  tocLinks.forEach(function(link) {
+    tocMap[link.getAttribute('href').slice(1)] = link;
+  });
+  var activeId = null;
+  function setActive(id) {
+    if (id === activeId) return;
+    if (activeId && tocMap[activeId]) tocMap[activeId].classList.remove('active');
+    if (id && tocMap[id]) tocMap[id].classList.add('active');
+    activeId = id;
+  }
+  var headings = document.querySelectorAll('.content h2[id], .content h3[id]');
+  if (headings.length && 'IntersectionObserver' in window) {
+    var visible = new Set();
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(en) {
+        if (en.isIntersecting) visible.add(en.target.id);
+        else visible.delete(en.target.id);
+      });
+      // Pick the visible heading that's furthest down in document order
+      // before the current scroll — i.e. the section we're reading.
+      var current = null;
+      for (var i = 0; i < headings.length; i++) {
+        if (visible.has(headings[i].id)) { current = headings[i].id; break; }
+      }
+      if (current) setActive(current);
+    }, { rootMargin: '-10% 0px -75% 0px', threshold: 0 });
+    headings.forEach(function(h) { io.observe(h); });
+  }
+
+  // Chat about this research — POST to spinoff and redirect to the new chat
+  var chatBtn = document.getElementById('btn-chat-about');
+  if (chatBtn) {
+    chatBtn.addEventListener('click', function() {
+      var researchId = chatBtn.dataset.researchId;
+      if (!researchId) return;
+      var origLabel = chatBtn.innerHTML;
+      chatBtn.disabled = true;
+      chatBtn.innerHTML = '<span>Creating chat…</span>';
+      fetch('/api/research/spinoff/' + encodeURIComponent(researchId), {
+        method: 'POST', credentials: 'same-origin',
+      }).then(function(res) {
+        if (!res.ok) {
+          return res.json().then(function(d) {
+            throw new Error(d && d.detail ? d.detail : ('HTTP ' + res.status));
+          }, function() { throw new Error('HTTP ' + res.status); });
+        }
+        return res.json();
+      }).then(function(data) {
+        if (!data || !data.session_id) {
+          throw new Error('Server did not return a session id');
+        }
+        var url = '/#' + data.session_id;
+        var opened = false;
+        // The report typically opens in a new tab — if we have access to the
+        // original Odysseus tab, navigate it and close this report tab so the
+        // user lands directly in the new chat.
+        try {
+          if (window.opener && !window.opener.closed) {
+            window.opener.location.href = url;
+            window.opener.location.reload();
+            window.opener.focus();
+            opened = true;
+            window.close();
+          }
+        } catch (e) { /* cross-origin or detached opener — fall through */ }
+        if (!opened) {
+          // No opener (report was opened directly via URL) — open the chat in a
+          // new tab so the report stays available.
+          var w = window.open(url, '_blank');
+          if (w) {
+            chatBtn.disabled = false;
+            chatBtn.innerHTML = '<span>Chat opened in new tab</span>';
+          } else {
+            // Popup blocked — navigate this tab as a last resort.
+            window.location.href = url;
+            window.location.reload();
+          }
+        }
+      }).catch(function(err) {
+        chatBtn.disabled = false;
+        chatBtn.innerHTML = origLabel;
+        alert('Could not start follow-up chat: ' + err.message);
+      });
+    });
+  }
+})();
+
+// Colorize comparison table cells
+if (document.body.classList.contains('category-comparison')) {
+  const pos = /^(yes|excellent|best|great|strong|fast|high|superior|winner|free|unlimited|native|full|advanced|built[- ]in|✓|✅|⭐)/i;
+  const neg = /^(no|none|poor|weak|slow|low|limited|lacking|missing|basic|minimal|✗|❌|N\/A$)/i;
+  const mid = /^(moderate|average|fair|partial|some|decent|okay|mixed|varies|depends)/i;
+  document.querySelectorAll('.content table td').forEach(td => {
+    if (td.cellIndex === 0) return;
+    const t = td.textContent.trim();
+    if (pos.test(t)) td.classList.add('cmp-pos');
+    else if (neg.test(t)) td.classList.add('cmp-neg');
+    else if (mid.test(t)) td.classList.add('cmp-mid');
+  });
+}
+</script>
+
+
+<iframe frameborder="0" scrolling="no" style="background-color: transparent; border: 0px; display: none;"></iframe><div id="GOOGLE_INPUT_CHEXT_FLAG" input="en-t-k0-und" input_stat="{&quot;tlang&quot;:true,&quot;tsbc&quot;:true,&quot;pun&quot;:true,&quot;mk&quot;:true,&quot;ss&quot;:true}" style="display: none;"></div><iframe frameborder="0" scrolling="no" src="chrome-extension://mclkkofklkfljcocdinagocijmpgbhab/keyboard.html?origin=http%3A%2F%2F127.0.0.1%3A7000" style="background-color: transparent; border: 0px; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 16px 0px; box-sizing: content-box; height: 211px; margin: 0px; position: fixed; width: 517px; z-index: 2147483644; left: 537px; top: 697px; display: none;"></iframe></body></html>

@@ -1,0 +1,1057 @@
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Orchestrated Developer: A Comprehensive Analysis of OpenCode AI Agents Architecture and Workflow</title>
+<meta name="description" content="Executive Summary
+
+OpenCode represents a significant paradigm shift in developer tooling, moving beyond simple conversational programming to establish highly o">
+<meta property="og:title" content="The Orchestrated Developer: A Comprehensive Analysis of OpenCode AI Agents Architecture and Workflow">
+<meta property="og:description" content="Executive Summary
+
+OpenCode represents a significant paradigm shift in developer tooling, moving beyond simple conversational programming to establish highly o">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://developers.openai.com/open-graph.png">
+<meta name="theme-color" content="#b8543a" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131214" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='75' font-size='75'&gt;O&lt;/text&gt;&lt;/svg&gt;">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --font-display: 'Charter', 'Iowan Old Style', Georgia, serif;
+  --font-body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --bg: #fbf9f4;
+  --bg-surface: #ffffff;
+  --bg-surface-alt: #f1ede4;
+  --border: rgba(0,0,0,0.08);
+  --border-strong: rgba(0,0,0,0.16);
+  --text: #1a1817;
+  --text-dim: #5a5651;
+  --text-muted: #8a8580;
+  --accent: #b8543a;
+  --accent-light: #d97a5e;
+  --accent-bg: rgba(184,84,58,0.06);
+  --gold: #c9952e;
+  --gold-bg: rgba(201,149,46,0.09);
+  --aurora-a: rgba(184,84,58,0.10);
+  --aurora-b: rgba(201,149,46,0.08);
+  --aurora-c: rgba(64,98,128,0.07);
+  --radius: 12px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 24px rgba(0,0,0,0.07);
+  --max-w: 760px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #131214; --bg-surface: #1c1a1e; --bg-surface-alt: #25232a;
+    --border: rgba(255,255,255,0.07); --border-strong: rgba(255,255,255,0.16);
+    --text: #ece8e2; --text-dim: #a8a39c; --text-muted: #6f6b66;
+    --accent: #e88f73; --accent-light: #f4ad95; --accent-bg: rgba(232,143,115,0.09);
+    --gold: #e8c05a; --gold-bg: rgba(232,192,90,0.09);
+    --aurora-a: rgba(232,143,115,0.13);
+    --aurora-b: rgba(232,192,90,0.09);
+    --aurora-c: rgba(125,180,224,0.10);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.4); --shadow-md: 0 4px 28px rgba(0,0,0,0.55);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Give smooth-scroll some breathing room so anchors land below the
+     fixed toolbar instead of being shoved straight under it. */
+  scroll-padding-top: 4rem;
+}
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  font-size: 17px;
+  font-feature-settings: 'ss01', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* ── Aurora background ─────────────────────────────────
+   Slowly-drifting layered blobs in the accent palette. Sits behind
+   the content, fixed to the viewport so scrolling doesn't reset the
+   composition. Subtle grain on top stops it reading as 'flat CSS'. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: -20vh -20vw;
+  z-index: -2;
+  background:
+    radial-gradient(40vw 50vh at 18% 22%, var(--aurora-a) 0%, transparent 60%),
+    radial-gradient(45vw 55vh at 82% 12%, var(--aurora-b) 0%, transparent 65%),
+    radial-gradient(55vw 60vh at 50% 88%, var(--aurora-c) 0%, transparent 70%);
+  filter: blur(20px);
+  animation: aurora-drift 28s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* Subtle film-grain — SVG turbulence baked to a data-URL. */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.32 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+}
+@keyframes aurora-drift {
+  0%   { transform: translate3d(0,0,0) scale(1);     }
+  50%  { transform: translate3d(2vw,-1vh,0) scale(1.04); }
+  100% { transform: translate3d(-1vw,1.5vh,0) scale(1.02); }
+}
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: none; }
+}
+
+/* ── Toolbar (top-right) ──────────────────────────── */
+.toolbar {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
+  display: flex;
+  gap: 0.4rem;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.toolbar:hover { opacity: 1; }
+.toolbar button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--bg-surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.15s;
+  position: relative;
+}
+.toolbar button:hover { background: var(--bg-surface-alt); }
+.toolbar button svg { width: 14px; height: 14px; flex-shrink: 0; }
+.toolbar .toast {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--text);
+  color: var(--bg);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s;
+  pointer-events: none;
+}
+.toolbar .toast.show { opacity: 1; }
+.dropdown { position: relative; }
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  min-width: 140px;
+}
+.dropdown-menu.open { display: block; }
+.dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 8px 14px;
+  border: none;
+  background: none;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.8rem;
+  text-align: left;
+  cursor: pointer;
+}
+.dropdown-menu button:hover { background: var(--bg-surface-alt); }
+
+/* ── Hero ──────────────────────────────────────────── */
+.hero {
+  position: relative;
+  background: transparent;
+  color: var(--text);
+  padding: 5.5rem 2rem 2.5rem;
+  text-align: center;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 40%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 70%);
+  pointer-events: none;
+}
+/* A hair-thin gradient hairline divider under the hero to anchor it
+   without putting it on a heavy boxed background. */
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 50%; bottom: 0;
+  width: min(60%, 320px);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+}
+.hero-label {
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--accent);
+  opacity: 0.85;
+  margin-bottom: 1.4rem;
+  font-family: var(--font-body);
+}
+.hero h1 {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 600;
+  font-variation-settings: 'opsz' 120, 'SOFT' 50;
+  line-height: 1.15;
+  max-width: 720px;
+  margin: 0 auto;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+/* ── Hero image ───────────────────────────────────── */
+.hero-image {
+  max-width: var(--max-w);
+  margin: -2rem auto 0;
+  position: relative;
+  z-index: 1;
+  padding: 0 2rem;
+}
+.hero-image img {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  display: block;
+}
+
+/* ── Section images ───────────────────────────────── */
+.section-image {
+  margin: 1.5rem 0;
+  position: relative;
+}
+.section-image img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  display: block;
+}
+
+/* ── Per-image hide button ────────────────────────────
+   A small X that appears on hover (or always on touch) so users can
+   remove irrelevant OG images. Click POSTs the URL to the backend so
+   the next render skips it. */
+.img-hide-btn {
+  position: absolute;
+  top: 10px; right: 10px;
+  width: 28px; height: 28px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease, transform 0.05s ease;
+  z-index: 2;
+  padding: 0;
+}
+.hero-image .img-hide-btn { top: 14px; right: 2.5rem; }
+/* Reroll sits just to the left of the hide button. */
+.img-reroll-btn {
+  position: absolute;
+  top: 10px; right: 46px;
+  width: 28px; height: 28px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease, transform 0.05s ease;
+  z-index: 2;
+  padding: 0;
+}
+.hero-image .img-reroll-btn { top: 14px; right: calc(2.5rem + 36px); }
+.section-image:hover .img-hide-btn,
+.section-image:hover .img-reroll-btn,
+.hero-image:hover .img-hide-btn,
+.hero-image:hover .img-reroll-btn { opacity: 1; }
+.img-hide-btn:hover { background: var(--accent); }
+.img-reroll-btn:hover { background: var(--accent); }
+.img-hide-btn:active,
+.img-reroll-btn:active { transform: scale(0.92); }
+.img-reroll-btn.spinning svg { animation: img-reroll-spin 0.6s linear infinite; }
+.img-reroll-btn:disabled { display: none; }
+@keyframes img-reroll-spin { to { transform: rotate(360deg); } }
+@media (hover: none) {
+  /* Touch devices have no hover — show the buttons at low opacity always. */
+  .img-hide-btn, .img-reroll-btn { opacity: 0.7; }
+}
+.section-image.fading,
+.hero-image.fading {
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* ── Stats bar ─────────────────────────────────────── */
+.stats-bar {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 0.9rem 2rem;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+.stat { display: flex; align-items: center; gap: 0.35rem; }
+.stat-value { font-weight: 600; color: var(--text); }
+
+/* ── Layout ────────────────────────────────────────── */
+.layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  max-width: calc(var(--max-w) + 260px);
+  margin: 0 auto;
+}
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .toc-sidebar { display: none; }
+}
+
+/* ── TOC sidebar ───────────────────────────────────── */
+.toc-sidebar {
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  padding: 3.2rem 0.8rem 2rem 1.4rem;
+  border-right: 1px solid var(--border);
+  font-size: 0.78rem;
+}
+.toc-sidebar nav { position: relative; }
+.toc-sidebar nav a {
+  position: relative;
+  display: block;
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 0.42rem 0.7rem 0.42rem 0.85rem;
+  margin: 1px 0;
+  border-radius: 6px;
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+  transition: color 0.18s ease, background 0.18s ease, padding-left 0.18s ease;
+}
+/* Sliding accent indicator on the left edge of each TOC link */
+.toc-sidebar nav a::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  width: 2px; height: 0;
+  background: var(--accent);
+  transform: translateY(-50%);
+  border-radius: 1px;
+  transition: height 0.18s ease, opacity 0.18s ease;
+  opacity: 0;
+}
+.toc-sidebar nav a:hover {
+  color: var(--text);
+  background: var(--accent-bg);
+  padding-left: 1rem;
+}
+.toc-sidebar nav a:hover::before {
+  height: 60%;
+  opacity: 1;
+}
+.toc-sidebar nav a.active {
+  color: var(--accent);
+  font-weight: 600;
+  background: var(--accent-bg);
+}
+.toc-sidebar nav a.active::before {
+  height: 80%;
+  opacity: 1;
+}
+.toc-sidebar nav a.depth-3 {
+  padding-left: 1.3rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+.toc-sidebar nav a.depth-3:hover { padding-left: 1.45rem; }
+
+/* ── Content ───────────────────────────────────────── */
+.content { max-width: var(--max-w); padding: 3rem 2.5rem 4rem; }
+
+/* Display headings — Fraunces optical-size driven so they get more
+   contrast and personality at the larger end. */
+.content h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 2.4vw, 1.85rem);
+  font-weight: 600;
+  font-variation-settings: 'opsz' 96, 'SOFT' 50;
+  margin: 3rem 0 1rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(90deg, var(--accent) 0%, transparent 65%) 1;
+  letter-spacing: -0.022em;
+  line-height: 1.2;
+  color: var(--text);
+}
+.content h2:first-child { margin-top: 0; }
+.content h3 {
+  font-family: var(--font-display);
+  font-size: 1.22rem;
+  font-weight: 600;
+  font-variation-settings: 'opsz' 32;
+  margin: 2.2rem 0 0.6rem;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+.content h4 {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  margin: 1.6rem 0 0.5rem;
+}
+.content p { margin-bottom: 1.1rem; hanging-punctuation: first last; }
+
+/* Drop cap on the very first paragraph of the body — old-school editorial
+   touch that anchors the reader. */
+.content > p:first-of-type::first-letter,
+.content > h2:first-child + p::first-letter {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-variation-settings: 'opsz' 144;
+  font-size: 3.6em;
+  line-height: 0.85;
+  float: left;
+  margin: 0.15em 0.12em 0 -0.04em;
+  color: var(--accent);
+}
+
+.content a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s, color 0.15s;
+}
+.content a:hover {
+  text-decoration-color: var(--accent);
+  color: var(--accent-light);
+}
+.content ul, .content ol { margin: 0 0 1.1rem 1.6rem; }
+.content li { margin-bottom: 0.4rem; }
+.content li::marker { color: var(--accent); }
+.content li > ul, .content li > ol { margin-top: 0.4rem; margin-bottom: 0; }
+.content blockquote {
+  position: relative;
+  border-left: 3px solid var(--gold);
+  background: var(--gold-bg);
+  padding: 1.1rem 1.4rem 1.1rem 2.6rem;
+  margin: 1.5rem 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+.content blockquote::before {
+  content: '\201C';
+  position: absolute;
+  left: 0.5rem; top: 0.3rem;
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-style: normal;
+  color: var(--gold);
+  opacity: 0.5;
+  line-height: 1;
+}
+.content hr { border: none; height: 1px; background: linear-gradient(90deg, transparent, var(--border-strong), transparent); margin: 2rem 0; }
+.content code { font-family: var(--font-mono); font-size: 0.86em; background: var(--bg-surface-alt); padding: 0.15em 0.4em; border-radius: 4px; }
+.content pre { background: var(--bg-surface-alt); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; overflow-x: auto; margin: 1.25rem 0; font-size: 0.86rem; line-height: 1.6; }
+.content pre code { background: none; padding: 0; }
+.content table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.9rem; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
+.content th { text-align: left; padding: 0.7rem 1rem; background: var(--accent-bg); font-weight: 600; border-bottom: 2px solid var(--border-strong); }
+.content td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+.content tr:last-child td { border-bottom: none; }
+.content tr:hover td { background: var(--accent-bg); }
+
+/* ── Sources (collapsible list) ───────────────────── */
+.sources-panel { margin-top: 3rem; border-top: 2px solid var(--border); padding-top: 1.5rem; }
+.sources-panel details { margin: 0; }
+.sources-panel summary {
+  display: flex; align-items: center; gap: 0.5rem;
+  cursor: pointer; font-size: 1rem; font-weight: 600;
+  color: var(--text); padding: 0.5rem 0; list-style: none;
+  user-select: none;
+}
+.sources-panel summary::-webkit-details-marker { display: none; }
+.sources-panel summary::before {
+  content: '\25B6'; font-size: 0.65em; color: var(--text-muted);
+  transition: transform 0.2s;
+}
+.sources-panel details[open] summary::before { transform: rotate(90deg); }
+.sources-list { padding: 0.5rem 0 0 0.25rem; }
+.sources-list a {
+  display: flex; align-items: baseline; gap: 0.5rem;
+  padding: 0.35rem 0; font-size: 0.85rem;
+  color: var(--text); text-decoration: none;
+  transition: color 0.15s;
+}
+.sources-list a:hover { color: var(--accent); }
+.sources-list .snum {
+  color: var(--text-muted); font-size: 0.75rem;
+  min-width: 1.5rem; text-align: right; flex-shrink: 0;
+}
+.sources-list .sdomain {
+  color: var(--text-muted); font-size: 0.75rem;
+  margin-left: auto; flex-shrink: 0;
+}
+
+/* ── Chat-about CTA ────────────────────────────────── */
+.chat-cta {
+  margin: 3rem 0 1rem; padding: 1.5rem;
+  text-align: center;
+  border: 1px solid var(--border); border-radius: 12px;
+  background: var(--bg-surface);
+}
+.chat-cta-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px; font-size: 0.95rem; font-weight: 600;
+  background: var(--accent); color: #fff;
+  border: none; border-radius: 8px; cursor: pointer;
+  font-family: inherit;
+  transition: filter 0.15s, transform 0.05s;
+}
+.chat-cta-btn:hover:not(:disabled) { filter: brightness(1.1); }
+.chat-cta-btn:active:not(:disabled) { transform: translateY(1px); }
+.chat-cta-btn:disabled { opacity: 0.6; cursor: progress; }
+.chat-cta-hint {
+  margin-top: 8px; font-size: 0.8rem; color: var(--text-muted);
+}
+
+/* ── Footer ────────────────────────────────────────── */
+.report-footer {
+  text-align: center; padding: 2rem; font-size: 0.75rem;
+  color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 2rem;
+}
+
+/* ── Animations ────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .content h2, .content h3, .content p, .content ul, .content ol,
+  .content blockquote, .content table, .content pre, .section-image {
+    animation: fadeUp 0.4s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* ── Print ─────────────────────────────────────────── */
+@media print {
+  .toc-sidebar, .toolbar { display: none !important; }
+  .layout { grid-template-columns: 1fr; }
+  .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+</style>
+</head>
+<body class="">
+
+<!-- Toolbar: Export + Restore hidden images -->
+<div class="toolbar">
+  
+  <div class="dropdown">
+    <button id="btn-export" title="Export">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+      Export ▾
+    </button>
+    <div class="dropdown-menu" id="export-menu">
+      <button id="btn-pdf">Save as PDF</button>
+      <button id="btn-html">Download HTML</button>
+    </div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-label">Odysseus — Deep Research Report</div>
+  <h1>The Orchestrated Developer: A Comprehensive Analysis of OpenCode AI Agents Architecture and Workflow</h1>
+</div>
+
+<div class="hero-image" data-img-url="https://developers.openai.com/open-graph.png"><img src="https://developers.openai.com/open-graph.png" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><button class="img-reroll-btn" type="button" title="Swap for another image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg></button><button class="img-hide-btn" type="button" title="Hide image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div>
+
+<div class="stats-bar">
+  <div class="stat"><span class="stat-value">355.0s</span> Duration</div>
+  <div class="stat"><span class="stat-value">3</span> Rounds</div>
+  <div class="stat"><span class="stat-value">7</span> Queries</div>
+  <div class="stat"><span class="stat-value">23</span> URLs Analyzed</div>
+  <div class="stat"><span class="stat-value">g-bot:latest</span> Model</div>
+  <div class="stat"><span class="stat-value">duckduckgo</span> Search</div>
+</div>
+
+<div class="layout">
+  <aside class="toc-sidebar">
+    <nav>
+      <a href="#executive-summary" class="depth-2">Executive Summary</a>
+      <a href="#i-introduction-the-evolution-from-conversation-to-orchestration" class="depth-2">I. Introduction: The Evolution from Conversation to Orchestration</a>
+      <a href="#the-core-distinction-agents-vs-simple-prompts" class="depth-3">The Core Distinction: Agents vs. Simple Prompts</a>
+      <a href="#ii-architectural-deep-dive-agent-specialization-and-interaction-flow" class="depth-2">II. Architectural Deep Dive: Agent Specialization and Interaction Flow</a>
+      <a href="#primary-agents-vs-subagents-defining-roles" class="depth-3">Primary Agents vs. Subagents: Defining Roles</a>
+      <a href="#workflow-control-invocation-methods" class="depth-3">Workflow Control: Invocation Methods</a>
+      <a href="#iii-granular-control-configuration-permissions-and-customization" class="depth-2">III. Granular Control: Configuration, Permissions, and Customization</a>
+      <a href="#defining-agent-behavior-configuration-files" class="depth-3">Defining Agent Behavior: Configuration Files</a>
+      <a href="#the-depth-of-parameterization" class="depth-3">The Depth of Parameterization</a>
+      <a href="#the-critical-role-of-the-permission-system" class="depth-3">The Critical Role of the Permission System</a>
+      <a href="#iv-advanced-context-management-memory-safety-and-persistence" class="depth-2">IV. Advanced Context Management: Memory, Safety, and Persistence</a>
+      <a href="#persistent-memory-system-agent-memory" class="depth-3">Persistent Memory System (Agent Memory)</a>
+      <a href="#scoping-safety-and-isolation" class="depth-3">Scoping, Safety, and Isolation</a>
+      <a href="#v-synthesis-and-comparative-analysis-why-opencode-matters" class="depth-2">V. Synthesis and Comparative Analysis: Why OpenCode Matters</a>
+      <a href="#conclusion-answering-the-question" class="depth-2 active">Conclusion: Answering the Question</a>
+    </nav>
+  </aside>
+  <main class="content">
+    <h2 id="executive-summary">Executive Summary</h2>
+<p>OpenCode represents a significant paradigm shift in developer tooling, moving beyond simple conversational programming to establish highly orchestrated, multi-step workflows powered by specialized Artificial Intelligence Units—the <strong>Agents</strong>. This report provides a deep dive into the architecture, configuration mechanisms, and operational workflow of OpenCode AI Agents. At its core, OpenCode is designed not merely as an autocomplete tool, but as a collaborative engineering partner capable of managing complex tasks across diverse environments (terminals, IDEs, desktop applications) [Finding 1, Finding 6].</p>
+<p>The system’s power lies in its granular control and modularity. Agents are specialized roles—ranging from <code>General</code> to dedicated <code>Reviewer</code> units—that can be configured with precise parameters, including specific model selection (e.g., Zen), temperature settings, tool restrictions, and execution limits (<code>steps</code>) [Finding 1, Finding 2, Finding 7]. Crucially, OpenCode implements a robust <strong>Permission System</strong> that dictates every action an agent can take, offering three levels of control: <code>Ask</code> (user approval required), <code>Allow</code> (unrestricted use), or <code>Deny</code> (complete blockage) [Finding 2]. Furthermore, the integration of a persistent, multi-layered Memory System ensures that context is maintained across complex, multi-session development cycles, making OpenCode an enterprise-grade solution for managing large-scale software development lifecycles.</p>
+<hr>
+<h2 id="i-introduction-the-evolution-from-conversation-to-orchestration">I. Introduction: The Evolution from Conversation to Orchestration</h2>
+<figure class="section-image" data-img-url="https://developers.openai.com/og/api/docs/guides/agent-builder.png"><img src="https://developers.openai.com/og/api/docs/guides/agent-builder.png" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><button class="img-reroll-btn" type="button" title="Swap for another image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg></button><button class="img-hide-btn" type="button" title="Hide image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></figure>
+
+<p>The modern software development lifecycle (SDLC) demands tools capable of handling complexity, collaboration, and state management at scale. Traditional AI coding assistants often operate in a conversational mode—responding sequentially to prompts—which can struggle with the multi-faceted nature of real-world engineering tasks, such as refactoring an entire module or executing a full CI/CD pipeline [Finding 7].</p>
+<p>OpenCode addresses this limitation by introducing the concept of specialized <strong>Agents</strong>. An Agent is not just an AI model; it is a defined role, equipped with specific instructions, permissions, and tools designed to execute focused tasks within a larger development goal [Finding 2, Finding 7]. This architectural shift transforms "conversational programming" into highly structured, multi-step workflows.</p>
+<p>The platform’s ability to support 'Multi-session' capabilities is particularly noteworthy, allowing multiple specialized agents to work in parallel on a single project codebase. This capability fundamentally changes the developer experience, enabling simultaneous tasks—for instance, one agent handling architecture design while another performs documentation updates and a third executes unit tests [Finding 1].</p>
+<h3 id="the-core-distinction-agents-vs-simple-prompts">The Core Distinction: Agents vs. Simple Prompts</h3>
+<p>The distinction between OpenCode's Agent model and simple prompt-based AI interaction is rooted in <strong>agency</strong> and <strong>state management</strong>. When a developer interacts with an agent, they are not simply asking for code; they are initiating a workflow that involves planning, executing, reviewing, and persisting changes across multiple files and environments [Finding 5].</p>
+<p>This structured approach is enforced through the system's core functional modes:
+1.  <strong>Planning (<code>Plan</code> mode):</strong> This read-only phase allows agents to thoroughly map out the implementation steps for a new feature before any code is written. It serves as a critical safety net, ensuring that all stakeholders understand the scope and complexity of changes [Finding 5, Finding 6].
+2.  <strong>Building (<code>Build</code> mode):</strong> This is the execution phase where the agent performs actual code modifications or simulates full CI/CD cycles. The transition from planning to building ensures traceability and controlled deployment [Finding 5, Finding 6].
+3.  <strong>Exploration (<code>Explore</code>/Search):</strong> Dedicated agents are assigned the role of codebase navigators, tasked with understanding the existing structure, dependencies, and historical context of the repository. This prevents "blind coding" and ensures that new features integrate seamlessly into established patterns [Finding 2, Finding 5].</p>
+<hr>
+<h2 id="ii-architectural-deep-dive-agent-specialization-and-interaction-flow">II. Architectural Deep Dive: Agent Specialization and Interaction Flow</h2>
+<p>The robustness of OpenCode is built upon a sophisticated agent hierarchy and interaction system, ensuring that complexity does not lead to chaos. The architecture clearly delineates roles, preventing any single AI unit from becoming an overly generalized "jack-of-all-trades" model.</p>
+<h3 id="primary-agents-vs-subagents-defining-roles">Primary Agents vs. Subagents: Defining Roles</h3>
+<p>The system establishes a clear separation between <strong>Primary Agents</strong> and <strong>Subagents</strong>.
+*   <strong>Primary Agents:</strong> These units manage the overarching conversational flow and overall task management (e.g., initiating <code>Build</code> or coordinating multiple subtasks). They act as project managers, maintaining the high-level context of the development cycle [Finding 2, Finding 7].
+*   <strong>Subagents:</strong> These are specialized workers invoked for highly focused tasks. Examples include a dedicated <code>General</code> agent for routine coding, or an <code>Explore</code> agent specifically tasked with codebase analysis [Finding 2].</p>
+<p>This hierarchical structure is crucial for efficiency. Instead of forcing one monolithic AI to handle everything—from high-level design decisions to low-level syntax fixes—the task is broken down and delegated. This delegation increases reliability and allows the system to maintain focus, leading to higher quality outputs in specialized domains [Finding 7].</p>
+<h3 id="workflow-control-invocation-methods">Workflow Control: Invocation Methods</h3>
+<p>OpenCode provides multiple methods for developers to interact with this complex agent ecosystem, ensuring seamless workflow management regardless of the developer's preferred interface:
+1.  <strong>Direct Mention (<code>@AgentName</code>):</strong> This is the most granular form of control. By directly mentioning a subagent within the conversation, the user explicitly directs the system’s focus and task execution to that specialized unit [Finding 7].
+2.  <strong>Command Line Interface (CLI):</strong> Using commands like <code>/agents</code> allows developers to programmatically switch the default active agent, providing an explicit mechanism for controlling the operational context of the session [Finding 7].
+3.  <strong>Default Configuration:</strong> The ability to define a primary agent within the project configuration (<code>opencode.json</code>) ensures that even when no specific command is given, the system defaults to a pre-approved and optimized workflow manager [Finding 2, Finding 7].</p>
+<hr>
+<h2 id="iii-granular-control-configuration-permissions-and-customization">III. Granular Control: Configuration, Permissions, and Customization</h2>
+<figure class="section-image" data-img-url="https://social-cards.sst.dev/opencode-docs/QWdlbnRz.png?desc=Configure%20and%20use%20specialized%20agents."><img src="https://social-cards.sst.dev/opencode-docs/QWdlbnRz.png?desc=Configure%20and%20use%20specialized%20agents." alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><button class="img-reroll-btn" type="button" title="Swap for another image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg></button><button class="img-hide-btn" type="button" title="Hide image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></figure>
+
+<p>The true power of OpenCode lies not just in its ability to run tasks, but in the developer's ability to <em>control</em> how those tasks are executed. The configuration layer is highly detailed, allowing for enterprise-level customization that mitigates risk and enforces organizational standards.</p>
+<h3 id="defining-agent-behavior-configuration-files">Defining Agent Behavior: Configuration Files</h3>
+<p>Agents are configured using structured files—either dedicated Markdown files or within the root <code>opencode.json</code> file [Finding 2, Finding 7]. This formalization of agent behavior is critical because it moves the AI from being a black-box utility to a predictable, auditable component of the development stack.</p>
+<p>The initialization process (<code>/init</code>) contributes significantly to this structure by analyzing the entire codebase and generating an <code>AGENTS.md</code> file. This generated document serves as a single source of truth, guiding all subsequent AI interactions and enforcing consistent coding standards across the entire repository [Finding 6, Finding 5].</p>
+<h3 id="the-depth-of-parameterization">The Depth of Parameterization</h3>
+<p>OpenCode allows developers to define every facet of an agent's operational profile through granular parameters:</p>
+<p><strong>1. Purpose and Role Definition:</strong>
+Every agent must have a detailed system prompt (<code>description</code>) that defines its specific purpose or role (e.g., "You are the Security Reviewer Agent, only focused on identifying SQL injection vulnerabilities") [Finding 2, Finding 7]. This level of detail is paramount; it acts as an internal guardrail for the AI, ensuring that even if the task scope expands, the agent remains within its defined expertise.</p>
+<p><strong>2. Model and Creativity Control:</strong>
+Users can specify both the underlying AI model and control the creative output via the <strong>Temperature</strong> parameter [Finding 1, Finding 2, Finding 7]. Furthermore, OpenCode supports specialized model selections, such as <strong>Zen</strong>, a curated selection of models optimized specifically for coding tasks. This ability to select or constrain the model ensures that the agent uses the most appropriate intelligence for the job—whether it requires highly creative problem-solving (higher temperature) or strict adherence to existing patterns (lower temperature).</p>
+<p><strong>3. Tool Restriction and Execution Limits:</strong>
+For maximum safety, agents can be restricted in their capabilities. A developer might create a 'reviewer' agent that is explicitly limited only to reading files, preventing accidental writes [Finding 5]. Similarly, setting an explicit limit on the number of steps (<code>steps</code>) an agent is permitted to take prevents runaway processes or infinite loops, ensuring predictable resource consumption and task completion [Finding 2].</p>
+<h3 id="the-critical-role-of-the-permission-system">The Critical Role of the Permission System</h3>
+<p>Perhaps the most crucial feature for enterprise adoption is the <strong>Permission system</strong>. This mechanism provides a granular, three-tiered control structure over what actions an agent can execute:
+*   <strong>Ask:</strong> The agent must pause and request explicit user approval before performing any action (e.g., writing to a file or running a command). This is ideal for high-risk operations where human oversight is mandatory [Finding 2].
+*   <strong>Allow:</strong> Grants the agent unrestricted use of a specific tool or capability, suitable for low-risk, highly trusted internal processes [Finding 2].
+*   <strong>Deny:</strong> Completely disables a tool or capability for that specific agent. This acts as an absolute veto power, ensuring that even if an agent attempts to misuse a function (like running arbitrary <code>bash</code> commands), the attempt is blocked by design [Finding 2].</p>
+<p>This layered permission model transforms the AI from a powerful but potentially unpredictable entity into a highly accountable and auditable collaborator.</p>
+<hr>
+<h2 id="iv-advanced-context-management-memory-safety-and-persistence">IV. Advanced Context Management: Memory, Safety, and Persistence</h2>
+<p>In complex development cycles that span multiple hours or even days, maintaining context—the "memory" of what has been decided, which files have changed, and the original user intent—is the single greatest challenge for any AI system. OpenCode tackles this through a sophisticated, multi-layered memory architecture.</p>
+<h3 id="persistent-memory-system-agent-memory">Persistent Memory System (Agent Memory)</h3>
+<p>The Agent Memory system is designed as a persistent knowledge layer that stores both project state and user requirements [Finding 8]. Its function is to inject stored memory blocks at the very beginning of <em>every</em> system prompt sent to the agent. This ensures maximum visibility, guaranteeing that the AI model always has access to the full context—the original goal, previous decisions, and current codebase status—before generating its next response or action [Finding 8].</p>
+<p>This persistence is vital for multi-session development. If a developer starts an architectural plan on Monday and returns Tuesday to refine it, the agent does not need to be reminded of the initial constraints; the memory system provides that context automatically [Finding 8].</p>
+<h3 id="scoping-safety-and-isolation">Scoping, Safety, and Isolation</h3>
+<p>The architecture implements sophisticated safety measures to ensure data integrity and knowledge isolation:
+*   <strong>Two-Tier Scoping:</strong> The memory system utilizes a robust two-tier scoping mechanism (Global or Project). This separation is critical for enterprise use cases. It allows the agent to learn general best practices across multiple projects (Global scope) while strictly isolating codebase-specific learnings and constraints within a single project boundary, preventing cross-contamination of knowledge [Finding 8].
+*   <strong>Atomic Write Patterns:</strong> To prevent catastrophic data corruption—a common failure point in automated systems—the architecture includes safety features like atomic write patterns. This means that any file modification or state change is treated as an indivisible unit; either the entire change succeeds, or nothing changes, guaranteeing system stability during agent interactions [Finding 8].</p>
+<hr>
+<h2 id="v-synthesis-and-comparative-analysis-why-opencode-matters">V. Synthesis and Comparative Analysis: Why OpenCode Matters</h2>
+<figure class="section-image" data-img-url="https://developers.openai.com/og/api/docs/guides/agents.png"><img src="https://developers.openai.com/og/api/docs/guides/agents.png" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><button class="img-reroll-btn" type="button" title="Swap for another image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg></button><button class="img-hide-btn" type="button" title="Hide image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></figure>
+
+<p>The integration of these components—specialized agents, granular permissions, persistent memory, and structured workflows—elevates OpenCode far beyond the capabilities of general-purpose LLMs used in coding assistance today. The system is not just a tool; it is an <strong>AI workflow orchestrator</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Implication for Developer Workflow</th>
+<th>Comparative Advantage (vs. General AI)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Multi-Session/Parallel Agents</strong></td>
+<td>Allows simultaneous, independent tasks (e.g., testing while documentation updates).</td>
+<td>Overcomes the sequential limitation of single-threaded conversational models.</td>
+</tr>
+<tr>
+<td><strong>Permission System (<code>Ask</code>/<code>Deny</code>)</strong></td>
+<td>Enforces corporate governance and auditability; mitigates risk in production environments.</td>
+<td>Provides necessary guardrails that general AI tools lack, making them suitable for regulated industries.</td>
+</tr>
+<tr>
+<td><strong>Persistent Memory &amp; Scoping</strong></td>
+<td>Guarantees context retention across days or weeks of work; maintains project isolation.</td>
+<td>Solves the "context window decay" problem inherent in stateless API calls.</td>
+</tr>
+<tr>
+<td><strong>Plan $\rightarrow$ Build Workflow</strong></td>
+<td>Forces a separation between conceptual design and execution, improving code quality.</td>
+<td>Prevents agents from jumping directly into coding without first validating the architectural approach.</td>
+</tr>
+</tbody>
+</table>
+<p>The agreement across all findings is clear: OpenCode’s strength lies in its ability to manage <em>state</em> and <em>process</em>, not just generate text. The combination of structured configuration (JSON/Markdown) with runtime control mechanisms (<code>@AgentName</code>, <code>/agents</code>) creates a predictable, auditable, and highly scalable development environment [Finding 7].</p>
+<hr>
+<h2 id="conclusion-answering-the-question">Conclusion: Answering the Question</h2>
+<p><strong>How do OpenCode AI Agents function?</strong></p>
+<p>OpenCode AI Agents function as specialized, configurable, and permission-controlled AI units that transform software development from simple conversational prompting into complex, orchestrated, multi-step workflows. They operate by defining specific roles (Primary vs. Subagents) and executing tasks through structured modes (<code>Plan</code>, <code>Build</code>, <code>Explore</code>).</p>
+<p>The system’s comprehensive nature is defined by three pillars:
+1.  <strong>Specialization:</strong> Agents are configured with detailed system prompts, model constraints (e.g., Zen), and tool restrictions to ensure they operate within a narrow, expert domain [Finding 2].
+2.  <strong>Control:</strong> The mandatory Permission System (<code>Ask</code>, <code>Allow</code>, <code>Deny</code>) provides developers with absolute control over the agent's capabilities, making the system safe for enterprise use [Finding 2].
+3.  <strong>Context:</strong> A persistent, scoped Memory System ensures that all actions are informed by a complete understanding of the project state and user intent across multiple sessions [Finding 8].</p>
+<p>In essence, OpenCode does not just write code; it manages the entire <em>process</em> of writing code, making it a powerful, reliable, and highly controllable AI collaborator for modern software engineering teams.</p>
+
+    <div class="sources-panel">
+<details>
+<summary>Sources (12)</summary>
+<div class="sources-list">
+<a href="https://developers.openai.com/tracks/building-agents" target="_blank" rel="noopener noreferrer"><span class="snum">1.</span><span>Building agents - developers.openai.com</span><span class="sdomain">developers.openai.com</span></a>
+<a href="https://developers.openai.com/api/docs/guides/agents" target="_blank" rel="noopener noreferrer"><span class="snum">2.</span><span>Agents SDK | OpenAI API</span><span class="sdomain">developers.openai.com</span></a>
+<a href="https://opencode.ai/" target="_blank" rel="noopener noreferrer"><span class="snum">3.</span><span>OpenCode | The open source AI coding agent</span><span class="sdomain">opencode.ai</span></a>
+<a href="https://opencode.ai/docs/agents/" target="_blank" rel="noopener noreferrer"><span class="snum">4.</span><span>Agents - opencode.ai</span><span class="sdomain">opencode.ai</span></a>
+<a href="https://developers.openai.com/api/docs/guides/agent-builder" target="_blank" rel="noopener noreferrer"><span class="snum">5.</span><span>Agent Builder | OpenAI API</span><span class="sdomain">developers.openai.com</span></a>
+<a href="https://github.com/pewdiepie-archdaemon/odysseus" target="_blank" rel="noopener noreferrer"><span class="snum">6.</span><span>Odysseus - self-hosted AI workspace - GitHub</span><span class="sdomain">github.com</span></a>
+<a href="https://computingforgeeks.com/setup-opencode-ai-coding-agent/" target="_blank" rel="noopener noreferrer"><span class="snum">7.</span><span>Setup OpenCode AI Coding Agent [Complete Guide] - ComputingForGeeks</span><span class="sdomain">computingforgeeks.com</span></a>
+<a href="https://opencode.ai/docs/" target="_blank" rel="noopener noreferrer"><span class="snum">8.</span><span>Intro | AI coding agent built for the terminal - opencode.ai</span><span class="sdomain">opencode.ai</span></a>
+<a href="https://opencodex.cc/en/tutorials/agent-setup" target="_blank" rel="noopener noreferrer"><span class="snum">9.</span><span>Opencode Agent Configuration Guide - Enable AI Team Collaboration ...</span><span class="sdomain">opencodex.cc</span></a>
+<a href="https://deepwiki.com/joshuadavidthomas/opencode-agent-memory/5-architecture" target="_blank" rel="noopener noreferrer"><span class="snum">10.</span><span>Architecture | joshuadavidthomas/opencode-agent-memory | DeepWiki</span><span class="sdomain">deepwiki.com</span></a>
+<a href="https://open-code.ai/en/docs/agents" target="_blank" rel="noopener noreferrer"><span class="snum">11.</span><span>AI Agents - Autonomous Coding - OpenCode Docs</span><span class="sdomain">open-code.ai</span></a>
+<a href="https://www.buildzn.com/blog/opencode-ai-agent-setup-production-ready-workflow-guide" target="_blank" rel="noopener noreferrer"><span class="snum">12.</span><span>OpenCode AI Agent Setup: Production-Ready Workflow Guide</span><span class="sdomain">buildzn.com</span></a>
+</div>
+</details>
+</div>
+
+    <div class="chat-cta"><button id="btn-chat-about" class="chat-cta-btn" data-research-id="rp-e80cfa14bcef"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Discuss</span></button><div class="chat-cta-hint">Opens a new chat with this report as context.</div></div>
+  </main>
+</div>
+
+<div class="report-footer">
+  Generated by Odysseus Deep Research · June 06, 2026 at 00:39
+</div>
+
+<script>
+(function() {
+  // ESC closes the report tab. window.close() works when the tab was
+  // opened via window.open() (which is how the panel launches it). If the
+  // browser blocks self-close (rare — e.g. report opened by direct URL),
+  // fall back to history.back() so ESC still feels responsive.
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'Escape' || e.defaultPrevented) return;
+    // Don't hijack ESC while typing in a field or with an open dropdown.
+    var t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    var menu = document.getElementById('export-menu');
+    if (menu && menu.classList.contains('open')) { menu.classList.remove('open'); return; }
+    try { window.close(); } catch (err) {}
+    // window.close() is a no-op when the tab wasn't script-opened; in that
+    // case fall back to navigation so the key isn't ignored.
+    setTimeout(function() { if (!window.closed) history.back(); }, 50);
+  });
+
+  // Export dropdown toggle
+  var exportBtn = document.getElementById('btn-export');
+  var exportMenu = document.getElementById('export-menu');
+  exportBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    exportMenu.classList.toggle('open');
+  });
+  document.addEventListener('click', function() { exportMenu.classList.remove('open'); });
+
+  // Save as PDF (browser print)
+  document.getElementById('btn-pdf').addEventListener('click', function() {
+    exportMenu.classList.remove('open');
+    window.print();
+  });
+
+  // Download HTML
+  document.getElementById('btn-html').addEventListener('click', function() {
+    exportMenu.classList.remove('open');
+    var blob = new Blob([document.documentElement.outerHTML], { type: 'text/html' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = document.title.replace(/[^a-z0-9]+/gi, '-').substring(0, 60) + '.html';
+    a.click();
+  });
+
+  // Per-image hide — fades the image out, then POSTs to the backend so
+  // future renders of this report skip the URL. Falls back to a silent
+  // no-op if there's no session_id (e.g. the report was opened from a
+  // saved-HTML download where the backend isn't reachable).
+  var __sessionId = "rp-e80cfa14bcef";
+  // Unused scraped images — the reroll pool. Each is used at most once.
+  var __spareImages = ["https://opengraph.githubassets.com/949f4307369597bddee31d1490b55189c295f15ec4a60b0c5487c8ebf1d21ed5/pewdiepie-archdaemon/odysseus", "https://computingforgeeks.com/wp-content/uploads/2026/03/setup-and-customize-opencode-ai-coding-agent.png", "https://social-cards.sst.dev/opencode-docs/SW50cm8%3D.png?desc=Get%20started%20with%20OpenCode.", "https://deepwiki.com/joshuadavidthomas/opencode-agent-memory/og-image.png?page=5", "https://www.buildzn.com/blog/opencode-ai-agent-setup-production-ready-workflow-guide/opengraph-image"];
+
+  // Persist a rejected URL so future renders skip it.
+  function __persistHide(url) {
+    if (!__sessionId || !url) return;
+    fetch('/api/research/' + encodeURIComponent(__sessionId) + '/hide-image', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: url }),
+    }).catch(function(err) { console.warn('hide-image POST failed', err); });
+  }
+
+  // Once the pool is empty, there's nothing to swap to — hide all reroll btns.
+  function __syncRerollAvailability() {
+    if (__spareImages.length === 0) {
+      document.querySelectorAll('.img-reroll-btn').forEach(function(b) { b.disabled = true; });
+    }
+  }
+
+  document.querySelectorAll('.img-hide-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault(); e.stopPropagation();
+      var wrap = btn.closest('[data-img-url]');
+      if (!wrap) return;
+      var url = wrap.dataset.imgUrl;
+      wrap.classList.add('fading');
+      setTimeout(function() { wrap.remove(); }, 280);
+      __persistHide(url);
+    });
+  });
+
+  // Reroll — swap the current image for the next unused scraped one, and
+  // persist-hide the rejected URL so it won't resurface on reload.
+  document.querySelectorAll('.img-reroll-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault(); e.stopPropagation();
+      // Per-button busy flag — a rapid double-click would otherwise both
+      // shift the spare pool, but only the second probe's image would land,
+      // silently consuming the first one. Bail until finish() clears it.
+      if (btn.dataset._busy === '1') return;
+      if (__spareImages.length === 0) { btn.disabled = true; return; }
+      var wrap = btn.closest('[data-img-url]');
+      if (!wrap) return;
+      var img = wrap.querySelector('img');
+      if (!img) return;
+      btn.dataset._busy = '1';
+      var oldUrl = wrap.dataset.imgUrl;
+      var newUrl = __spareImages.shift();
+      btn.classList.add('spinning');
+      // Swap once the new image has loaded (or failed) to avoid a flash of empty.
+      var probe = new Image();
+      var done = false;
+      var finish = function(ok) {
+        if (done) return; done = true;
+        btn.classList.remove('spinning');
+        delete btn.dataset._busy;
+        if (ok) {
+          img.src = newUrl;
+          wrap.dataset.imgUrl = newUrl;
+          __persistHide(oldUrl);
+        } else {
+          // Bad candidate — persist-hide it so it can't resurface on reload,
+          // then try the next spare if any remain. Busy flag already cleared
+          // so the synthetic click below proceeds.
+          __persistHide(newUrl);
+          if (__spareImages.length) btn.click();
+        }
+        __syncRerollAvailability();
+      };
+      probe.onload = function() { finish(true); };
+      probe.onerror = function() { finish(false); };
+      probe.src = newUrl;
+    });
+  });
+  __syncRerollAvailability();
+
+  // "Show hidden (N)" button — clears the hidden_images list on the
+  // server, then reloads the page so all images come back.
+  var restoreBtn = document.getElementById('btn-restore-images');
+  if (restoreBtn && __sessionId) {
+    restoreBtn.addEventListener('click', function() {
+      restoreBtn.disabled = true;
+      restoreBtn.textContent = 'Restoring…';
+      fetch('/api/research/' + encodeURIComponent(__sessionId) + '/unhide-images', {
+        method: 'POST', credentials: 'same-origin',
+      }).then(function() { window.location.reload(); })
+        .catch(function(err) {
+          restoreBtn.disabled = false;
+          restoreBtn.textContent = 'Failed — retry?';
+          console.warn('unhide-images POST failed', err);
+        });
+    });
+  }
+
+  // TOC: explicit smooth-scroll handler (some browsers/anchor plugins
+  // bypass the CSS `scroll-behavior: smooth` rule on hash clicks).
+  // Also keeps the URL hash updated and toggles an `.active` highlight.
+  var tocLinks = document.querySelectorAll('.toc-sidebar nav a[href^="#"]');
+  tocLinks.forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      var id = link.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', '#' + id);
+    });
+  });
+
+  // Highlight the TOC entry that matches whichever heading is currently
+  // closest to the top of the viewport. IntersectionObserver keeps it
+  // cheap (no scroll listener spam).
+  var tocMap = {};
+  tocLinks.forEach(function(link) {
+    tocMap[link.getAttribute('href').slice(1)] = link;
+  });
+  var activeId = null;
+  function setActive(id) {
+    if (id === activeId) return;
+    if (activeId && tocMap[activeId]) tocMap[activeId].classList.remove('active');
+    if (id && tocMap[id]) tocMap[id].classList.add('active');
+    activeId = id;
+  }
+  var headings = document.querySelectorAll('.content h2[id], .content h3[id]');
+  if (headings.length && 'IntersectionObserver' in window) {
+    var visible = new Set();
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(en) {
+        if (en.isIntersecting) visible.add(en.target.id);
+        else visible.delete(en.target.id);
+      });
+      // Pick the visible heading that's furthest down in document order
+      // before the current scroll — i.e. the section we're reading.
+      var current = null;
+      for (var i = 0; i < headings.length; i++) {
+        if (visible.has(headings[i].id)) { current = headings[i].id; break; }
+      }
+      if (current) setActive(current);
+    }, { rootMargin: '-10% 0px -75% 0px', threshold: 0 });
+    headings.forEach(function(h) { io.observe(h); });
+  }
+
+  // Chat about this research — POST to spinoff and redirect to the new chat
+  var chatBtn = document.getElementById('btn-chat-about');
+  if (chatBtn) {
+    chatBtn.addEventListener('click', function() {
+      var researchId = chatBtn.dataset.researchId;
+      if (!researchId) return;
+      var origLabel = chatBtn.innerHTML;
+      chatBtn.disabled = true;
+      chatBtn.innerHTML = '<span>Creating chat…</span>';
+      fetch('/api/research/spinoff/' + encodeURIComponent(researchId), {
+        method: 'POST', credentials: 'same-origin',
+      }).then(function(res) {
+        if (!res.ok) {
+          return res.json().then(function(d) {
+            throw new Error(d && d.detail ? d.detail : ('HTTP ' + res.status));
+          }, function() { throw new Error('HTTP ' + res.status); });
+        }
+        return res.json();
+      }).then(function(data) {
+        if (!data || !data.session_id) {
+          throw new Error('Server did not return a session id');
+        }
+        var url = '/#' + data.session_id;
+        var opened = false;
+        // The report typically opens in a new tab — if we have access to the
+        // original Odysseus tab, navigate it and close this report tab so the
+        // user lands directly in the new chat.
+        try {
+          if (window.opener && !window.opener.closed) {
+            window.opener.location.href = url;
+            window.opener.location.reload();
+            window.opener.focus();
+            opened = true;
+            window.close();
+          }
+        } catch (e) { /* cross-origin or detached opener — fall through */ }
+        if (!opened) {
+          // No opener (report was opened directly via URL) — open the chat in a
+          // new tab so the report stays available.
+          var w = window.open(url, '_blank');
+          if (w) {
+            chatBtn.disabled = false;
+            chatBtn.innerHTML = '<span>Chat opened in new tab</span>';
+          } else {
+            // Popup blocked — navigate this tab as a last resort.
+            window.location.href = url;
+            window.location.reload();
+          }
+        }
+      }).catch(function(err) {
+        chatBtn.disabled = false;
+        chatBtn.innerHTML = origLabel;
+        alert('Could not start follow-up chat: ' + err.message);
+      });
+    });
+  }
+})();
+
+// Colorize comparison table cells
+if (document.body.classList.contains('category-comparison')) {
+  const pos = /^(yes|excellent|best|great|strong|fast|high|superior|winner|free|unlimited|native|full|advanced|built[- ]in|✓|✅|⭐)/i;
+  const neg = /^(no|none|poor|weak|slow|low|limited|lacking|missing|basic|minimal|✗|❌|N\/A$)/i;
+  const mid = /^(moderate|average|fair|partial|some|decent|okay|mixed|varies|depends)/i;
+  document.querySelectorAll('.content table td').forEach(td => {
+    if (td.cellIndex === 0) return;
+    const t = td.textContent.trim();
+    if (pos.test(t)) td.classList.add('cmp-pos');
+    else if (neg.test(t)) td.classList.add('cmp-neg');
+    else if (mid.test(t)) td.classList.add('cmp-mid');
+  });
+}
+</script>
+
+
+<iframe frameborder="0" scrolling="no" style="background-color: transparent; border: 0px; display: none;"></iframe><div id="GOOGLE_INPUT_CHEXT_FLAG" input="en-t-k0-und" input_stat="{&quot;tlang&quot;:true,&quot;tsbc&quot;:true,&quot;pun&quot;:true,&quot;mk&quot;:true,&quot;ss&quot;:true}" style="display: none;"></div><iframe frameborder="0" scrolling="no" src="chrome-extension://mclkkofklkfljcocdinagocijmpgbhab/keyboard.html?origin=http%3A%2F%2F127.0.0.1%3A7000" style="background-color: transparent; border: 0px; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 16px 0px; box-sizing: content-box; height: 211px; margin: 0px; position: fixed; width: 517px; z-index: 2147483644; left: 537px; top: 697px; display: none;"></iframe></body></html>

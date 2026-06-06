@@ -1,0 +1,59 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "permission": {
+        "bash": {
+            "*": "ask",
+            "git diff *": "allow",
+            "git status *": "allow",
+            "npm *": "allow",
+            "uv *": "allow",
+            "python3 *": "allow",
+            "grep *": "allow",
+            "find *": "allow",
+            "wc *": "allow",
+            "echo *": "allow",
+            "ls *": "allow",
+            "head *": "allow"
+        },
+        "edit": {
+            "*": "ask",
+            "~/*": "allow"
+        },
+        "read": {
+            "*": "allow",
+            "*.env": "deny",
+            "*.env.*": "deny",
+            "*.env.example": "allow"
+        },
+        "external_directory": {
+            "*": "ask",
+            "~/*": "allow"
+        }
+    },
+    "provider": {
+        "ollama": {
+            "npm": "@ai-sdk/openai-compatible",
+            "name": "Ollama (local)",
+            "options": {
+                // Look up host ip for WSL
+                // ip route show | grep -i default | awk '{ print $3}'
+                "baseURL": "http://172.21.48.1:11434/v1"
+            },
+            "models": {
+                "gemma": {
+                    "tools": true,
+                    "name": "gemma"
+                },
+                "qwen": {
+                    "tools": true,
+                    "name": "qwen"
+                },
+                "deepseek": {
+                    "tools": true,
+                    "name": "deepseek"
+                }
+            }
+        }
+    },
+    "small_model": "deepseek"
+}
