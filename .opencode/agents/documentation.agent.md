@@ -8,7 +8,7 @@ permission:
   glob: allow
   grep: allow
   bash: deny
-  task: allow
+  task: deny
   skill: allow
   lsp: deny
   question: allow
@@ -40,7 +40,7 @@ Keep repository documentation aligned with shipped code, workflow customizations
 - Confirm deletes or major scope shifts with `question` before removing docs.
 - Prefer the smallest coherent change that restores accuracy.
 - Update sibling docs in the same pass when a move or rename would leave stale links.
-- Hand back to `Implementation Agent` when the missing fact is still undecided in source.
+- Return to `Coordinator Agent` when the missing fact is still undecided in source so the coordinator can route it.
 
 ## Questioning Discipline
 

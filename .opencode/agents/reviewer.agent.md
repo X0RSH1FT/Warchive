@@ -92,3 +92,4 @@ Before concluding a review, make sure you have:
 - stated whether the review exhausted the plan-derived work for the current pass and named the next planned step when it did not
 - labeled any extra non-plan follow-up as a suggestion outside the plan
 - made a clear keep, revise, or safe-to-proceed recommendation
+- returned results to `Coordinator Agent` for routing and further action

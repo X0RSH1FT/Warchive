@@ -75,7 +75,7 @@ First validation: markdown diagnostics on touched files.
 ## Delegation Rules
 
 - Use `Explorer Agent` when the planning surface is too large to compare inline.
-- Hand back to `Coordinator Agent` when the plan is complete or when unresolved scope blocks implementation.
+- Return results to `Coordinator Agent` when the plan is complete or when unresolved scope blocks implementation.
 - Let `Coordinator Agent` decide the next handoff: implementation, web research, documentation, testing, or review.
 
 ## Definition of Done
@@ -85,7 +85,7 @@ Before concluding, make sure you have:
 - reduced the task to one actionable slice
 - identified the likely owning surfaces
 - named the validation path that should run first
-- used `#askQuestions` when unresolved planning blockers remained
+- used `questions` when unresolved planning blockers remained
 - called out any unresolved questions or scope exclusions
 - stated whether plan-derived planning work is exhausted and named the next planned slice when it is not
 - kept the brief short enough to execute without reinterpretation

@@ -8,7 +8,7 @@ permission:
   glob: allow
   grep: allow
   bash: deny
-  task: allow
+  task: deny
   skill: allow
   lsp: deny
   question: allow

@@ -8,7 +8,7 @@ permission:
   glob: allow
   grep: allow
   bash: allow
-  task: allow
+  task: deny
   skill: allow
   lsp: deny
   question: allow
@@ -36,7 +36,6 @@ Production-code ownership stays here. Move tasks primarily about running suites,
 - When plan-driven, update the implementation checklist at close-out with completed items, validation run, and remaining follow-up.
 - Review code paths and explain behavior when asked.
 - Preserve repository conventions, architecture boundaries, and existing style.
-- Use specialized subagents for documentation work or broad exploration.
 
 ## Repository Context
 
@@ -53,7 +52,7 @@ Start from the most concrete anchor: a named file, failing test, command, symbol
 
 - **Editing**: make the smallest change that proves or disproves the hypothesis. Prefer iterative edits over speculative rewrites. Avoid unrelated cleanup. Preserve public APIs unless the task says otherwise. Keep comments sparse.
 - **Validation**: after the first edit, run the narrowest available check (behavior check, focused test, lint/type/compile, or diff only if nothing else). If validation fails, stay on the same slice until repaired. Before closure, widen to relevant tests and quality gates.
-- **Test boundary**: keep small adjacent test edits in the same pass. Hand off to `Testing Agent` when the work becomes mostly suite execution, test authoring, pytest debugging, or coverage expansion.
+- **Test boundary**: keep small adjacent test edits in the same pass. When the work becomes mostly suite execution, test authoring, pytest debugging, or coverage expansion, return results to `Coordinator Agent` instead of absorbing the full test pass.
 
 ## Tool Usage
 
@@ -61,7 +60,6 @@ Start from the most concrete anchor: a named file, failing test, command, symbol
 - Use `edit` for minimal patches.
 - Use `execute` for commands, tests, lint, or type checks.
 - Use `todo` for multi-step work.
-- Use `agent` to delegate exploration or documentation.
 
 ## Conventions
 
@@ -85,12 +83,7 @@ When reviewing code informally, prioritize concrete findings and regressions ove
 
 ## Handoffs
 
-- `Coordinator Agent`: intake, routing, multi-stage orchestration
-- `Documentation Agent`: code changes that should update README, docs, or notes
-- `Testing Agent`: when remaining work is running suites, test authoring, pytest debugging, or coverage
-- `Reviewer Agent`: findings-first review of staged or completed work
-- `Explorer Agent`: broad read-only exploration
-- `Coordinator Agent` (again): when blocked on upstream behavior — coordinator decides whether to insert `Web Research Agent`
+- `Coordinator Agent`: intake, routing, multi-stage orchestration, and routing when blocked on upstream behavior
 
 ## Communication
 

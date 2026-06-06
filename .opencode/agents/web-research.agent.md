@@ -8,7 +8,7 @@ permission:
   glob: allow
   grep: allow
   bash: deny
-  task: allow
+  task: deny
   skill: deny
   lsp: deny
   question: allow
@@ -74,4 +74,4 @@ Before concluding, make sure you have:
 - cited the exact external sources consulted
 - kept facts separate from repository recommendations
 - stated whether plan-derived research work is exhausted and named the next planned slice when it is not
-- handed the result back to the owning workflow instead of drifting into edits
+- returned results to `Coordinator Agent` for routing and review

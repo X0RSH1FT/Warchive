@@ -1,3 +1,5 @@
+// echo "" > /home/x0rsh1ft/.config/opencode/opencode.jsonc
+// nano /home/x0rsh1ft/.config/opencode/opencode.jsonc
 {
     "$schema": "https://opencode.ai/config.json",
     "permission": {
@@ -51,9 +53,13 @@
                 "deepseek": {
                     "tools": true,
                     "name": "deepseek"
+                },
+                "gpt": {
+                    "tools": true,
+                    "name": "gpt"
                 }
             }
         }
     },
-    "small_model": "deepseek"
+    "small_model": "mini"
 }

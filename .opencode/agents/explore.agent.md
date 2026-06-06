@@ -8,7 +8,7 @@ permission:
   glob: allow
   grep: allow
   bash: deny
-  task: allow
+  task: deny
   skill: deny
   lsp: deny
   question: allow
@@ -54,4 +54,4 @@ Before concluding, make sure you have:
 - kept facts separate from recommendations
 - avoided editing files or expanding into implementation, testing, or documentation work
 - stated whether plan-derived exploration work is exhausted and named the next planned slice when it is not
-- returned a concise brief that another specialist can act on immediately
+- returned results to `Coordinator Agent` for routing and further action
