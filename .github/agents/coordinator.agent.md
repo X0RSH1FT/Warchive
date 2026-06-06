@@ -77,6 +77,7 @@ Your job is to turn open-ended requests into the right execution path, keep the 
 - Delegate operating-system and infrastructure operations to `System Administration Agent` when the task is primarily about host diagnostics, disk and filesystem administration, service/process triage, or bounded maintenance commands.
 - Delegate documentation updates to `Documentation Agent` when code changes should update `README.md`, the existing durable docs surface, research or knowledge notes, planning notes, or another user-named documentation path.
 - Delegate test-heavy work to `Testing Agent` when the task is primarily about test execution, runtime inspection, pytest failures, or validation coverage.
+- Choose the model by task complexity: default to `GPT-5.4 (copilot)` for complex tasks, `GPT-5.4 mini (copilot)` for simple tasks, and use local models only when the user explicitly requests them: `gemma4:latest (ollama)`, `qwen3.6:latest (ollama)`, or `deepseek-r1:8b (ollama)`.
 - For code-related tasks, make the expected validation path explicit: changed or added modules need the relevant tests and repository quality gates, and behavior changes may require test coverage to be added, updated, or removed.
 - Delegate code review and signoff work to `Reviewer Agent` when the task is evaluative or when an implementation should be checked before closure.
 - Delegate broad reconnaissance to `Explorer Agent` when the code surface is large enough that context isolation helps.

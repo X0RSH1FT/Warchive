@@ -32,28 +32,29 @@ agent: Coordinator Agent
    - `Web Research Agent` for narrow upstream-doc validation when planning, implementation, or documentation work depends on trusted external product facts before editing should continue
    - `Testing Agent` for running focused or full validation passes, writing or expanding tests, debugging pytest failures, choosing the narrowest useful validation slice, or reporting residual testing gaps
    - `Reviewer Agent` for findings-first review and signoff
-12. For planning, research, implementation, documentation, testing, exploration, or review work, use `#askQuestions` before dispatch when decisions still need confirmation, and follow the canonical rule.
-13. Before dispatching, provide a short brief that names the task, the anchor, the expected output, and the first validation step. If the task came from attached docs, treat the candidate derivation itself as specialist work and summarize the delegated selection pass rather than deriving the candidates inline.
-14. When work is driven from a planning document, ask the owning specialist to update that same document before coding to record:
+12. Choose an appropriate model for the subagent. Model selection should follow task complexity: default to `GPT-5.4 (copilot)` for complex tasks, `GPT-5.4 mini (copilot)` for simple tasks. Use local models only when the user explicitly requests them: `gemma4:latest (ollama)`, `qwen3.6:latest (ollama)`, or `deepseek-r1:8b (ollama)`.
+13. For planning, research, implementation, documentation, testing, exploration, or review work, use `#askQuestions` before dispatch when decisions still need confirmation, and follow the canonical rule.
+14. Before dispatching, provide a short brief that names the task, the anchor, the expected output, and the first validation step. If the task came from attached docs, treat the candidate derivation itself as specialist work and summarize the delegated selection pass rather than deriving the candidates inline.
+15. When work is driven from a planning document, ask the owning specialist to update that same document before coding to record:
    - the selected task
    - any clarification answers
    - any agreed scope adjustments
-15. Keep the conversation focused on the active stage. Do not interleave planning, implementation, documentation, testing, and review inside the same specialist pass. For code-related work, apply the canonical validation and review rule, and adjust test coverage when behavior or contracts change.
-16. After each delegated stage, synthesize what changed, what was validated, whether the plan-derived work is exhausted, and what the next recommended plan-derived handoff is when it is not.
-17. If the active stage uncovers scope drift, a new owner, or a missing prerequisite, reroute instead of forcing the current specialist to keep going out of lane.
-18. If the task ends in planning:
+16. Keep the conversation focused on the active stage. Do not interleave planning, implementation, documentation, testing, and review inside the same specialist pass. For code-related work, apply the canonical validation and review rule, and adjust test coverage when behavior or contracts change.
+17. After each delegated stage, synthesize what changed, what was validated, whether the plan-derived work is exhausted, and what the next recommended plan-derived handoff is when it is not.
+18. If the active stage uncovers scope drift, a new owner, or a missing prerequisite, reroute instead of forcing the current specialist to keep going out of lane.
+19. If the task ends in planning:
    - confirm whether the planned slice should proceed now
    - dispatch `Web Research Agent` first when the plan shows that a narrow upstream-doc check is the cheapest missing prerequisite
    - dispatch `Implementation Agent` when code changes are the next step
    - dispatch `Documentation Agent` or `Testing Agent` first only when the plan shows that code is not the immediate next owner
-19. If the task ends in research:
+20. If the task ends in research:
    - clarify the target surface, comparison baseline, intended audience, and output path when any of those are unclear
    - use `Web Research Agent` first when the target question depends on trusted upstream product or external documentation; use `Explorer Agent` first when the question is about the local repository surface or owning path
    - honor an explicit output path; otherwise default durable research notes to `docs/research/<slug>.md` when that surface exists and ask before creating a separate planning-notes bucket or another new documentation directory
    - dispatch `Documentation Agent` when the deliverable should be authored or updated as a repo document
    - stay in research mode unless the user explicitly expands scope into implementation work
    - summarize the best next implementation or experiment path when one naturally follows
-20. If the task ends in implementation:
+21. If the task ends in implementation:
    - dispatch `Web Research Agent` before further edits when the implementation is blocked on an external product fact that the repository has not already validated locally
    - apply the canonical validation and review rule, and add, update, or remove test coverage when behavior or contracts changed
    - dispatch `Documentation Agent` before review when code changes alter user-facing behavior, file layout, commands, config, or durable docs
@@ -62,11 +63,11 @@ agent: Coordinator Agent
    - update the implementation checklist or planning document that guided the work with completed items, validation run, and remaining follow-up items before review handoff
    - for non-trivial scope, route to `Reviewer Agent` unless the user explicitly opts out
    - provide a concise, imperative commit message scoped to the changed files
-21. If the task ends in review and there are actionable findings:
+22. If the task ends in review and there are actionable findings:
    - use `#askQuestions` and follow the canonical rule to confirm the follow-up pass
    - if the user approves, immediately hand off to `Testing Agent` when the dominant follow-up is full-suite or quality-gate validation, test authoring, pytest debugging, or validation coverage; otherwise hand off to `Implementation Agent`
    - if the user declines, stop after the review summary and record that the fix pass was waived
-22. If the task ends in review with no actionable findings, say so explicitly, then summarize residual risk or validation gaps if any remain, whether plan-derived work is exhausted, and any extra idea only as a suggestion outside the plan.
+23. If the task ends in review with no actionable findings, say so explicitly, then summarize residual risk or validation gaps if any remain, whether plan-derived work is exhausted, and any extra idea only as a suggestion outside the plan.
 
 Example response shape:
 - Task: update the import workflow described in an attached planning note.

@@ -1,0 +1,1120 @@
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Definitive Guide to UV: Mastering Python Dependency Management and Virtual Environments</title>
+<meta name="description" content="Estimated Time to Mastery: 1–2 Hours Initial Setup
+Difficulty Level: Intermediate Requires understanding of virtual environments and dependency resolution conce">
+<meta property="og:title" content="The Definitive Guide to UV: Mastering Python Dependency Management and Virtual Environments">
+<meta property="og:description" content="Estimated Time to Mastery: 1–2 Hours Initial Setup
+Difficulty Level: Intermediate Requires understanding of virtual environments and dependency resolution conce">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://mathspp.com/blog/uv-cheatsheet/thumbnail.webp">
+<meta name="theme-color" content="#b8543a" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131214" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='75' font-size='75'&gt;O&lt;/text&gt;&lt;/svg&gt;">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --font-display: 'Charter', 'Iowan Old Style', Georgia, serif;
+  --font-body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --bg: #fbf9f4;
+  --bg-surface: #ffffff;
+  --bg-surface-alt: #f1ede4;
+  --border: rgba(0,0,0,0.08);
+  --border-strong: rgba(0,0,0,0.16);
+  --text: #1a1817;
+  --text-dim: #5a5651;
+  --text-muted: #8a8580;
+  --accent: #b8543a;
+  --accent-light: #d97a5e;
+  --accent-bg: rgba(184,84,58,0.06);
+  --gold: #c9952e;
+  --gold-bg: rgba(201,149,46,0.09);
+  --aurora-a: rgba(184,84,58,0.10);
+  --aurora-b: rgba(201,149,46,0.08);
+  --aurora-c: rgba(64,98,128,0.07);
+  --radius: 12px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 24px rgba(0,0,0,0.07);
+  --max-w: 760px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #131214; --bg-surface: #1c1a1e; --bg-surface-alt: #25232a;
+    --border: rgba(255,255,255,0.07); --border-strong: rgba(255,255,255,0.16);
+    --text: #ece8e2; --text-dim: #a8a39c; --text-muted: #6f6b66;
+    --accent: #e88f73; --accent-light: #f4ad95; --accent-bg: rgba(232,143,115,0.09);
+    --gold: #e8c05a; --gold-bg: rgba(232,192,90,0.09);
+    --aurora-a: rgba(232,143,115,0.13);
+    --aurora-b: rgba(232,192,90,0.09);
+    --aurora-c: rgba(125,180,224,0.10);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.4); --shadow-md: 0 4px 28px rgba(0,0,0,0.55);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Give smooth-scroll some breathing room so anchors land below the
+     fixed toolbar instead of being shoved straight under it. */
+  scroll-padding-top: 4rem;
+}
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  font-size: 17px;
+  font-feature-settings: 'ss01', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* ── Aurora background ─────────────────────────────────
+   Slowly-drifting layered blobs in the accent palette. Sits behind
+   the content, fixed to the viewport so scrolling doesn't reset the
+   composition. Subtle grain on top stops it reading as 'flat CSS'. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: -20vh -20vw;
+  z-index: -2;
+  background:
+    radial-gradient(40vw 50vh at 18% 22%, var(--aurora-a) 0%, transparent 60%),
+    radial-gradient(45vw 55vh at 82% 12%, var(--aurora-b) 0%, transparent 65%),
+    radial-gradient(55vw 60vh at 50% 88%, var(--aurora-c) 0%, transparent 70%);
+  filter: blur(20px);
+  animation: aurora-drift 28s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* Subtle film-grain — SVG turbulence baked to a data-URL. */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.32 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+}
+@keyframes aurora-drift {
+  0%   { transform: translate3d(0,0,0) scale(1);     }
+  50%  { transform: translate3d(2vw,-1vh,0) scale(1.04); }
+  100% { transform: translate3d(-1vw,1.5vh,0) scale(1.02); }
+}
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: none; }
+}
+
+/* ── Toolbar (top-right) ──────────────────────────── */
+.toolbar {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
+  display: flex;
+  gap: 0.4rem;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.toolbar:hover { opacity: 1; }
+.toolbar button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--bg-surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.15s;
+  position: relative;
+}
+.toolbar button:hover { background: var(--bg-surface-alt); }
+.toolbar button svg { width: 14px; height: 14px; flex-shrink: 0; }
+.toolbar .toast {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--text);
+  color: var(--bg);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s;
+  pointer-events: none;
+}
+.toolbar .toast.show { opacity: 1; }
+.dropdown { position: relative; }
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  min-width: 140px;
+}
+.dropdown-menu.open { display: block; }
+.dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 8px 14px;
+  border: none;
+  background: none;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.8rem;
+  text-align: left;
+  cursor: pointer;
+}
+.dropdown-menu button:hover { background: var(--bg-surface-alt); }
+
+/* ── Hero ──────────────────────────────────────────── */
+.hero {
+  position: relative;
+  background: transparent;
+  color: var(--text);
+  padding: 5.5rem 2rem 2.5rem;
+  text-align: center;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 40%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 70%);
+  pointer-events: none;
+}
+/* A hair-thin gradient hairline divider under the hero to anchor it
+   without putting it on a heavy boxed background. */
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 50%; bottom: 0;
+  width: min(60%, 320px);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+}
+.hero-label {
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--accent);
+  opacity: 0.85;
+  margin-bottom: 1.4rem;
+  font-family: var(--font-body);
+}
+.hero h1 {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 600;
+  font-variation-settings: 'opsz' 120, 'SOFT' 50;
+  line-height: 1.15;
+  max-width: 720px;
+  margin: 0 auto;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+/* ── Hero image ───────────────────────────────────── */
+.hero-image {
+  max-width: var(--max-w);
+  margin: -2rem auto 0;
+  position: relative;
+  z-index: 1;
+  padding: 0 2rem;
+}
+.hero-image img {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  display: block;
+}
+
+/* ── Section images ───────────────────────────────── */
+.section-image {
+  margin: 1.5rem 0;
+  position: relative;
+}
+.section-image img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  display: block;
+}
+
+/* ── Per-image hide button ────────────────────────────
+   A small X that appears on hover (or always on touch) so users can
+   remove irrelevant OG images. Click POSTs the URL to the backend so
+   the next render skips it. */
+.img-hide-btn {
+  position: absolute;
+  top: 10px; right: 10px;
+  width: 28px; height: 28px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease, transform 0.05s ease;
+  z-index: 2;
+  padding: 0;
+}
+.hero-image .img-hide-btn { top: 14px; right: 2.5rem; }
+/* Reroll sits just to the left of the hide button. */
+.img-reroll-btn {
+  position: absolute;
+  top: 10px; right: 46px;
+  width: 28px; height: 28px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease, transform 0.05s ease;
+  z-index: 2;
+  padding: 0;
+}
+.hero-image .img-reroll-btn { top: 14px; right: calc(2.5rem + 36px); }
+.section-image:hover .img-hide-btn,
+.section-image:hover .img-reroll-btn,
+.hero-image:hover .img-hide-btn,
+.hero-image:hover .img-reroll-btn { opacity: 1; }
+.img-hide-btn:hover { background: var(--accent); }
+.img-reroll-btn:hover { background: var(--accent); }
+.img-hide-btn:active,
+.img-reroll-btn:active { transform: scale(0.92); }
+.img-reroll-btn.spinning svg { animation: img-reroll-spin 0.6s linear infinite; }
+.img-reroll-btn:disabled { display: none; }
+@keyframes img-reroll-spin { to { transform: rotate(360deg); } }
+@media (hover: none) {
+  /* Touch devices have no hover — show the buttons at low opacity always. */
+  .img-hide-btn, .img-reroll-btn { opacity: 0.7; }
+}
+.section-image.fading,
+.hero-image.fading {
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* ── Stats bar ─────────────────────────────────────── */
+.stats-bar {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 0.9rem 2rem;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+.stat { display: flex; align-items: center; gap: 0.35rem; }
+.stat-value { font-weight: 600; color: var(--text); }
+
+/* ── Layout ────────────────────────────────────────── */
+.layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  max-width: calc(var(--max-w) + 260px);
+  margin: 0 auto;
+}
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .toc-sidebar { display: none; }
+}
+
+/* ── TOC sidebar ───────────────────────────────────── */
+.toc-sidebar {
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  padding: 3.2rem 0.8rem 2rem 1.4rem;
+  border-right: 1px solid var(--border);
+  font-size: 0.78rem;
+}
+.toc-sidebar nav { position: relative; }
+.toc-sidebar nav a {
+  position: relative;
+  display: block;
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 0.42rem 0.7rem 0.42rem 0.85rem;
+  margin: 1px 0;
+  border-radius: 6px;
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+  transition: color 0.18s ease, background 0.18s ease, padding-left 0.18s ease;
+}
+/* Sliding accent indicator on the left edge of each TOC link */
+.toc-sidebar nav a::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  width: 2px; height: 0;
+  background: var(--accent);
+  transform: translateY(-50%);
+  border-radius: 1px;
+  transition: height 0.18s ease, opacity 0.18s ease;
+  opacity: 0;
+}
+.toc-sidebar nav a:hover {
+  color: var(--text);
+  background: var(--accent-bg);
+  padding-left: 1rem;
+}
+.toc-sidebar nav a:hover::before {
+  height: 60%;
+  opacity: 1;
+}
+.toc-sidebar nav a.active {
+  color: var(--accent);
+  font-weight: 600;
+  background: var(--accent-bg);
+}
+.toc-sidebar nav a.active::before {
+  height: 80%;
+  opacity: 1;
+}
+.toc-sidebar nav a.depth-3 {
+  padding-left: 1.3rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+.toc-sidebar nav a.depth-3:hover { padding-left: 1.45rem; }
+
+/* ── Content ───────────────────────────────────────── */
+.content { max-width: var(--max-w); padding: 3rem 2.5rem 4rem; }
+
+/* Display headings — Fraunces optical-size driven so they get more
+   contrast and personality at the larger end. */
+.content h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 2.4vw, 1.85rem);
+  font-weight: 600;
+  font-variation-settings: 'opsz' 96, 'SOFT' 50;
+  margin: 3rem 0 1rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(90deg, var(--accent) 0%, transparent 65%) 1;
+  letter-spacing: -0.022em;
+  line-height: 1.2;
+  color: var(--text);
+}
+.content h2:first-child { margin-top: 0; }
+.content h3 {
+  font-family: var(--font-display);
+  font-size: 1.22rem;
+  font-weight: 600;
+  font-variation-settings: 'opsz' 32;
+  margin: 2.2rem 0 0.6rem;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+.content h4 {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  margin: 1.6rem 0 0.5rem;
+}
+.content p { margin-bottom: 1.1rem; hanging-punctuation: first last; }
+
+/* Drop cap on the very first paragraph of the body — old-school editorial
+   touch that anchors the reader. */
+.content > p:first-of-type::first-letter,
+.content > h2:first-child + p::first-letter {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-variation-settings: 'opsz' 144;
+  font-size: 3.6em;
+  line-height: 0.85;
+  float: left;
+  margin: 0.15em 0.12em 0 -0.04em;
+  color: var(--accent);
+}
+
+.content a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s, color 0.15s;
+}
+.content a:hover {
+  text-decoration-color: var(--accent);
+  color: var(--accent-light);
+}
+.content ul, .content ol { margin: 0 0 1.1rem 1.6rem; }
+.content li { margin-bottom: 0.4rem; }
+.content li::marker { color: var(--accent); }
+.content li > ul, .content li > ol { margin-top: 0.4rem; margin-bottom: 0; }
+.content blockquote {
+  position: relative;
+  border-left: 3px solid var(--gold);
+  background: var(--gold-bg);
+  padding: 1.1rem 1.4rem 1.1rem 2.6rem;
+  margin: 1.5rem 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+.content blockquote::before {
+  content: '\201C';
+  position: absolute;
+  left: 0.5rem; top: 0.3rem;
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-style: normal;
+  color: var(--gold);
+  opacity: 0.5;
+  line-height: 1;
+}
+.content hr { border: none; height: 1px; background: linear-gradient(90deg, transparent, var(--border-strong), transparent); margin: 2rem 0; }
+.content code { font-family: var(--font-mono); font-size: 0.86em; background: var(--bg-surface-alt); padding: 0.15em 0.4em; border-radius: 4px; }
+.content pre { background: var(--bg-surface-alt); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; overflow-x: auto; margin: 1.25rem 0; font-size: 0.86rem; line-height: 1.6; }
+.content pre code { background: none; padding: 0; }
+.content table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.9rem; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
+.content th { text-align: left; padding: 0.7rem 1rem; background: var(--accent-bg); font-weight: 600; border-bottom: 2px solid var(--border-strong); }
+.content td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+.content tr:last-child td { border-bottom: none; }
+.content tr:hover td { background: var(--accent-bg); }
+
+/* ── Sources (collapsible list) ───────────────────── */
+.sources-panel { margin-top: 3rem; border-top: 2px solid var(--border); padding-top: 1.5rem; }
+.sources-panel details { margin: 0; }
+.sources-panel summary {
+  display: flex; align-items: center; gap: 0.5rem;
+  cursor: pointer; font-size: 1rem; font-weight: 600;
+  color: var(--text); padding: 0.5rem 0; list-style: none;
+  user-select: none;
+}
+.sources-panel summary::-webkit-details-marker { display: none; }
+.sources-panel summary::before {
+  content: '\25B6'; font-size: 0.65em; color: var(--text-muted);
+  transition: transform 0.2s;
+}
+.sources-panel details[open] summary::before { transform: rotate(90deg); }
+.sources-list { padding: 0.5rem 0 0 0.25rem; }
+.sources-list a {
+  display: flex; align-items: baseline; gap: 0.5rem;
+  padding: 0.35rem 0; font-size: 0.85rem;
+  color: var(--text); text-decoration: none;
+  transition: color 0.15s;
+}
+.sources-list a:hover { color: var(--accent); }
+.sources-list .snum {
+  color: var(--text-muted); font-size: 0.75rem;
+  min-width: 1.5rem; text-align: right; flex-shrink: 0;
+}
+.sources-list .sdomain {
+  color: var(--text-muted); font-size: 0.75rem;
+  margin-left: auto; flex-shrink: 0;
+}
+
+/* ── Chat-about CTA ────────────────────────────────── */
+.chat-cta {
+  margin: 3rem 0 1rem; padding: 1.5rem;
+  text-align: center;
+  border: 1px solid var(--border); border-radius: 12px;
+  background: var(--bg-surface);
+}
+.chat-cta-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px; font-size: 0.95rem; font-weight: 600;
+  background: var(--accent); color: #fff;
+  border: none; border-radius: 8px; cursor: pointer;
+  font-family: inherit;
+  transition: filter 0.15s, transform 0.05s;
+}
+.chat-cta-btn:hover:not(:disabled) { filter: brightness(1.1); }
+.chat-cta-btn:active:not(:disabled) { transform: translateY(1px); }
+.chat-cta-btn:disabled { opacity: 0.6; cursor: progress; }
+.chat-cta-hint {
+  margin-top: 8px; font-size: 0.8rem; color: var(--text-muted);
+}
+
+/* ── Footer ────────────────────────────────────────── */
+.report-footer {
+  text-align: center; padding: 2rem; font-size: 0.75rem;
+  color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 2rem;
+}
+
+/* ── Animations ────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .content h2, .content h3, .content p, .content ul, .content ol,
+  .content blockquote, .content table, .content pre, .section-image {
+    animation: fadeUp 0.4s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* ── Print ─────────────────────────────────────────── */
+@media print {
+  .toc-sidebar, .toolbar { display: none !important; }
+  .layout { grid-template-columns: 1fr; }
+  .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+</style>
+</head>
+<body class="">
+
+<!-- Toolbar: Export + Restore hidden images -->
+<div class="toolbar">
+  
+  <div class="dropdown">
+    <button id="btn-export" title="Export">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+      Export ▾
+    </button>
+    <div class="dropdown-menu" id="export-menu">
+      <button id="btn-pdf">Save as PDF</button>
+      <button id="btn-html">Download HTML</button>
+    </div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-label">Odysseus — Deep Research Report</div>
+  <h1>The Definitive Guide to UV: Mastering Python Dependency Management and Virtual Environments</h1>
+</div>
+
+<div class="hero-image" data-img-url="https://mathspp.com/blog/uv-cheatsheet/thumbnail.webp"><img src="https://mathspp.com/blog/uv-cheatsheet/thumbnail.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><button class="img-reroll-btn" type="button" title="Swap for another image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg></button><button class="img-hide-btn" type="button" title="Hide image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div>
+
+<div class="stats-bar">
+  <div class="stat"><span class="stat-value">510.3s</span> Duration</div>
+  <div class="stat"><span class="stat-value">3</span> Rounds</div>
+  <div class="stat"><span class="stat-value">7</span> Queries</div>
+  <div class="stat"><span class="stat-value">25</span> URLs Analyzed</div>
+  <div class="stat"><span class="stat-value">gemma4:latest</span> Model</div>
+  <div class="stat"><span class="stat-value">duckduckgo</span> Search</div>
+</div>
+
+<div class="layout">
+  <aside class="toc-sidebar">
+    <nav>
+      <a href="#executive-summary" class="depth-2">Executive Summary</a>
+      <a href="#quick-guide" class="depth-2">Quick Guide</a>
+      <a href="#prerequisites" class="depth-2">Prerequisites</a>
+      <a href="#step-1-installation-initial-setup-the-foundation" class="depth-2">Step 1: Installation &amp; Initial Setup (The Foundation)</a>
+      <a href="#installing-uv" class="depth-3">Installing UV</a>
+      <a href="#verification-and-best-practices" class="depth-3">Verification and Best Practices</a>
+      <a href="#step-2-environment-management-and-scaffolding-isolation" class="depth-2">Step 2: Environment Management and Scaffolding (Isolation)</a>
+      <a href="#creating-isolated-virtual-environments" class="depth-3">Creating Isolated Virtual Environments</a>
+      <a href="#project-initialization-and-scaffolding" class="depth-3">Project Initialization and Scaffolding</a>
+      <a href="#step-3-dependency-management-the-core-workflow" class="depth-2">Step 3: Dependency Management (The Core Workflow)</a>
+      <a href="#adding-packages-the-uv-add-command" class="depth-3 active">Adding Packages: The uv add Command</a>
+      <a href="#managing-dependency-groups-and-extras" class="depth-3">Managing Dependency Groups and Extras</a>
+      <a href="#locking-and-reproducibility-the-lock-vs-sync-distinction" class="depth-3">Locking and Reproducibility: The lock vs. sync Distinction</a>
+      <a href="#step-4-execution-tooling-and-deployment-the-workflow" class="depth-2">Step 4: Execution, Tooling, and Deployment (The Workflow)</a>
+      <a href="#running-code-safely-with-uv-run" class="depth-3">Running Code Safely with uv run</a>
+      <a href="#managing-external-tools-pipx-replacement" class="depth-3">Managing External Tools (pipx Replacement)</a>
+      <a href="#building-and-exporting-artifacts" class="depth-3">Building and Exporting Artifacts</a>
+      <a href="#common-mistakes-and-pitfalls" class="depth-2">Common Mistakes and Pitfalls</a>
+      <a href="#mistake-1-confusing-uv-lock-and-uv-sync" class="depth-3">Mistake 1: Confusing uv lock and uv sync</a>
+      <a href="#mistake-2-forgetting-the-dev-flag" class="depth-3">Mistake 2: Forgetting the --dev Flag</a>
+      <a href="#mistake-3-over-reliance-on-system-python" class="depth-3">Mistake 3: Over-reliance on System Python</a>
+      <a href="#mistake-4-ignoring-the-lockfile-in-version-control" class="depth-3">Mistake 4: Ignoring the Lockfile in Version Control</a>
+      <a href="#conclusion-answering-the-question" class="depth-2">Conclusion: Answering the Question</a>
+    </nav>
+  </aside>
+  <main class="content">
+    <p><strong>Estimated Time to Mastery:</strong> 1–2 Hours (Initial Setup)
+<strong>Difficulty Level:</strong> Intermediate (Requires understanding of virtual environments and dependency resolution concepts)</p>
+<hr>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>UV is rapidly emerging as the most powerful, high-performance tool in the modern Python developer toolkit. Designed by Astral, it aims to solve the long-standing pain points associated with traditional package managers like <code>pip</code>, <code>poetry</code>, and <code>venv</code>—namely, slow dependency resolution, complex environment setup, and inconsistent build processes. This comprehensive guide serves as a definitive cheatsheet and deep dive into UV's command line interface (CLI). It moves beyond simple syntax listing to explain the <em>workflow</em> of modern Python development: how to initialize a project, manage dependencies across different groups (development vs. production), ensure absolute reproducibility via lockfiles, and execute code safely within isolated environments. By mastering these commands, developers can dramatically accelerate their setup time and increase the reliability of their deployments.</p>
+<hr>
+<h2 id="quick-guide">Quick Guide</h2>
+<figure class="section-image" data-img-url="https://meshworld.in/og/cheatsheets/uv-cheatsheet.webp"><img src="https://meshworld.in/og/cheatsheets/uv-cheatsheet.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><button class="img-reroll-btn" type="button" title="Swap for another image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg></button><button class="img-hide-btn" type="button" title="Hide image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></figure>
+
+<ol>
+<li><code>curl -sSf [https://astral.sh/uv/install.sh](https://astral.sh/uv/install.sh) | sh</code>: Install UV globally on your system.</li>
+<li><code>uv venv my-project</code>: Create a dedicated, isolated virtual environment for your project.</li>
+<li><code>uv add requests</code>: Add a core dependency (e.g., <code>requests</code>) to the project and update the manifest.</li>
+<li><code>uv add --dev pytest</code>: Add a package specifically for development tools (like testing frameworks).</li>
+<li><code>uv add -r requirements.txt</code>: Import dependencies from an existing standard requirements file.</li>
+<li><code>uv lock</code>: Generate or update the comprehensive dependency lockfile (<code>uv.lock</code>) to ensure reproducibility.</li>
+<li><code>uv sync</code>: Install all packages listed in the <code>uv.lock</code> file into the active environment.</li>
+<li><code>uv run python myscript.py</code>: Execute a script safely within the isolated virtual environment without manual activation.</li>
+<li><code>uv tool install ruff</code>: Install an external utility (like a linter) that isn't a Python package.</li>
+<li><code>uv build</code>: Package your project into distributable formats (<code>.whl</code>, <code>.tar.gz</code>) ready for PyPI.</li>
+</ol>
+<hr>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before beginning this deep dive, ensure you have the following installed and configured:</p>
+<ul>
+<li><strong>A Unix-like Shell:</strong> (Bash, Zsh, or similar) is recommended for the installation script.</li>
+<li><strong><code>curl</code>:</strong> The command-line tool used to download the UV installer.</li>
+<li><strong>Python Interpreter:</strong> While UV manages environments, having a system Python installed is necessary for the initial setup and verification (<code>uv --version</code>).</li>
+<li><strong>A Project Directory:</strong> A clean folder where you intend to scaffold your new application or library.</li>
+</ul>
+<hr>
+<h2 id="step-1-installation-initial-setup-the-foundation">Step 1: Installation &amp; Initial Setup (The Foundation)</h2>
+<figure class="section-image" data-img-url="https://pub-4caceed5c57c4466b559b0834d2806c9.r2.dev/img/uv-cs-cover.png"><img src="https://pub-4caceed5c57c4466b559b0834d2806c9.r2.dev/img/uv-cs-cover.png" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><button class="img-reroll-btn" type="button" title="Swap for another image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg></button><button class="img-hide-btn" type="button" title="Hide image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></figure>
+
+<p>The first step in using UV is installing the tool itself. Because UV is designed to be a replacement for multiple utilities, it must be installed globally so that its commands are accessible from any directory on your system path.</p>
+<h3 id="installing-uv">Installing UV</h3>
+<p>To install UV on Linux or macOS, execute the following command:</p>
+<div class="code"><pre><span></span><code>curl<span class="w"> </span>-sSf<span class="w"> </span><span class="o">[</span>https://astral.sh/uv/install.sh<span class="o">](</span>https://astral.sh/uv/install.sh<span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+</code></pre></div>
+<p>This script handles the complex task of placing the optimized binary into a location accessible by your shell. For users utilizing package managers like Homebrew (on macOS), UV often provides specific, simpler commands, but the official installer script is the most universal method <a href="https://astral.sh/uv/install.sh" rel="noopener noreferrer" target="_blank">Check official documentation for platform-specific instructions</a>.</p>
+<h3 id="verification-and-best-practices">Verification and Best Practices</h3>
+<p>After installation, always verify that the tool is correctly installed and accessible by running:</p>
+<div class="code"><pre><span></span><code>uv<span class="w"> </span>--version
+</code></pre></div>
+<p>This confirms that UV is properly integrated into your system path. &gt; <strong>Warning:</strong> Never assume a command-line utility is installed just because you ran an installer script; always use <code>uv --version</code> to confirm its availability.</p>
+<hr>
+<h2 id="step-2-environment-management-and-scaffolding-isolation">Step 2: Environment Management and Scaffolding (Isolation)</h2>
+<p>The core principle of modern Python development is isolation. UV excels at this, ensuring that Project A's dependencies cannot accidentally conflict with Project B or your system-wide Python installation. This process involves two distinct actions: creating the isolated environment (<code>venv</code>) and initializing the project structure (<code>init</code>).</p>
+<h3 id="creating-isolated-virtual-environments">Creating Isolated Virtual Environments</h3>
+<p>The <code>uv venv</code> command is the primary mechanism for establishing a clean, dedicated workspace. By default, UV creates this virtual environment in a hidden directory named <code>.venv</code> within your current working directory. This convention makes it easy to locate and manage the isolated dependencies.</p>
+<ul>
+<li><strong>Basic Creation:</strong> Running <code>uv venv</code> establishes the basic structure needed to house Python interpreters and installed packages.</li>
+<li><strong>Custom Naming:</strong> If you are managing multiple projects in one folder, using a specific name is best practice: <code>uv venv my-project</code>. This keeps your environment directories clean and organized.</li>
+<li><strong>Version Control (Crucial):</strong> UV offers powerful control over the interpreter version itself. If your project requires Python 3.12 for compatibility reasons, you must specify it: <code>uv venv --python 3.12</code>. UV is smart enough to download and configure that specific interpreter if it isn't already available on your system <a href="https://astral.sh/uv/venv" rel="noopener noreferrer" target="_blank">Ensures compatibility across different projects</a>.</li>
+</ul>
+<h3 id="project-initialization-and-scaffolding">Project Initialization and Scaffolding</h3>
+<p>UV understands that a project requires more than just an environment; it needs structure. The <code>uv init</code> command handles the scaffolding, setting up the necessary configuration files—most importantly, the <code>pyproject.toml</code> file—which serves as the single source of truth for all dependencies and build metadata.</p>
+<ul>
+<li><strong>Standard Project:</strong> For a general application, <code>uv init [project_name]</code> creates a boilerplate structure suitable for most Python apps, including basic dependency placeholders.</li>
+<li><strong>Library Focus:</strong> If you are building a reusable package (a library), use the specialized command: <code>uv init --lib</code>. This is highly recommended because it automatically sets up build system requirements and metadata necessary to make your code publishable on PyPI <a href="https://astral.sh/uv/init" rel="noopener noreferrer" target="_blank">Recommended when building reusable packages</a>.</li>
+</ul>
+<hr>
+<h2 id="step-3-dependency-management-the-core-workflow">Step 3: Dependency Management (The Core Workflow)</h2>
+<figure class="section-image" data-img-url="https://github.githubassets.com/assets/gist-og-image-54fd7dc0713e.png"><img src="https://github.githubassets.com/assets/gist-og-image-54fd7dc0713e.png" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><button class="img-reroll-btn" type="button" title="Swap for another image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg></button><button class="img-hide-btn" type="button" title="Hide image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></figure>
+
+<p>This section represents the heart of UV's functionality, replacing the complex interplay between <code>pip install</code>, <code>poetry add</code>, and manual manifest editing. UV centralizes all dependency management into a single, cohesive workflow using the <code>add</code>, <code>remove</code>, <code>lock</code>, and <code>sync</code> commands.</p>
+<h3 id="adding-packages-the-uv-add-command">Adding Packages: The <code>uv add</code> Command</h3>
+<p>The <code>uv add</code> command is revolutionary because it does two things simultaneously: 1) It updates your project's manifest (<code>pyproject.toml</code>) with the package name; and 2) It attempts to resolve and install that dependency into the active virtual environment, ensuring immediate consistency <a href="https://astral.sh/uv/add" rel="noopener noreferrer" target="_blank">Example: <code>uv add requests</code></a>.</p>
+<h4 id="advanced-dependency-sources">Advanced Dependency Sources</h4>
+<p>UV dramatically expands where dependencies can come from, offering solutions for complex enterprise environments:</p>
+<ol>
+<li><strong>Requirements Files:</strong> For legacy projects or those migrating from older tools, UV supports standard requirements files: <code>uv add -r requirements.txt</code>. This allows bulk importing of known dependency sets [Finding 2].</li>
+<li><strong>Local/Editable Installs:</strong> When developing multiple related packages, you often need to install a package that lives on your local filesystem (e.g., in an adjacent directory). UV handles this gracefully using editable installs: <code>uv add --editable ../projects/bar/</code>. This ensures changes are immediately reflected without re-installing the entire environment [Finding 2].</li>
+<li><strong>Source Control (Git):</strong> For dependencies that haven't been packaged yet, or for testing against a specific branch of development code, UV integrates directly with Git: <code>uv add git+&lt;url&gt; --branch main</code>. This capability is critical in CI/CD pipelines and early-stage development [Finding 2].</li>
+<li><strong>Platform Specificity:</strong> For highly specialized applications (e.g., machine learning models that only run on Linux), you can define dependencies with platform constraints: <code>uv add "jax; sys_platform == 'linux'"</code>. This prevents the package manager from attempting to install incompatible binaries [Finding 2].</li>
+</ol>
+<h3 id="managing-dependency-groups-and-extras">Managing Dependency Groups and Extras</h3>
+<p>Modern projects rarely have a single set of dependencies. They often require separate groups for testing, linting, documentation generation, or optional features (e.g., PDF export). UV provides granular control over these groups:</p>
+<ul>
+<li><strong>Development Dependencies (<code>--dev</code>):</strong> These are tools required only during development and testing (like <code>pytest</code>). Using <code>uv add --dev pytest</code> ensures that the package is listed in a dedicated group within your manifest, keeping production dependencies clean [Finding 9].</li>
+<li><strong>Custom Groups:</strong> For complex projects, you can define arbitrary groups (e.g., 'test', 'lint'). The command structure is: <code>uv add --group &lt;name&gt; &lt;pkg&gt;</code>. This allows for highly organized dependency manifests [Finding 3, Finding 8].</li>
+<li><strong>Optional Extras (<code>--optional</code>):</strong> These are features that a user <em>might</em> want but aren't required for the core functionality (e.g., if your app supports both web and desktop interfaces, the 'web' dependencies are optional). <code>uv add --optional viz matplotlib</code> defines this feature set [Finding 3].</li>
+</ul>
+<h3 id="locking-and-reproducibility-the-lock-vs-sync-distinction">Locking and Reproducibility: The <code>lock</code> vs. <code>sync</code> Distinction</h3>
+<p>This is arguably the most critical conceptual leap when moving to UV. Dependency resolution is complex; simply listing a package name (<code>requests</code>) does not guarantee which version will be installed, as many packages have transitive dependencies (packages that <em>they</em> depend on).</p>
+<p>To solve this, UV introduces two distinct commands: <code>uv lock</code> and <code>uv sync</code>. They must be understood as sequential steps in the development lifecycle.</p>
+<h4 id="1-the-lockfile-uv-lock">1. The Lockfile (<code>uv lock</code>)</h4>
+<p>The purpose of <code>uv lock</code> is to generate a <strong>reproducible snapshot</strong> of your entire dependency graph into a file (the <code>uv.lock</code>). When you run this command, UV resolves <em>every single package</em> and its exact version number—including the transitive dependencies—and records them in the lockfile [Finding 4].</p>
+<blockquote>
+<p><strong>When to use <code>uv lock</code>:</strong> Always run this command immediately after making changes to your dependency manifest (e.g., running <code>uv add requests</code>). This captures the current, working state of your project's requirements.</p>
+</blockquote>
+<h4 id="2-synchronization-uv-sync">2. Synchronization (<code>uv sync</code>)</h4>
+<p>The purpose of <code>uv sync</code> is not to resolve dependencies; it is simply to <strong>install</strong> them. It reads the exact versions listed in the <code>uv.lock</code> file and installs them into the virtual environment. This process guarantees that every machine, including CI/CD servers, will install the <em>exact same</em> package versions, eliminating "it works on my machine" bugs <a href="https://astral.sh/uv/sync" rel="noopener noreferrer" target="_blank">Use in CI/CD or deployment</a>.</p>
+<h4 id="targeted-updates-and-control">Targeted Updates and Control</h4>
+<p>UV provides fine-grained control over these commands:</p>
+<ul>
+<li><strong>Full Update:</strong> To update every single dependency to its latest compatible version and generate a new lockfile, use <code>uv lock --upgrade</code>.</li>
+<li><strong>Targeted Upgrade:</strong> If you only want to upgrade one package (e.g., from <code>requests==2.28</code> to the latest minor release) without touching everything else, use: <code>uv lock --upgrade-package requests</code>. This is safer and faster than a full upgrade [Finding 10].</li>
+<li><strong>Group Control:</strong> When deploying production code, you do not want development tools (like <code>pytest</code>) installed. You can control this during synchronization:<ul>
+<li><code>uv sync</code>: Installs everything (production + dev).</li>
+<li><code>uv sync --no-dev</code>: Skips the entire development group, resulting in a lean, optimized production environment [Finding 9].</li>
+<li><code>uv sync --group test</code>: Only installs packages necessary for testing.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="step-4-execution-tooling-and-deployment-the-workflow">Step 4: Execution, Tooling, and Deployment (The Workflow)</h2>
+<p>Once dependencies are installed and locked, UV provides specialized commands to run code safely, manage external tools, and prepare the project for distribution.</p>
+<h3 id="running-code-safely-with-uv-run">Running Code Safely with <code>uv run</code></h3>
+<p>Manually activating a virtual environment (<code>source .venv/bin/activate</code>) is cumbersome and error-prone. The <code>uv run</code> command solves this by executing any script or command directly <em>within</em> the context of the managed virtual environment, without requiring manual activation <a href="https://astral.sh/uv/run" rel="noopener noreferrer" target="_blank">This is the preferred method</a>.</p>
+<p><strong>Example:</strong> Instead of typing <code>source .venv/bin/activate &amp;&amp; python myscript.py</code>, you simply run:</p>
+<div class="code"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>myscript.py
+</code></pre></div>
+<p>Furthermore, <code>uv run</code> supports group-specific execution:
+*   <code>uv run --group test pytest</code>: This ensures that the testing framework (<code>pytest</code>) is available and correctly configured for the duration of the command, even if it's not a core dependency.</p>
+<p><strong>Execution Flags:</strong> For maximum reliability in automated systems (like CI/CD), UV offers flags to enforce lockfile integrity:
+*   <code>--locked</code>: Forces the execution environment to strictly adhere to the versions specified in <code>uv.lock</code>. If any package version has been allowed to drift, the command fails immediately.
+*   <code>--frozen</code>: A read-only mode that uses the lockfile without attempting any checks for updates or changes.</p>
+<h3 id="managing-external-tools-pipx-replacement">Managing External Tools (<code>pipx</code> Replacement)</h3>
+<p>Many developer utilities (linters like <code>ruff</code>, formatters like <code>black</code>, type checkers like <code>mypy</code>) are not standard Python libraries but standalone command-line tools. Historically, managing these required separate tools like <code>pipx</code>. UV integrates this functionality directly:</p>
+<ol>
+<li><strong>Installation:</strong> Use <code>uv tool install &lt;tool&gt;</code> to download and manage the utility in an isolated cache.</li>
+<li><strong>Execution:</strong> Use <code>uv tool run &lt;tool&gt; [args]</code> to execute it safely, ensuring that the tool runs with its own dedicated dependencies.</li>
+</ol>
+<p>This capability makes UV a true "all-in-one" solution for developer tooling.</p>
+<h3 id="building-and-exporting-artifacts">Building and Exporting Artifacts</h3>
+<p>When your project is stable and ready to be shared, you need two final steps: building and exporting.</p>
+<ul>
+<li><strong>Building (<code>uv build</code>):</strong> This command takes your source code and the metadata in <code>pyproject.toml</code> and generates standard Python distribution artifacts—the wheel (<code>.whl</code>) and the source archive (<code>.tar.gz</code>). These are the files you upload to PyPI or distribute directly <a href="https://astral.sh/uv/build" rel="noopener noreferrer" target="_blank">Essential step before publishing a package</a>.</li>
+<li><strong>Exporting (<code>uv export</code>):</strong> This is useful for generating compatibility files. Instead of relying solely on the lockfile, <code>uv export</code> can output the entire dependency set into various standard formats (e.g., traditional <code>requirements.txt</code>, or modern SBOM formats like CycloneDX), making it easier to integrate with legacy systems [Finding 1].</li>
+</ul>
+<hr>
+<h2 id="common-mistakes-and-pitfalls">Common Mistakes and Pitfalls</h2>
+<figure class="section-image" data-img-url="https://uv.pydevtools.com/images/uv-cheatsheet-social.png"><img src="https://uv.pydevtools.com/images/uv-cheatsheet-social.png" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><button class="img-reroll-btn" type="button" title="Swap for another image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg></button><button class="img-hide-btn" type="button" title="Hide image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></figure>
+
+<p>Even with a powerful tool like UV, developers can fall into common traps related to the complexity of dependency management.</p>
+<h3 id="mistake-1-confusing-uv-lock-and-uv-sync">Mistake 1: Confusing <code>uv lock</code> and <code>uv sync</code></h3>
+<p><strong>The Error:</strong> Running <code>uv add requests</code> and then immediately running <code>uv sync</code>.
+<strong>The Problem:</strong> The <code>add</code> command updates the <em>manifest</em> (<code>pyproject.toml</code>), but it does not update the <em>lockfile</em>. If you run <code>sync</code> without first running <code>lock</code>, your environment might be installed using a resolution state that was never formally recorded, leading to non-reproducible builds.
+<strong>The Fix:</strong> The mandatory workflow is: <strong>Change Dependencies $\rightarrow$ <code>uv lock</code> $\rightarrow$ <code>uv sync</code></strong>.</p>
+<h3 id="mistake-2-forgetting-the-dev-flag">Mistake 2: Forgetting the <code>--dev</code> Flag</h3>
+<p><strong>The Error:</strong> Running <code>uv add pytest</code> without specifying a group, treating it as a core dependency.
+<strong>The Problem:</strong> This bloats your production dependencies and increases the size of your final deployment package unnecessarily.
+<strong>The Fix:</strong> Always use <code>uv add --dev &lt;pkg&gt;</code> for testing tools, linters, or documentation generators.</p>
+<h3 id="mistake-3-over-reliance-on-system-python">Mistake 3: Over-reliance on System Python</h3>
+<p><strong>The Error:</strong> Running scripts directly using the system's global <code>python</code> interpreter instead of <code>uv run</code>.
+<strong>The Problem:</strong> The script will use whatever dependencies are globally available—which may be outdated, incompatible, or entirely missing—leading to runtime errors that are nearly impossible to debug.
+<strong>The Fix:</strong> Always wrap execution commands with <code>uv run &lt;command&gt;</code> to guarantee the correct isolated environment is used.</p>
+<h3 id="mistake-4-ignoring-the-lockfile-in-version-control">Mistake 4: Ignoring the Lockfile in Version Control</h3>
+<p><strong>The Error:</strong> Committing only <code>pyproject.toml</code> but forgetting to commit <code>uv.lock</code>.
+<strong>The Problem:</strong> If you only commit the manifest, other developers or CI/CD pipelines will run a fresh dependency resolution (<code>uv lock</code>) which might resolve dependencies differently based on their local machine state, leading to subtle, hard-to-debug version mismatches across environments.
+<strong>The Fix:</strong> The <code>uv.lock</code> file <em>must</em> be committed alongside your manifest. It is the contract for reproducibility.</p>
+<hr>
+<h2 id="conclusion-answering-the-question">Conclusion: Answering the Question</h2>
+<p>UV is not merely a replacement for <code>pip</code>; it represents a fundamental shift in how Python projects are structured, managed, and deployed. By integrating advanced features—such as explicit support for development groups (<code>--dev</code>), granular control over optional dependencies (<code>--optional</code>), direct Git source integration, and most critically, the clear separation between dependency resolution (<code>uv lock</code>) and environment installation (<code>uv sync</code>)—UV provides a robust, high-performance solution to Python's long-standing dependency hell.</p>
+<p>The UV CLI cheatsheet is therefore not just a list of commands; it is a comprehensive guide to adopting modern best practices in Python development. By following the structured workflow (Initialize $\rightarrow$ Add/Group $\rightarrow$ Lock $\rightarrow$ Sync $\rightarrow$ Run), developers can achieve unparalleled speed, reliability, and reproducibility across all stages of the software lifecycle.</p>
+
+    <div class="sources-panel">
+<details>
+<summary>Sources (20)</summary>
+<div class="sources-list">
+<a href="https://mathspp.com/blog/uv-cheatsheet" target="_blank" rel="noopener noreferrer"><span class="snum">1.</span><span>uv cheatsheet | mathspp</span><span class="sdomain">mathspp.com</span></a>
+<a href="https://uv.pydevtools.com/" target="_blank" rel="noopener noreferrer"><span class="snum">2.</span><span>uv Quick Reference</span><span class="sdomain">uv.pydevtools.com</span></a>
+<a href="https://gist.github.com/rollingmountains/09ded2ed8c39b54d0e6a412d47973399" target="_blank" rel="noopener noreferrer"><span class="snum">3.</span><span>UV Cheatsheet · GitHub</span><span class="sdomain">gist.github.com</span></a>
+<a href="https://yonesuke.github.io/cheatsheet/cheatsheet_uv.html" target="_blank" rel="noopener noreferrer"><span class="snum">4.</span><span>uv Cheat Sheet | cheatsheet</span><span class="sdomain">yonesuke.github.io</span></a>
+<a href="https://0xdf.gitlab.io/cheatsheets/uv" target="_blank" rel="noopener noreferrer"><span class="snum">5.</span><span>Python Tools and Scripts w/ UV CheatSheet | 0xdf hacks stuff</span><span class="sdomain">0xdf.gitlab.io</span></a>
+<a href="https://meshworld.in/blog/cheatsheets/uv-cheatsheet/" target="_blank" rel="noopener noreferrer"><span class="snum">6.</span><span>uv Cheat Sheet: The Fast Python Package Manager (2026)</span><span class="sdomain">meshworld.in</span></a>
+<a href="https://ricketyrick.github.io/uv_cheat_sheet/uv-cheat-sheet.html" target="_blank" rel="noopener noreferrer"><span class="snum">7.</span><span>Enhanced uv Cheat Sheet - ricketyrick.github.io</span><span class="sdomain">ricketyrick.github.io</span></a>
+<a href="https://gist.github.com/gwangjinkim/70b353e63492e2bdd37f24b441b128b4" target="_blank" rel="noopener noreferrer"><span class="snum">8.</span><span>UV Cheatsheet · GitHub</span><span class="sdomain">gist.github.com</span></a>
+<a href="https://docs.astral.sh/uv/pip/environments/" target="_blank" rel="noopener noreferrer"><span class="snum">9.</span><span>Using environments | uv - Astral</span><span class="sdomain">docs.astral.sh</span></a>
+<a href="https://earthly.dev/blog/python-uv/" target="_blank" rel="noopener noreferrer"><span class="snum">10.</span><span>How to Create a Python Virtual Environment with uv</span><span class="sdomain">earthly.dev</span></a>
+<a href="https://docs.astral.sh/uv/concepts/projects/sync/" target="_blank" rel="noopener noreferrer"><span class="snum">11.</span><span>Locking and syncing | uv - docs.astral.sh</span><span class="sdomain">docs.astral.sh</span></a>
+<a href="https://docs.astral.sh/uv/concepts/projects/dependencies/" target="_blank" rel="noopener noreferrer"><span class="snum">12.</span><span>Managing dependencies | uv - Astral</span><span class="sdomain">docs.astral.sh</span></a>
+<a href="https://pydevtools.com/handbook/explanation/understanding-dependency-groups-in-uv/" target="_blank" rel="noopener noreferrer"><span class="snum">13.</span><span>Understanding dependency groups in uv | pydevtools</span><span class="sdomain">pydevtools.com</span></a>
+<a href="https://www.jrisner.dev/cheat-sheets/uv-dependency-management" target="_blank" rel="noopener noreferrer"><span class="snum">14.</span><span>uv Dependency Management | Joseph Risner</span><span class="sdomain">jrisner.dev</span></a>
+<a href="https://gist.github.com/donbr/68ed3314ea52247910d722b4ddfed368" target="_blank" rel="noopener noreferrer"><span class="snum">15.</span><span>The Authoritative Playbook for `uv` in Production Teams · GitHub</span><span class="sdomain">gist.github.com</span></a>
+<a href="https://til.simonwillison.net/uv/dependency-groups" target="_blank" rel="noopener noreferrer"><span class="snum">16.</span><span>Dependency groups and uv run | Simon Willison's TILs</span><span class="sdomain">til.simonwillison.net</span></a>
+<a href="https://copdips.com/2025/08/python-uv-cheat-sheet.html" target="_blank" rel="noopener noreferrer"><span class="snum">17.</span><span>Python uv cheat sheet - A code to remember - copdips.com</span><span class="sdomain">copdips.com</span></a>
+<a href="https://blog.bront.rodeo/using-dependency-groups-with-uv/" target="_blank" rel="noopener noreferrer"><span class="snum">18.</span><span>Using Dependency Groups with uv - blog.bront.rodeo</span><span class="sdomain">blog.bront.rodeo</span></a>
+<a href="https://blog.ni18.in/how-to-install-python-dev-dependencies-using-uv/" target="_blank" rel="noopener noreferrer"><span class="snum">19.</span><span>How to Install Python Dev-Dependencies Using uv - ni18 Blog</span><span class="sdomain">blog.ni18.in</span></a>
+<a href="https://docs.astral.sh/uv/guides/projects/" target="_blank" rel="noopener noreferrer"><span class="snum">20.</span><span>Working on projects | uv - Astral</span><span class="sdomain">docs.astral.sh</span></a>
+</div>
+</details>
+</div>
+
+    <div class="chat-cta"><button id="btn-chat-about" class="chat-cta-btn" data-research-id="rp-e0409a1f5db5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Discuss</span></button><div class="chat-cta-hint">Opens a new chat with this report as context.</div></div>
+  </main>
+</div>
+
+<div class="report-footer">
+  Generated by Odysseus Deep Research · June 05, 2026 at 20:02
+</div>
+
+<script>
+(function() {
+  // ESC closes the report tab. window.close() works when the tab was
+  // opened via window.open() (which is how the panel launches it). If the
+  // browser blocks self-close (rare — e.g. report opened by direct URL),
+  // fall back to history.back() so ESC still feels responsive.
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'Escape' || e.defaultPrevented) return;
+    // Don't hijack ESC while typing in a field or with an open dropdown.
+    var t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    var menu = document.getElementById('export-menu');
+    if (menu && menu.classList.contains('open')) { menu.classList.remove('open'); return; }
+    try { window.close(); } catch (err) {}
+    // window.close() is a no-op when the tab wasn't script-opened; in that
+    // case fall back to navigation so the key isn't ignored.
+    setTimeout(function() { if (!window.closed) history.back(); }, 50);
+  });
+
+  // Export dropdown toggle
+  var exportBtn = document.getElementById('btn-export');
+  var exportMenu = document.getElementById('export-menu');
+  exportBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    exportMenu.classList.toggle('open');
+  });
+  document.addEventListener('click', function() { exportMenu.classList.remove('open'); });
+
+  // Save as PDF (browser print)
+  document.getElementById('btn-pdf').addEventListener('click', function() {
+    exportMenu.classList.remove('open');
+    window.print();
+  });
+
+  // Download HTML
+  document.getElementById('btn-html').addEventListener('click', function() {
+    exportMenu.classList.remove('open');
+    var blob = new Blob([document.documentElement.outerHTML], { type: 'text/html' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = document.title.replace(/[^a-z0-9]+/gi, '-').substring(0, 60) + '.html';
+    a.click();
+  });
+
+  // Per-image hide — fades the image out, then POSTs to the backend so
+  // future renders of this report skip the URL. Falls back to a silent
+  // no-op if there's no session_id (e.g. the report was opened from a
+  // saved-HTML download where the backend isn't reachable).
+  var __sessionId = "rp-e0409a1f5db5";
+  // Unused scraped images — the reroll pool. Each is used at most once.
+  var __spareImages = ["https://earthly.dev/.netlify/images?url=/blog/assets/images/python-uv/header.jpg&w=800", "https://pydevtools.com/images/social-share-default.png", "https://s3.amazonaws.com/til.simonwillison.net/b00eeb894ea79bde93761207acc489bf.jpg", "https://blog.bront.rodeo/content/images/2025/03/computer_management_decision-1.jpg"];
+
+  // Persist a rejected URL so future renders skip it.
+  function __persistHide(url) {
+    if (!__sessionId || !url) return;
+    fetch('/api/research/' + encodeURIComponent(__sessionId) + '/hide-image', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: url }),
+    }).catch(function(err) { console.warn('hide-image POST failed', err); });
+  }
+
+  // Once the pool is empty, there's nothing to swap to — hide all reroll btns.
+  function __syncRerollAvailability() {
+    if (__spareImages.length === 0) {
+      document.querySelectorAll('.img-reroll-btn').forEach(function(b) { b.disabled = true; });
+    }
+  }
+
+  document.querySelectorAll('.img-hide-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault(); e.stopPropagation();
+      var wrap = btn.closest('[data-img-url]');
+      if (!wrap) return;
+      var url = wrap.dataset.imgUrl;
+      wrap.classList.add('fading');
+      setTimeout(function() { wrap.remove(); }, 280);
+      __persistHide(url);
+    });
+  });
+
+  // Reroll — swap the current image for the next unused scraped one, and
+  // persist-hide the rejected URL so it won't resurface on reload.
+  document.querySelectorAll('.img-reroll-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault(); e.stopPropagation();
+      // Per-button busy flag — a rapid double-click would otherwise both
+      // shift the spare pool, but only the second probe's image would land,
+      // silently consuming the first one. Bail until finish() clears it.
+      if (btn.dataset._busy === '1') return;
+      if (__spareImages.length === 0) { btn.disabled = true; return; }
+      var wrap = btn.closest('[data-img-url]');
+      if (!wrap) return;
+      var img = wrap.querySelector('img');
+      if (!img) return;
+      btn.dataset._busy = '1';
+      var oldUrl = wrap.dataset.imgUrl;
+      var newUrl = __spareImages.shift();
+      btn.classList.add('spinning');
+      // Swap once the new image has loaded (or failed) to avoid a flash of empty.
+      var probe = new Image();
+      var done = false;
+      var finish = function(ok) {
+        if (done) return; done = true;
+        btn.classList.remove('spinning');
+        delete btn.dataset._busy;
+        if (ok) {
+          img.src = newUrl;
+          wrap.dataset.imgUrl = newUrl;
+          __persistHide(oldUrl);
+        } else {
+          // Bad candidate — persist-hide it so it can't resurface on reload,
+          // then try the next spare if any remain. Busy flag already cleared
+          // so the synthetic click below proceeds.
+          __persistHide(newUrl);
+          if (__spareImages.length) btn.click();
+        }
+        __syncRerollAvailability();
+      };
+      probe.onload = function() { finish(true); };
+      probe.onerror = function() { finish(false); };
+      probe.src = newUrl;
+    });
+  });
+  __syncRerollAvailability();
+
+  // "Show hidden (N)" button — clears the hidden_images list on the
+  // server, then reloads the page so all images come back.
+  var restoreBtn = document.getElementById('btn-restore-images');
+  if (restoreBtn && __sessionId) {
+    restoreBtn.addEventListener('click', function() {
+      restoreBtn.disabled = true;
+      restoreBtn.textContent = 'Restoring…';
+      fetch('/api/research/' + encodeURIComponent(__sessionId) + '/unhide-images', {
+        method: 'POST', credentials: 'same-origin',
+      }).then(function() { window.location.reload(); })
+        .catch(function(err) {
+          restoreBtn.disabled = false;
+          restoreBtn.textContent = 'Failed — retry?';
+          console.warn('unhide-images POST failed', err);
+        });
+    });
+  }
+
+  // TOC: explicit smooth-scroll handler (some browsers/anchor plugins
+  // bypass the CSS `scroll-behavior: smooth` rule on hash clicks).
+  // Also keeps the URL hash updated and toggles an `.active` highlight.
+  var tocLinks = document.querySelectorAll('.toc-sidebar nav a[href^="#"]');
+  tocLinks.forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      var id = link.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', '#' + id);
+    });
+  });
+
+  // Highlight the TOC entry that matches whichever heading is currently
+  // closest to the top of the viewport. IntersectionObserver keeps it
+  // cheap (no scroll listener spam).
+  var tocMap = {};
+  tocLinks.forEach(function(link) {
+    tocMap[link.getAttribute('href').slice(1)] = link;
+  });
+  var activeId = null;
+  function setActive(id) {
+    if (id === activeId) return;
+    if (activeId && tocMap[activeId]) tocMap[activeId].classList.remove('active');
+    if (id && tocMap[id]) tocMap[id].classList.add('active');
+    activeId = id;
+  }
+  var headings = document.querySelectorAll('.content h2[id], .content h3[id]');
+  if (headings.length && 'IntersectionObserver' in window) {
+    var visible = new Set();
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(en) {
+        if (en.isIntersecting) visible.add(en.target.id);
+        else visible.delete(en.target.id);
+      });
+      // Pick the visible heading that's furthest down in document order
+      // before the current scroll — i.e. the section we're reading.
+      var current = null;
+      for (var i = 0; i < headings.length; i++) {
+        if (visible.has(headings[i].id)) { current = headings[i].id; break; }
+      }
+      if (current) setActive(current);
+    }, { rootMargin: '-10% 0px -75% 0px', threshold: 0 });
+    headings.forEach(function(h) { io.observe(h); });
+  }
+
+  // Chat about this research — POST to spinoff and redirect to the new chat
+  var chatBtn = document.getElementById('btn-chat-about');
+  if (chatBtn) {
+    chatBtn.addEventListener('click', function() {
+      var researchId = chatBtn.dataset.researchId;
+      if (!researchId) return;
+      var origLabel = chatBtn.innerHTML;
+      chatBtn.disabled = true;
+      chatBtn.innerHTML = '<span>Creating chat…</span>';
+      fetch('/api/research/spinoff/' + encodeURIComponent(researchId), {
+        method: 'POST', credentials: 'same-origin',
+      }).then(function(res) {
+        if (!res.ok) {
+          return res.json().then(function(d) {
+            throw new Error(d && d.detail ? d.detail : ('HTTP ' + res.status));
+          }, function() { throw new Error('HTTP ' + res.status); });
+        }
+        return res.json();
+      }).then(function(data) {
+        if (!data || !data.session_id) {
+          throw new Error('Server did not return a session id');
+        }
+        var url = '/#' + data.session_id;
+        var opened = false;
+        // The report typically opens in a new tab — if we have access to the
+        // original Odysseus tab, navigate it and close this report tab so the
+        // user lands directly in the new chat.
+        try {
+          if (window.opener && !window.opener.closed) {
+            window.opener.location.href = url;
+            window.opener.location.reload();
+            window.opener.focus();
+            opened = true;
+            window.close();
+          }
+        } catch (e) { /* cross-origin or detached opener — fall through */ }
+        if (!opened) {
+          // No opener (report was opened directly via URL) — open the chat in a
+          // new tab so the report stays available.
+          var w = window.open(url, '_blank');
+          if (w) {
+            chatBtn.disabled = false;
+            chatBtn.innerHTML = '<span>Chat opened in new tab</span>';
+          } else {
+            // Popup blocked — navigate this tab as a last resort.
+            window.location.href = url;
+            window.location.reload();
+          }
+        }
+      }).catch(function(err) {
+        chatBtn.disabled = false;
+        chatBtn.innerHTML = origLabel;
+        alert('Could not start follow-up chat: ' + err.message);
+      });
+    });
+  }
+})();
+
+// Colorize comparison table cells
+if (document.body.classList.contains('category-comparison')) {
+  const pos = /^(yes|excellent|best|great|strong|fast|high|superior|winner|free|unlimited|native|full|advanced|built[- ]in|✓|✅|⭐)/i;
+  const neg = /^(no|none|poor|weak|slow|low|limited|lacking|missing|basic|minimal|✗|❌|N\/A$)/i;
+  const mid = /^(moderate|average|fair|partial|some|decent|okay|mixed|varies|depends)/i;
+  document.querySelectorAll('.content table td').forEach(td => {
+    if (td.cellIndex === 0) return;
+    const t = td.textContent.trim();
+    if (pos.test(t)) td.classList.add('cmp-pos');
+    else if (neg.test(t)) td.classList.add('cmp-neg');
+    else if (mid.test(t)) td.classList.add('cmp-mid');
+  });
+}
+</script>
+
+
+<iframe frameborder="0" scrolling="no" style="background-color: transparent; border: 0px; display: none;"></iframe><div id="GOOGLE_INPUT_CHEXT_FLAG" input="en-t-k0-und" input_stat="{&quot;tlang&quot;:true,&quot;tsbc&quot;:true,&quot;pun&quot;:true,&quot;mk&quot;:true,&quot;ss&quot;:true}" style="display: none;"></div><iframe frameborder="0" scrolling="no" src="chrome-extension://mclkkofklkfljcocdinagocijmpgbhab/keyboard.html?origin=http%3A%2F%2F127.0.0.1%3A7000" style="background-color: transparent; border: 0px; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 16px 0px; box-sizing: content-box; height: 211px; margin: 0px; position: fixed; width: 517px; z-index: 2147483644; left: 1384px; top: 697px; display: none;"></iframe></body></html>
