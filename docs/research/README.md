@@ -14,12 +14,16 @@ Use the `/research` slash command (defined in `.opencode/commands/research.promp
 | `completion-format-prompting.md` | Research note on chat, completion, and continuation-style prompt formatting for roleplay with small LLMs. |
 | `creative-roleplay-prompt-surface-reference.md` | Durable reference for choosing between creative, roleplay, and prompt-evaluation entry points. |
 | `git-commands-cheatsheet.md` | Practical reference for everyday Git operations — from setup through advanced recovery. |
+| `node-and-npm-command-cheatsheets.md` | Practical reference for everyday Node.js and npm operations — runtime flags, module system, package management, scripts, publishing, diagnostics, and config. |
 | `github-ssh-setup-ubuntu.md` | Step-by-step guide for setting up GitHub SSH access from an Ubuntu environment. |
 | `kubectl-command-cheat-sheet.md` | Practical reference for everyday kubectl operations — from cluster management and resource CRUD through debugging, configuration, and advanced workflows. |
+| `mysql-command-cheatsheet.md` | Practical reference for everyday MySQL 8.0+ operations — connection, database and table management, data manipulation, user administration, indexing, backup and restore, diagnostics, and admin commands. |
 | `ollama-modelfile.md` | Quick-reference commands for working with Ollama Modelfiles (create, show, run, remove custom models). |
 | `ollama-top-models.md` | Research reference listing top Ollama models by popularity with pull counts, sizes, and evaluation notes. |
 | `ollama-troubleshooting-windows.md` | Practical troubleshooting for Ollama latency, throughput, memory pressure, and configuration issues on Windows. |
 | `opencode-agent-configuration-reference.md` | Durable reference for how OpenCode loads and applies agent-related configuration (scopes, rules, agents, permissions, models, commands, skills, tools, MCP). |
+| `powershell-command-cheatsheet.md` | Practical reference for everyday PowerShell 7+ commands — navigation, file operations, text processing, system administration, remoting, scripting, and POSIX-to-PowerShell alias mapping. |
+| `python-and-pip-command-cheatsheet.md` | Practical reference for everyday CPython interpreter CLI and pip package manager operations — runtime flags, environment variables, venv, debugging, package management, config, caching, and diagnostics. |
 | `python-goal-oriented-action-planning-frameworks.md` | Ranked shortlist and decision aid for selecting open-source Python frameworks for goal-oriented action planning across game AI, robotics, and LLM-agent orchestration. |
 | `roleplay-character-packet-template.md` | Template and normalization guide for roleplay-ready character packets used by design and enactment workflows. |
 | `roleplay-prompt-evaluation-rubric.md` | Lightweight rubric for evaluating roleplay prompting quality across prompt-only and runtime-backed comparisons. |
