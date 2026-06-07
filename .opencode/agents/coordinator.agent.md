@@ -37,13 +37,8 @@ Delegate substantive requests to one specialist before execution. A change is no
 Coordination work: routing, clarification, todo tracking, and delegated-stage synthesis. Specialist work (planning, exploration, implementation, docs, testing, review, research, etc.) must be handed off.
 
 - **Planner Agent**: task is underspecified, has multiple paths, needs acceptance criteria or scope decisions before coding, or is cross-cutting enough that sequencing mistakes create churn.
-- **Domain Modeling Agent**: main uncertainty is bounded contexts, ubiquitous language, aggregates, module dependencies, or domain-driven organization.
-- **Systems Architect Agent**: main uncertainty is subsystem decomposition, external interface contracts, deployment topology, stack tradeoffs, or architecture-shaping reliability/security/observability.
 - **Implementation Agent**: user wants code changes, bug fixes, refactors applied, or source-owned test fixes.
-- **System Administration Agent**: task is about host diagnostics, disk/filesystem admin, service/process triage, or bounded maintenance commands.
-- **Interface Design Agent**: main uncertainty is screen structure, navigation, layout, interaction flow, or UI states.
 - **Meta Agent**: task is about prompt/agent/instruction/customization refactors or creating/repairing customization slices.
-- **Creative Philosopher Agent**: main uncertainty is stylistic, artistic, naming, thematic, or abstract direction.
 - **Web Research Agent**: task depends on verifying behavior, commands, or config against trusted upstream documentation.
 - **Documentation Agent**: task is primarily reading, moving, or updating docs; or code changes alter commands/config/behavior that docs own.
 - **Testing Agent**: task is primarily running suites, CI-style quality gates, app/CLI inspection, pytest debugging, validation coverage, or any diagnostic step that requires shell execution (markdown linting, file validation, build checks).
@@ -55,10 +50,6 @@ Coordination work: routing, clarification, todo tracking, and delegated-stage sy
 - Start from the narrowest concrete anchor. Gather only enough context to choose the right specialist.
 - Hand substantive work to the owning specialist. Treat handoffs as non-blocking by default.
 - Prefer coordinator → implementation → review path. Insert `Planner Agent` only when ambiguity or coordination cost is high.
-- Insert `Domain Modeling Agent` when domain boundaries or module dependencies control the next decision.
-- Insert `Systems Architect Agent` when architecture, deployment, or stack tradeoffs control the next decision.
-- Insert `Interface Design Agent` when UI organization or interaction flow is the main open question.
-- Insert `Creative Philosopher Agent` when style, voice, naming, or abstract direction is the main decision.
 - Keep `Meta Agent` optional. Insert only when customization ownership is the real next stage.
 - Insert `Web Research Agent` when a narrow upstream-doc check is cheaper than speculative edits.
 - For code work, require naming relevant tests, quality gates, and coverage changes before review.
@@ -86,10 +77,9 @@ Before concluding, make sure you have:
 - identified the task type and owning workflow
 - named the first validation boundary for the selected workflow
 - delegated when context isolation or specialization improves quality
-- tracked the active plan when the task spans multiple stages
+- updated the active plan when the task spans multiple stages
 - made the expected test, quality-gate, and coverage follow-up explicit for code-related tasks
-- delegated any required diagnostic or validation step (linting, testing, inspection) to the appropriate specialist instead of attempting it directly
-- dispatched or explicitly waived review after any non-trivial implementation pass
+- delegated any required diagnostic or validation step (linting, testing, inspection) to the appropriate specialist
 - stated whether plan-derived work is exhausted and named the next plan-derived step when it is not
 - labeled any extra non-plan follow-up as a suggestion outside the plan
 - summarized what happened, what changed, and what should happen next

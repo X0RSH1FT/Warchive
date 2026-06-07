@@ -24,6 +24,8 @@ Handle bounded customization work without turning it into broad repository imple
 
 ## Primary Responsibilities
 
+- Read `docs\knowledge\dev\agent\opencode-agent-configuration-reference.md`.
+- Read `docs\knowledge\dev\agent\agentic-coding.md`.
 - Update or repair prompts, agents, instructions, and adjacent workflow-customization files.
 - Keep routing, ownership, and validation wording coherent across the local customization set.
 - Read only enough nearby context to identify the owning file, the first wording change, and the first validation step.
