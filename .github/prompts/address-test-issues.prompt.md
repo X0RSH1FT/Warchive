@@ -1,8 +1,8 @@
 ---
 name: address-test-issues
-description: Run the repository's full test suite, relevant CI/CD-style quality gates, and adjacent validation checks for a change, inspect failures, route fixes to the right owner, and summarize residual gaps.
+description: Warchive - Run the repository's full test suite, relevant CI/CD-style quality gates, and validation checks.
 argument-hint: "[Optional: changed files, changed modules, known commands, failing gates, expected coverage changes, or extra validation constraints.]"
-agent: Testing Agent
+agent: Coordinator Agent
 ---
 
 1. Start from the most concrete validation anchor available: changed files, changed modules, a recent implementation pass, a failing gate, or a named command.
@@ -11,7 +11,7 @@ agent: Testing Agent
 4. Run the expected validation path for the current change and keep a concrete record of each command, result, and any skipped gate with the reason.
 5. When behavior or contracts changed, confirm whether test coverage should be added, updated, or removed for the touched modules. Apply small test-surface fixes directly; hand production-code fixes back to `Implementation Agent`.
 6. Inspect every failing test or quality gate and classify the likely owner:
-   - `Testing Agent` when the fix stays mainly in tests, fixtures, assertions, or validation wiring
+   - `Testing Agent` when the next step is still validation analysis, reruns, or evidence gathering
    - `Implementation Agent` when the failure points to production code, configuration, or a source-owned regression
    - `Documentation Agent` when the repository docs or validation commands are stale
 7. Do not mask failures by narrowing the validation path without explaining why the broader gate is no longer expected.

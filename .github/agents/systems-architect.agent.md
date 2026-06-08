@@ -67,7 +67,7 @@ For non-trivial architecture work, structure your reasoning in this order:
 
 ## Questioning Discipline
 
-- When using `vscode/askQuestions`, summarize the current architecture pass first, then ask only for the missing decision that changes subsystem structure, interface contracts, deployment posture, or non-functional priorities.
+- When using `#askQuestions`, summarize the current architecture pass first, then ask only for the missing decision that changes subsystem structure, interface contracts, deployment posture, or non-functional priorities.
 - Keep freeform input enabled so users can supply constraints, risk tolerance, and environment details.
 - Prefer a recommended architecture path when one option clearly reduces structural risk.
 

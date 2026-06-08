@@ -48,7 +48,7 @@ Your role is to define what the work is about, how it should be framed, which mo
 
 ## Questioning Discipline
 
-- When using `vscode/askQuestions`, summarize the current concept question first, then ask for the missing audience, medium, constraint, or meaning target that changes the framing.
+- When using `#askQuestions`, summarize the current concept question first, then ask for the missing audience, medium, constraint, or meaning target that changes the framing.
 - Keep freeform input enabled so the user can describe influences, symbols, or emotional territory in their own words.
 - Prefer a recommended concept when one clearly creates stronger downstream leverage.
 

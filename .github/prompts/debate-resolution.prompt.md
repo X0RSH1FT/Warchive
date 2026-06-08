@@ -1,6 +1,6 @@
 ---
 name: debate-resolution
-description: Resolve an issue or design decision through a structured multi-agent debate led by Coordinator Agent, then route the winning direction to the next execution owner.
+description: Warchive - Resolve an issue or design decision through a structured multi-agent debate led by Coordinator Agent, then route the winning direction to the next execution owner.
 argument-hint: "[Issue or design question, optional constraints, candidate options, decision deadline, and preferred confidence level.]"
 agent: Coordinator Agent
 ---

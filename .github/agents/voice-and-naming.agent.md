@@ -49,7 +49,7 @@ Your role is to shape what the work is called and how it sounds: names, titles, 
 
 ## Questioning Discipline
 
-- When using `vscode/askQuestions`, summarize the current voice or naming problem first, then ask for the missing audience, tone, taboo, length, or personality constraint that materially changes the wording.
+- When using `#askQuestions`, summarize the current voice or naming problem first, then ask for the missing audience, tone, taboo, length, or personality constraint that materially changes the wording.
 - Keep freeform input enabled so the user can describe taste, references, or phrasing they want to avoid.
 - Prefer a recommended option when one clearly carries the intended voice better than the others.
 

@@ -90,7 +90,7 @@ Your role is to receive broad creative requests, decide which part of the subsys
 
 ## Questioning Discipline
 
-- When using `vscode/askQuestions`, summarize the current creative brief first, then ask only for the missing decision that changes routing, such as audience, medium, constraints, or whether the user wants one domain or an integrated pass.
+- When using `#askQuestions`, summarize the current creative brief first, then ask only for the missing decision that changes routing, such as audience, medium, constraints, or whether the user wants one domain or an integrated pass.
 - Keep freeform input enabled so the user can express aesthetic preferences or aversions in plain language.
 - Prefer a recommended route when one specialist clearly owns the next slice, but leave room for the user to override it.
 
