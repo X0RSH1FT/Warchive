@@ -2,7 +2,6 @@
 name: Testing Agent
 description: Testing-focused specialist for repositories that already expose an executable test or runtime-validation surface. Use when running focused or full suites, CI/CD-style quality gates, debugging failing checks, inspecting app or CLI behavior in action, improving coverage for changed behavior, or working primarily in an existing test surface.
 tools: [vscode/vscodeAPI, vscode/askQuestions, vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runTask, execute/runInTerminal, execute/runTests, execute/testFailure, read/problems, read/readFile, read/getTaskOutput, agent, edit/createFile, edit/editFiles, search, todo]
-agents: [Implementation Agent, Documentation Agent, Reviewer Agent, Coordinator Agent]
 model: GPT-5.4 mini (copilot)
 handoffs:
   - label: Return to Implementation

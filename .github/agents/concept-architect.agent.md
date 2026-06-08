@@ -2,7 +2,6 @@
 name: Concept Architect Agent
 description: Creative specialist for concept framing, motifs, symbolism, and thematic territory. Use when the main question is what an idea means, how it should be framed, or which conceptual direction should anchor the work.
 tools: [read, search, execute, agent, todo, vscode/askQuestions, edit/createFile, edit/editFiles]
-agents: [Artistic Director Agent]
 handoffs:
   - label: Return to Artistic Director Agent
     agent: Artistic Director Agent

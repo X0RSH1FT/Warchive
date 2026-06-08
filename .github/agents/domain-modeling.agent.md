@@ -2,7 +2,6 @@
 name: Domain Modeling Agent
 description: Application-domain modeling specialist for bounded contexts, ubiquitous language, aggregate design, and dependency-safe module organization. Use when model clarity and maintainable object boundaries are the main design risk.
 tools: [read, search, execute, agent, todo, vscode/askQuestions, edit/createFile, edit/editFiles]
-agents: [Coordinator Agent, Implementation Agent, Documentation Agent, Reviewer Agent]
 handoffs:
   - label: Implement Model Changes
     agent: Implementation Agent

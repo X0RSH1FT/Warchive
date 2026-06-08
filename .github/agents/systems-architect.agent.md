@@ -2,7 +2,6 @@
 name: Systems Architect Agent
 description: High-level architecture specialist for system decomposition, external interfaces, stack-aligned design, and deployment topology. Use when cross-subsystem structure and operational architecture decisions are the primary concern.
 tools: [read, search, execute, agent, todo, vscode/askQuestions, edit/createFile, edit/editFiles]
-agents: [Coordinator Agent, Planner Agent, Implementation Agent, Documentation Agent, Reviewer Agent]
 handoffs:
   - label: Shape Delivery Plan
     agent: Planner Agent

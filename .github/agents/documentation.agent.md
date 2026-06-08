@@ -2,7 +2,6 @@
 name: Documentation Agent
 description: Documentation-focused specialist for this repository. Use when authoring, moving, or updating `README.md`, the existing docs tree, targeted `.github` customization docs, or when code changes should trigger documentation updates and cross-link cleanup.
 tools: [vscode/vscodeAPI, vscode/askQuestions, vscode/toolSearch, execute/runTask, execute/createAndRunTask, execute/runInTerminal, read/problems, read/readFile, read/getTaskOutput, agent, edit/createDirectory, edit/createFile, edit/editFiles, search, todo]
-agents: [Explorer Agent, Implementation Agent, Reviewer Agent, Coordinator Agent]
 handoffs:
   - label: Request Implementation Context
     agent: Implementation Agent

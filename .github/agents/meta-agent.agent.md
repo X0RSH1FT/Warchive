@@ -2,7 +2,6 @@
 name: Meta Agent
 description: Specialist for prompt, prompt-system, and customization-workflow changes. Use when the task is to create or refactor a bounded customization slice under .github or to align a broader prompt-workflow surface.
 tools: [vscode/vscodeAPI, vscode/askQuestions, vscode/toolSearch, read/problems, read/readFile, search, agent, edit/createFile, edit/editFiles, execute/runInTerminal, todo]
-agents: [Explorer Agent, Documentation Agent, Reviewer Agent, Coordinator Agent, Artistic Director Agent]
 handoffs:
   - label: Request Creative Target
     agent: Artistic Director Agent

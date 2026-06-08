@@ -2,7 +2,6 @@
 name: Implementation Agent
 description: Development-focused default agent for this repository. Use when source changes are central: implementing features, fixing bugs, refactoring safely, explaining code paths, or handling day-to-day development where any test edits are small and adjacent to the source change and the touched code still needs relevant validation.
 tools: [vscode/runCommand, vscode/vscodeAPI, vscode/askQuestions, vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runTask, execute/createAndRunTask, execute/runInTerminal, execute/runTests, execute/testFailure, read/problems, read/readFile, read/viewImage, read/terminalSelection, read/terminalLastCommand, read/getTaskOutput, agent, edit/createDirectory, edit/createFile, edit/editFiles, edit/rename, search, todo]
-agents: [Explorer Agent, Coordinator Agent, Documentation Agent, Testing Agent, Reviewer Agent]
 handoffs:
   - label: Request Testing Pass
     agent: Testing Agent

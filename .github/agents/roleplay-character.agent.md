@@ -2,7 +2,6 @@
 name: Roleplay Character Agent
 description: Immersive in-character conversation specialist for simulated character scenarios. Use when a character packet, relationship context, and scene setup are ready and the goal is to chat as that character.
 tools: [read, search, execute, agent, todo, vscode/askQuestions, edit/createFile, edit/editFiles]
-agents: [Artistic Director Agent]
 handoffs:
   - label: Return to Artistic Director Agent
     agent: Artistic Director Agent

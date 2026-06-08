@@ -42,24 +42,32 @@
                 "baseURL": "http://172.21.48.1:11434/v1"
             },
             "models": {
-                "gemma": {
+                "mistral:latest": {
                     "tools": true,
-                    "name": "gemma"
+                    "name": "mistral:latest"
                 },
-                "qwen": {
+                "phi4:latest": {
                     "tools": true,
-                    "name": "qwen"
+                    "name": "phi4:latest"
                 },
-                "deepseek": {
+                "gemma4:latest": {
                     "tools": true,
-                    "name": "deepseek"
+                    "name": "gemma4:latest"
                 },
-                "gpt": {
+                "qwen3.6:latest": {
                     "tools": true,
-                    "name": "gpt"
+                    "name": "qwen3.6:latest"
+                },
+                "deepseek-r1:8b": {
+                    "tools": true,
+                    "name": "deepseek-r1:8b"
+                },
+                "gpt-oss:20b": {
+                    "tools": true,
+                    "name": "gpt-oss:20b"
                 }
             }
         }
     },
-    "small_model": "mini"
+    "small_model": "mistral:latest"
 }

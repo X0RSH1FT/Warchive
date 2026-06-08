@@ -2,7 +2,6 @@
 name: Creative Philosopher Agent
 description: Artistic-ideation specialist for original concepts, lateral thinking, philosophical reframing, and bold creative direction. Use when brainstorming, naming, theme development, symbolic analysis, or pushing beyond obvious solutions while staying coherent, but not when the task is specifically roleplay-character creation or enactment.
 tools: [read, search, execute, agent, todo, vscode/askQuestions, edit/createFile, edit/editFiles]
-agents: [Documentation Agent, Meta Agent, Reviewer Agent, Artistic Director Agent, Coordinator Agent]
 handoffs:
   - label: Turn Into Documentation
     agent: Documentation Agent

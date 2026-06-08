@@ -2,7 +2,6 @@
 name: Reviewer Agent
 description: Read-focused review agent for repository changes. Use when reviewing staged or unstaged work, checking implementations for bugs and regressions, validating the chosen verification path, or preparing work for signoff without immediately editing files.
 tools: [read, search, execute, agent, todo, vscode/askQuestions]
-agents: [Explorer Agent, Implementation Agent, Documentation Agent, Testing Agent, Coordinator Agent]
 handoffs:
   - label: Apply Fixes
     agent: Implementation Agent

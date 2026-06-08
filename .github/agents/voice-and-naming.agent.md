@@ -2,7 +2,6 @@
 name: "Voice & Naming Agent"
 description: Creative specialist for names, titles, diction, tone, persona voice, and short-to-medium copy rewrites. Use when wording character, naming precision, or tonal control is the main open creative decision.
 tools: [read, search, execute, agent, todo, vscode/askQuestions, edit/createFile, edit/editFiles]
-agents: [Artistic Director Agent]
 handoffs:
   - label: Return to Artistic Director Agent
     agent: Artistic Director Agent

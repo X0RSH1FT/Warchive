@@ -2,7 +2,6 @@
 name: Narrative Designer Agent
 description: Creative specialist for game narrative systems: branching dialogue, consequence mapping, lore coherence, and narrative-gameplay alignment. Use when story intent must be turned into implementable narrative structures.
 tools: [read, search, execute, agent, todo, vscode/askQuestions, edit/createFile, edit/editFiles]
-agents: [Artistic Director Agent]
 handoffs:
   - label: Return to Artistic Director Agent
     agent: Artistic Director Agent
