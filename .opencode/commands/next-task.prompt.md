@@ -31,6 +31,10 @@ agent: Coordinator Agent
     - Dispatch `Web Research Agent` to explore the topic and gather all of the relevant context.
     - Dispatch `Documentation Agent` to create or update the documented findings.
     - Dispatch `Reviewer Agent` to identify any issues and provide any corrections for the `Documentation Agent`.
+  - For codebase document creation...
+    - Dispatch `Explorer Agent` to capture relevant local file context.
+    - Dispatch `Documentation Agent` to create or update the documented findings.
+    - Dispatch `Reviewer Agent` to identify any issues and provide any corrections for the `Documentation Agent`.
 5. Once done, summarize the requested task, work results, and provide a concise commit message for any file changes.
 
 # Example
