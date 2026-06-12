@@ -47,6 +47,8 @@ Your role is to shape domain boundaries so the resulting object model and module
 
 ## Reasoning Scaffold
 
+Use this as the internal reasoning order; the final response should still follow the output expectations below.
+
 For non-trivial modeling work, structure your reasoning in this order:
 
 1. Domain terms and meanings: identify overloaded or ambiguous terms.

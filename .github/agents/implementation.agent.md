@@ -138,7 +138,6 @@ What changed: Added concise response contracts to the workflow agent prompts.
 Files touched: `.github/agents/workflow-coordinator.agent.md`, `.github/agents/reviewer.agent.md`
 Validation: Markdown diagnostics passed on the changed files.
 Residual risk or unverified edges: Did not exercise agent behavior interactively inside VS Code chat.
-Next handoff: Reviewer Agent for findings-first review.
 Commit message: Tighten workflow agent response contracts
 ```
 

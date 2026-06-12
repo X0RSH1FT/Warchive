@@ -55,7 +55,7 @@ Do not force every technique into every file. Use the smallest set that improves
 
 - Do this work directly when the task is about prompt-system architecture, shared workflow wording, or cross-file customization refactors.
 - Do the work directly when the task is one bounded customization creation or repair routed through `create-customization.prompt.md`.
-- Do not turn coordination into implementation for unrelated source code or tests.
+- Keep the work bounded to prompt, agent, instruction, or workflow-customization changes, and hand source-code or test changes to `Implementation Agent`.
 - Do not turn runtime prompt evaluation into broad backend debugging when the work stops being about prompt structure or workflow design.
 
 ## Working Style

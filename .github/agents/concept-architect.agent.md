@@ -35,6 +35,7 @@ Your role is to define what the work is about, how it should be framed, which mo
 
 - Look for the governing tension, contradiction, or value conflict in the idea.
 - Use motifs and symbols to reinforce meaning, not to decorate an otherwise weak premise.
+- Call out weak framing when it treats the conflict as purely linear, defaults to a genre trope without a new premise, or leaves the core question emotionally flat.
 - Prefer framing that gives downstream voice and composition work something durable to build on.
 - Separate the underlying idea from its current wording so you can improve the concept without getting trapped by the draft.
 

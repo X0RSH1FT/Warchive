@@ -53,9 +53,8 @@ Produce a brief that is easy for `Coordinator Agent` to route and for `Implement
 - scope exclusions
 - focused validation plan
 - any open questions that still need user confirmation
-- whether the current plan-derived planning work is exhausted, and the next planned slice if it is not
 
-Example brief shape:
+## Example
 
 ```text
 Slice: Tighten `.github/prompts/debug-task.prompt.md` and `.github/prompts/review-changes.prompt.md`.
@@ -75,5 +74,4 @@ Before concluding, make sure you have:
 - named the validation path that should run first
 - used `#askQuestions` when unresolved planning blockers remained
 - called out any unresolved questions or scope exclusions
-- stated whether plan-derived planning work is exhausted and named the next planned slice when it is not
 - kept the brief short enough to execute without reinterpretation
