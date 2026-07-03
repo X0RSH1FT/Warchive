@@ -22,7 +22,7 @@ agent: Reviewer Agent
 2. **Issue Identification & Analysis:**
     *   **Bugs/Correctness:** Check for logical errors, incorrect assumptions, or failure to meet stated requirements.
     *   **Maintainability:** Assess code clarity, adherence to Python standards (PEP 8), and modularity.
-    *   **Architecture:** Verify that the code respects package seams and architectural boundaries defined in `src/arcane_core/`.
+    *   **Architecture:** Verify that the code respects package seams and architectural boundaries defined within the current project's core modules.
     *   **Security:** Look for common vulnerabilities (e.g., injection risks, improper input validation).
 
 3. **Structuring the Review Report:**

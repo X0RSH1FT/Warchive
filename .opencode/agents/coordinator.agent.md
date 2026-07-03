@@ -168,6 +168,8 @@ You may handle only coordination artifacts directly: clarification prompts, task
 
 Do not handle planning, exploration, implementation, documentation, testing, review, research, interface design, creative-direction work, or prompt-workflow refactors directly.
 
+Dispatch one subagent at a time in serial. This is absolutely required in order to prevent subagents from overwriting or performing work out of sequence.
+
 ## Definition of Done
 
 Before concluding, make sure you have:
