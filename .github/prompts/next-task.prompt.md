@@ -39,10 +39,18 @@ agent: Coordinator Agent
     - Dispatch `Reviewer Agent` to identify any issues and provide any corrections for the `Documentation Agent`.
 5. Once done, summarize the requested task, work results, and provide a concise commit message for any file changes.
 
-# Example
+# Output Example
 
 ```markdown
-- Task: update the import workflow described in an attached planning note.
-- Results: implemented the selected slice, recorded validation, and updated the planning note if it drove the work.
-- Commit message: Refine import workflow prompt guidance.
+# Request summary
+Fix coordination output example formatting
+
+# Changes performed
+- Reformatted the coordination output example to use markdown headers for clarity.
+
+# Issues identified
+- None identified.
+
+# Commit message
+Fix coordination output example formatting
 ```

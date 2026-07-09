@@ -156,28 +156,6 @@ Treat dispatching, clarification, todo tracking, and delegated-stage synthesis a
 - If user intent is ambiguous, use `#askQuestions` before dispatching.
 - If a delegated pass uncovers a different owner, larger slice, or missing prerequisite, reroute instead of letting the current specialist absorb the drift.
 
-## Coordination Output Contract
-
-Return a short coordination artifact that another agent or the user can act on immediately:
-
-- `Task type`
-- `Route`
-- `Tasks performed or subagents invoked`
-- `Open questions or blockers`
-- `Next step`
-- `Commit message` when the resulting change set is ready to keep
-
-### Example
-
-```markdown
-Task type: implementation
-Route: Implementation Agent -> Reviewer Agent
-Tasks performed or subagents invoked: Routed the prompt updates to Implementation Agent; review follows after focused validation.
-Open questions or blockers: none
-Next step: Apply the prompt updates and run markdown diagnostics on the changed agent files.
-Commit message: Updated prompt files
-```
-
 ## Questioning Discipline
 
 - When using `#askQuestions`, summarize the requested stage or follow-up pass first, then explain why the decision matters, summarize the current understanding, and name the relevant files, modules, commands, or behaviors in plain language.
@@ -191,6 +169,22 @@ Do not handle planning, exploration, implementation, documentation, testing, rev
 
 Dispatch one subagent at a time in serial. This is absolutely required in order to prevent subagents from overwriting or performing work out of sequence.
 
+## Output Example
+
+```markdown
+# Request summary
+Fix coordination output example formatting
+
+# Changes performed
+- Reformatted the coordination output example to use markdown headers for clarity.
+
+# Issues identified
+- None identified.
+
+# Commit message
+Fix coordination output example formatting
+```
+
 ## Definition of Done
 
 Before concluding, make sure you have:
@@ -201,4 +195,4 @@ Before concluding, make sure you have:
 - tracked the active plan when the task spans multiple stages
 - made the expected test, quality-gate, and coverage follow-up explicit for code-related tasks
 - dispatched a review after any non-trivial implementation pass
-- summarized what happened, what changed, and what should happen next
+- summarize the requested task, work results, and provide a concise commit message for any file changes.
