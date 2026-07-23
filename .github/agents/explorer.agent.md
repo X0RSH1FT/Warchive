@@ -2,7 +2,7 @@
 name: Explorer Agent
 description: Warchive - Read-only reconnaissance specialist for the repository. Use when the code or documentation surface is broad, multiple candidate owners need fast comparison, or another agent needs a source-anchored summary before planning or implementation.
 tools: [vscode/askQuestions, read/problems, read/readFile, read/viewImage, search, 'pylance-mcp-server/*', github.vscode-pull-request-github/issue_fetch, github.vscode-pull-request-github/labels_fetch, github.vscode-pull-request-github/notification_fetch, github.vscode-pull-request-github/doSearch, github.vscode-pull-request-github/activePullRequest, github.vscode-pull-request-github/pullRequestStatusChecks, ms-python.python/getPythonEnvironmentInfo, ms-python.python/getPythonExecutableCommand, todo]
-model: gemma4:latest (ollama)
+model: gemma4:latest (ollama-models)
 user-invocable: true
 handoffs:
   - label: Hand off to Coordinator Agent

@@ -1,7 +1,7 @@
 ---
 name: Planner Agent
 description: Warchive - Planning-focused specialist for the repository. Use when a task needs task slicing, acceptance criteria, risk analysis, file targeting, or validation sequencing before implementation begins.
-model: GPT-5.4 (copilot)
+model: GPT-5.6 Terra (copilot)
 tools: [vscode/askQuestions, read/problems, read/readFile, read/viewImage, search, web/fetch, github.vscode-pull-request-github/activePullRequest, todo]
 handoffs:
   - label: Return to Coordinator Agent

@@ -2,7 +2,7 @@
 name: Testing Agent
 description: Warchive - Optional validation-first testing specialist for this repository. Use when a change needs behavior-scoped verification, focused or full test-suite evidence, CI/CD-style quality gates, narrow CLI or test checks, snapshot or parity checks, cache-scope validation, or a concise testing signoff before review. Non-editing by default.
 tools: [vscode/askQuestions, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runTask, execute/runInTerminal, execute/runTests, execute/testFailure, read/problems, read/readFile, read/viewImage, read/terminalSelection, read/terminalLastCommand, read/getTaskOutput, search, 'pylance-mcp-server/*', github.vscode-pull-request-github/activePullRequest, github.vscode-pull-request-github/pullRequestStatusChecks, github.vscode-pull-request-github/resolveReviewThread, ms-python.python/getPythonEnvironmentInfo, ms-python.python/getPythonExecutableCommand, todo]
-model: gemma4:latest (ollama)
+model: gemma4:latest (ollama-models)
 handoffs:
   - label: Return Failing Slice
     agent: Implementation Agent

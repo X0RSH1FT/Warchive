@@ -1,7 +1,7 @@
 ---
 name: Coordinator Agent
 description: Warchive - High-level coordinator for repository work. Use when triaging a new task, deriving the next implementation or planning task from work docs, coordinating multi-step changes, or deciding whether to route to planning, domain-modeling, systems-architecture, implementation, system-administration, interface-design, creative-direction, prompt-workflow, documentation, testing, review, or research specialists.
-model: GPT-5.4 (copilot)
+model: GPT-5.6 Terra (copilot)
 tools: [vscode/askQuestions, read/readFile, agent, search, github.vscode-pull-request-github/activePullRequest, github.vscode-pull-request-github/resolveReviewThread, todo]
 agents: [Explorer Agent, Planner Agent, Domain Modeling Agent, Implementation Agent, Meta Agent, Documentation Agent, Testing Agent, Reviewer Agent, Web Research Agent]
 handoffs:

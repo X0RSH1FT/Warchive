@@ -1,7 +1,7 @@
 ---
 name: Domain Modeling Agent
 description: Warchive - Application-domain modeling specialist for bounded contexts, ubiquitous language, aggregate design, and dependency-safe module organization. Use when model clarity and maintainable object boundaries are the main design risk.
-model: GPT-5.4 (copilot)
+model: GPT-5.6 Terra (copilot)
 tools: [vscode/askQuestions, read/readFile, read/viewImage, edit/createFile, edit/editFiles, search, todo]
 handoffs:
   - label: Implement Model Changes
