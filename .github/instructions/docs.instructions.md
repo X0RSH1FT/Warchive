@@ -1,6 +1,6 @@
 ---
 name: "Documentation Writing Guidance"
-description: "Markdown authoring guidance for knowledge-base docs under docs/. Use when editing durable references, research notes, or planning notes in the documentation tree."
+description: "Markdown authoring guidance for docs under docs/. Use when editing durable docs, exploratory notes, sprint planning notes, or checklists."
 applyTo: "docs/**/*.md"
 ---
 
@@ -10,58 +10,77 @@ Use these rules when editing Markdown files under `docs/`.
 
 ## Ownership By Directory
 
-- `docs/research/` owns durable research, customization, and reference material for this knowledge-base repository.
-- `docs/sprint/` owns checklist-style planning notes, implementation notes, active sprint checklists, and other in-flight work tracking for this repository.
-- Keep other doc buckets aligned with the repository's current docs layout; ask before introducing new durable, planning, or canonical directories when no existing home is obvious.
-- Keep `README.md` as the user-facing overview and top-level navigation when it already serves that role; do not duplicate that role inside `docs/`.
+- `docs/app/` owns durable reference material for shipped behavior and stable project guidance.
+- `docs/research/` owns exploratory reviews, comparisons, and design notes that are not the canonical shipped reference.
+- `docs/sprint/` owns active plans, deferred work, and other in-flight notes.
+- Keep `README.md` as the user-facing overview; do not duplicate that role inside `docs/`.
 
 ## Authoring Rules
 
-- Write source-anchored prose rather than copying planning language forward.
+- Write source-anchored prose.
 - State the audience and scope early when a page is durable reference material.
-- Verify commands, paths, config keys, and symbol names against the current repository state before concluding.
+- Verify commands, paths, config keys, and symbol names against the current repository state.
 - Prefer scannable structure: short lead summaries, tables for shared fields, and lists for independent items.
 - Avoid unsupported claims, stale quantitative counts, and `TODO` or `TBD` in published documentation.
-- Keep operational instructions, durable explanations, and active planning clearly separated.
+- Promote facts out of `docs/sprint/` when the behavior has shipped and an owning durable page now exists.
 
 ## Cross-Document Consistency
 
-- Keep any top-level docs indexes or neighboring overview pages aligned when adding, moving, or removing durable docs.
-- Reconcile sibling links in the same pass when a document moves or ownership changes.
-- Promote settled facts out of temporary notes when an owning durable page now exists.
+- Keep `docs/app/architecture.md` aligned with the durable reference suite when adding, moving, or removing durable docs.
+- Reconcile links when a document moves or ownership changes.
+- Update `.github/copilot-instructions.md` and `AGENTS.md` when documentation suite changes materially.
+- When research notes in `docs/research/` harden into durable guidance, move or summarize them into the owning reference doc instead of duplicating both.
 
 ## Validation
 
 - Use the cheapest available proof for documentation claims: nearby source reads, targeted search, or a focused command.
-- When a doc mentions executable commands, prefer the repository's native commands for validation instead of assuming a specific toolchain.
 - Check diagnostics on touched Markdown files before concluding.
 
-## Checklist Hygiene Rules
+# Checklist
 
-Apply these rules to active checklist and planning docs in `docs/sprint/` and `docs/plan/`.
+## Hygiene Rules
 
-- Prioritize repository instruction files and these checklist hygiene rules over style preferences.
+Apply these rules to active checklist in `docs/sprint/`.
+
 - Keep active checklist documents single-purpose: unresolved work only.
-- Remove completed implementation history from active sections, or keep only a short completed summary when explicitly requested.
-- Use this fixed structure in active checklist docs:
-	1. Purpose (1-2 lines)
-	2. Active unresolved checklist items
+- Capture details at the bottom if a checklist item was closed (`done` or `cancelled`).
+- Do not add any planning or other extraneous notes.
+- Maintain this fixed structure:
+	1. Objective
+	2. Active items
 	3. Validation guidance
-	4. Optional completed summary (maximum 5 bullets, only when explicitly enabled)
-- Allowed item statuses are `open`, `in progress`, `blocked`, and `done`.
+	4. Completion notes (Optional)
+- Allowed item statuses are `open`, `in progress`, `blocked`, `cancelled`, and `done`.
 - Remove `done` items from the active unresolved section during refresh.
-- Delete contradictory next-step notes as soon as they conflict with completed slices.
-- Do not keep long dated implementation logs, duplicated selected-slice history, or mixed postmortem plus active planning in the same active checklist.
-- Use narrow context reads: inspect only enough content to classify each item as unresolved, completed, or stale.
+- Use narrow context scans: inspect only enough content to classify each item as unresolved, completed, or stale.
 - Follow this deterministic cleanup order:
-	1. Classify
-	2. Remove stale and completed content
+	1. Classify checklist item state
+	2. Remove stale, completed and/or extraneous content
 	3. Normalize sections
 	4. Validate
 	5. Summarize changes
-- Cleanup summaries must report removed sections or items, remaining unresolved groups, and assumptions used for ambiguous removals.
 
-Few-shot examples:
-- Good checklist item: Replace title-string dispatch with typed discriminant in web section renderer; update related tests.
-- Bad checklist item: 2026-05-31: We discussed multiple options, maybe revisit later, likely related to prior refactor notes.
-- Clean section layout: Purpose; Active unresolved items; Validation guidance; Optional completed summary (short).
+## Example
+
+```md
+1. Objective
+- Prepare and publish v1.2 release notes and artifacts.
+
+2. Active items
+- [in progress] **Draft changelog entries:** Draft entries in `CHANGELOG.md` and link related PRs.
+- [open] **Collect approvals:** Obtain sign-off from Product and QA — attach review links.
+- [open] **Finalize release notes:** Write website and social summary at `docs/release-notes/v1.2.md`.
+- [blocked] **Prepare release artifacts:** Build, sign, and verify release binaries (CI currently failing).
+
+3. Validation guidance
+- **Changelog check:** Confirm entries match merged PR titles and commit messages.
+- **Build verification:** Ensure CI pipeline passes the `release` job and smoke tests succeed.
+- **Sign-off evidence:** Attach PR reviews or approval emails to the relevant checklist items.
+- **Publishing check:** Confirm `docs/release-notes/v1.2.md` is published and links resolve.
+
+4. Completion notes (Optional)
+- Changelog drafted and peer-reviewed.
+- Release build passed smoke tests.
+- Product and QA approvals recorded.
+
+```

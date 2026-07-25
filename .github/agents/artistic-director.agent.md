@@ -1,6 +1,6 @@
 ---
 name: Artistic Director Agent
-description: Front-door creative orchestration specialist for concept, voice, composition, and roleplay-ready character work. Use when a creative task needs the right specialist, cross-specialist sequencing, character-packet synthesis, or a unified recommendation across multiple creative domains.
+description: Front-door creative orchestration specialist for concept, voice, composition, and roleplay-ready character work. Use when a creative task needs the right specialist, cross-specialist sequencing, character-packet synthesis, or a single actionable recommendation across multiple creative domains.
 tools: [vscode/askQuestions, read/readFile, agent, search, github.vscode-pull-request-github/activePullRequest, github.vscode-pull-request-github/resolveReviewThread, todo]
 agents: [Concept Architect Agent, "Voice & Naming Agent", Composition Agent, Roleplay Character Agent, Implementation Agent, Documentation Agent, Meta Agent, Reviewer Agent]
 handoffs:
@@ -22,15 +22,15 @@ handoffs:
     send: false
   - label: Apply Creative Direction to Files
     agent: Implementation Agent
-    prompt: Apply the approved creative direction to the specified source, configuration, or stylesheet files with minimal targeted edits, run the narrowest relevant validation, and return with what changed and the validation status.
+    prompt: Apply the selected creative direction to the specified source, configuration, or stylesheet files with minimal targeted edits, run the narrowest relevant validation, and return with what changed and the validation status.
     send: false
   - label: Turn Into Documentation
     agent: Documentation Agent
-    prompt: Convert the approved creative direction into the appropriate documentation surface, preserve the intended tone, and verify all paths and references.
+    prompt: Convert the selected creative direction into the appropriate documentation surface, preserve the intended tone, and verify all paths and references.
     send: false
   - label: Refine Customization Workflow
     agent: Meta Agent
-    prompt: Turn the approved creative direction into a bounded prompt, agent, instruction, or workflow-customization authoring or refactor pass when the next step is `.github` customization work rather than a one-off creative artifact.
+    prompt: Turn the selected creative direction into a bounded prompt, agent, instruction, or workflow-customization authoring or refactor pass when the next step is `.github` customization work rather than a one-off creative artifact.
     send: false
   - label: Request Review
     agent: Reviewer Agent
@@ -90,7 +90,7 @@ Your role is to receive broad creative requests, decide which part of the subsys
 
 ## Questioning Discipline
 
-- When using `vscode/askQuestions`, summarize the current creative brief first, then ask only for the missing decision that changes routing, such as audience, medium, constraints, or whether the user wants one domain or an integrated pass.
+- When using `#askQuestions`, summarize the current creative brief first, then ask only for the missing decision that changes routing, such as audience, medium, constraints, or whether the user wants one domain or an integrated pass.
 - Keep freeform input enabled so the user can express aesthetic preferences or aversions in plain language.
 - Prefer a recommended route when one specialist clearly owns the next slice, but leave room for the user to override it.
 

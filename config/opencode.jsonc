@@ -1,0 +1,73 @@
+// echo "" > /home/x0rsh1ft/.config/opencode/opencode.jsonc
+// nano /home/x0rsh1ft/.config/opencode/opencode.jsonc
+{
+    "$schema": "https://opencode.ai/config.json",
+    "permission": {
+        "bash": {
+            "*": "ask",
+            "git diff *": "allow",
+            "git status *": "allow",
+            "npm *": "allow",
+            "uv *": "allow",
+            "python3 *": "allow",
+            "grep *": "allow",
+            "find *": "allow",
+            "wc *": "allow",
+            "echo *": "allow",
+            "ls *": "allow",
+            "head *": "allow"
+        },
+        "edit": {
+            "*": "ask",
+            "~/*": "allow"
+        },
+        "read": {
+            "*": "allow",
+            "*.env": "deny",
+            "*.env.*": "deny",
+            "*.env.example": "allow"
+        },
+        "external_directory": {
+            "*": "ask",
+            "~/*": "allow"
+        }
+    },
+    "provider": {
+        "ollama": {
+            "npm": "@ai-sdk/openai-compatible",
+            "name": "Ollama (local)",
+            "options": {
+                // Look up host ip for WSL
+                // ip route show | grep -i default | awk '{ print $3}'
+                "baseURL": "http://172.21.48.1:11434/v1"
+            },
+            "models": {
+                "mistral:latest": {
+                    "tools": true,
+                    "name": "mistral:latest"
+                },
+                "phi4:latest": {
+                    "tools": true,
+                    "name": "phi4:latest"
+                },
+                "gemma4:latest": {
+                    "tools": true,
+                    "name": "gemma4:latest"
+                },
+                "qwen3.6:latest": {
+                    "tools": true,
+                    "name": "qwen3.6:latest"
+                },
+                "deepseek-r1:8b": {
+                    "tools": true,
+                    "name": "deepseek-r1:8b"
+                },
+                "gpt-oss:20b": {
+                    "tools": true,
+                    "name": "gpt-oss:20b"
+                }
+            }
+        }
+    },
+    "small_model": "mistral:latest"
+}

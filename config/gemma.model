@@ -1,0 +1,4 @@
+FROM gemma4:latest
+PARAMETER temperature 0.3
+PARAMETER num_ctx 32768
+PARAMETER top_p 0.8

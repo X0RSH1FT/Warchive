@@ -1,0 +1,1490 @@
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Architect’s Guide: How to Create and Deploy Custom Models in Ollama</title>
+<meta name="description" content="Estimated Time: 1–3 hours depending on model size and complexity
+Difficulty Level: Intermediate Requires familiarity with command line interfaces and basic AI c">
+<meta property="og:title" content="The Architect’s Guide: How to Create and Deploy Custom Models in Ollama">
+<meta property="og:description" content="Estimated Time: 1–3 hours depending on model size and complexity
+Difficulty Level: Intermediate Requires familiarity with command line interfaces and basic AI c">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://ollama-9269c548.mintlify.app/mintlify-assets/_next/image?url=%2F_mintlify%2Fapi%2Fog%3Fdivision%3DMore%2Binformation%26title%3DModelfile%2BReference%26logoLight%3Dhttps%253A%252F%252Fmintcdn.com%252Follama-9269c548%252FXefrxzvUktkk84RL%252Fimages%252Flogo.png%253Ffit%253Dmax%2526auto%253Dformat%2526n%253DXefrxzvUktkk84RL%2526q%253D85%2526s%253D03a38b5749aa7f530044e9b251dc10d8%26logoDark%3Dhttps%253A%252F%252Fmintcdn.com%252Follama-9269c548%252FXefrxzvUktkk84RL%252Fimages%252Flogo-dark.png%253Ffit%253Dmax%2526auto%253Dformat%2526n%253DXefrxzvUktkk84RL%2526q%253D85%2526s%253Dc214b467f5623414c31d4e05c66110fb%26primaryColor%3D%2523000%26lightColor%3D%2523b5b5b5%26darkColor%3D%2523000%26backgroundLight%3D%2523ffffff%26backgroundDark%3D%2523000000&amp;w=1200&amp;q=100">
+<meta name="theme-color" content="#b8543a" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131214" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='75' font-size='75'&gt;O&lt;/text&gt;&lt;/svg&gt;">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --font-display: 'Charter', 'Iowan Old Style', Georgia, serif;
+  --font-body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --bg: #fbf9f4;
+  --bg-surface: #ffffff;
+  --bg-surface-alt: #f1ede4;
+  --border: rgba(0,0,0,0.08);
+  --border-strong: rgba(0,0,0,0.16);
+  --text: #1a1817;
+  --text-dim: #5a5651;
+  --text-muted: #8a8580;
+  --accent: #b8543a;
+  --accent-light: #d97a5e;
+  --accent-bg: rgba(184,84,58,0.06);
+  --gold: #c9952e;
+  --gold-bg: rgba(201,149,46,0.09);
+  --aurora-a: rgba(184,84,58,0.10);
+  --aurora-b: rgba(201,149,46,0.08);
+  --aurora-c: rgba(64,98,128,0.07);
+  --radius: 12px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 24px rgba(0,0,0,0.07);
+  --max-w: 760px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #131214; --bg-surface: #1c1a1e; --bg-surface-alt: #25232a;
+    --border: rgba(255,255,255,0.07); --border-strong: rgba(255,255,255,0.16);
+    --text: #ece8e2; --text-dim: #a8a39c; --text-muted: #6f6b66;
+    --accent: #e88f73; --accent-light: #f4ad95; --accent-bg: rgba(232,143,115,0.09);
+    --gold: #e8c05a; --gold-bg: rgba(232,192,90,0.09);
+    --aurora-a: rgba(232,143,115,0.13);
+    --aurora-b: rgba(232,192,90,0.09);
+    --aurora-c: rgba(125,180,224,0.10);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.4); --shadow-md: 0 4px 28px rgba(0,0,0,0.55);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Give smooth-scroll some breathing room so anchors land below the
+     fixed toolbar instead of being shoved straight under it. */
+  scroll-padding-top: 4rem;
+}
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  font-size: 17px;
+  font-feature-settings: 'ss01', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* ── Aurora background ─────────────────────────────────
+   Slowly-drifting layered blobs in the accent palette. Sits behind
+   the content, fixed to the viewport so scrolling doesn't reset the
+   composition. Subtle grain on top stops it reading as 'flat CSS'. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: -20vh -20vw;
+  z-index: -2;
+  background:
+    radial-gradient(40vw 50vh at 18% 22%, var(--aurora-a) 0%, transparent 60%),
+    radial-gradient(45vw 55vh at 82% 12%, var(--aurora-b) 0%, transparent 65%),
+    radial-gradient(55vw 60vh at 50% 88%, var(--aurora-c) 0%, transparent 70%);
+  filter: blur(20px);
+  animation: aurora-drift 28s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* Subtle film-grain — SVG turbulence baked to a data-URL. */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.32 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+}
+@keyframes aurora-drift {
+  0%   { transform: translate3d(0,0,0) scale(1);     }
+  50%  { transform: translate3d(2vw,-1vh,0) scale(1.04); }
+  100% { transform: translate3d(-1vw,1.5vh,0) scale(1.02); }
+}
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: none; }
+}
+
+/* ── Toolbar (top-right) ──────────────────────────── */
+.toolbar {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
+  display: flex;
+  gap: 0.4rem;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.toolbar:hover { opacity: 1; }
+.toolbar button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--bg-surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.15s;
+  position: relative;
+}
+.toolbar button:hover { background: var(--bg-surface-alt); }
+.toolbar button svg { width: 14px; height: 14px; flex-shrink: 0; }
+.toolbar .toast {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--text);
+  color: var(--bg);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s;
+  pointer-events: none;
+}
+.toolbar .toast.show { opacity: 1; }
+.dropdown { position: relative; }
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  min-width: 140px;
+}
+.dropdown-menu.open { display: block; }
+.dropdown-menu button {
+  display: block;
+  width: 100%;
+  padding: 8px 14px;
+  border: none;
+  background: none;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.8rem;
+  text-align: left;
+  cursor: pointer;
+}
+.dropdown-menu button:hover { background: var(--bg-surface-alt); }
+
+/* ── Hero ──────────────────────────────────────────── */
+.hero {
+  position: relative;
+  background: transparent;
+  color: var(--text);
+  padding: 5.5rem 2rem 2.5rem;
+  text-align: center;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 40%, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 70%);
+  pointer-events: none;
+}
+/* A hair-thin gradient hairline divider under the hero to anchor it
+   without putting it on a heavy boxed background. */
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 50%; bottom: 0;
+  width: min(60%, 320px);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
+}
+.hero-label {
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--accent);
+  opacity: 0.85;
+  margin-bottom: 1.4rem;
+  font-family: var(--font-body);
+}
+.hero h1 {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 600;
+  font-variation-settings: 'opsz' 120, 'SOFT' 50;
+  line-height: 1.15;
+  max-width: 720px;
+  margin: 0 auto;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+/* ── Hero image ───────────────────────────────────── */
+.hero-image {
+  max-width: var(--max-w);
+  margin: -2rem auto 0;
+  position: relative;
+  z-index: 1;
+  padding: 0 2rem;
+}
+.hero-image img {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  display: block;
+}
+
+/* ── Section images ───────────────────────────────── */
+.section-image {
+  margin: 1.5rem 0;
+  position: relative;
+}
+.section-image img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  display: block;
+}
+
+/* ── Per-image hide button ────────────────────────────
+   A small X that appears on hover (or always on touch) so users can
+   remove irrelevant OG images. Click POSTs the URL to the backend so
+   the next render skips it. */
+.img-hide-btn {
+  position: absolute;
+  top: 10px; right: 10px;
+  width: 28px; height: 28px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease, transform 0.05s ease;
+  z-index: 2;
+  padding: 0;
+}
+.hero-image .img-hide-btn { top: 14px; right: 2.5rem; }
+/* Reroll sits just to the left of the hide button. */
+.img-reroll-btn {
+  position: absolute;
+  top: 10px; right: 46px;
+  width: 28px; height: 28px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease, transform 0.05s ease;
+  z-index: 2;
+  padding: 0;
+}
+.hero-image .img-reroll-btn { top: 14px; right: calc(2.5rem + 36px); }
+.section-image:hover .img-hide-btn,
+.section-image:hover .img-reroll-btn,
+.hero-image:hover .img-hide-btn,
+.hero-image:hover .img-reroll-btn { opacity: 1; }
+.img-hide-btn:hover { background: var(--accent); }
+.img-reroll-btn:hover { background: var(--accent); }
+.img-hide-btn:active,
+.img-reroll-btn:active { transform: scale(0.92); }
+.img-reroll-btn.spinning svg { animation: img-reroll-spin 0.6s linear infinite; }
+.img-reroll-btn:disabled { display: none; }
+@keyframes img-reroll-spin { to { transform: rotate(360deg); } }
+@media (hover: none) {
+  /* Touch devices have no hover — show the buttons at low opacity always. */
+  .img-hide-btn, .img-reroll-btn { opacity: 0.7; }
+}
+.section-image.fading,
+.hero-image.fading {
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* ── Stats bar ─────────────────────────────────────── */
+.stats-bar {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 0.9rem 2rem;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+.stat { display: flex; align-items: center; gap: 0.35rem; }
+.stat-value { font-weight: 600; color: var(--text); }
+
+/* ── Layout ────────────────────────────────────────── */
+.layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  max-width: calc(var(--max-w) + 260px);
+  margin: 0 auto;
+}
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .toc-sidebar { display: none; }
+}
+
+/* ── TOC sidebar ───────────────────────────────────── */
+.toc-sidebar {
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  padding: 3.2rem 0.8rem 2rem 1.4rem;
+  border-right: 1px solid var(--border);
+  font-size: 0.78rem;
+}
+.toc-sidebar nav { position: relative; }
+.toc-sidebar nav a {
+  position: relative;
+  display: block;
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 0.42rem 0.7rem 0.42rem 0.85rem;
+  margin: 1px 0;
+  border-radius: 6px;
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+  transition: color 0.18s ease, background 0.18s ease, padding-left 0.18s ease;
+}
+/* Sliding accent indicator on the left edge of each TOC link */
+.toc-sidebar nav a::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  width: 2px; height: 0;
+  background: var(--accent);
+  transform: translateY(-50%);
+  border-radius: 1px;
+  transition: height 0.18s ease, opacity 0.18s ease;
+  opacity: 0;
+}
+.toc-sidebar nav a:hover {
+  color: var(--text);
+  background: var(--accent-bg);
+  padding-left: 1rem;
+}
+.toc-sidebar nav a:hover::before {
+  height: 60%;
+  opacity: 1;
+}
+.toc-sidebar nav a.active {
+  color: var(--accent);
+  font-weight: 600;
+  background: var(--accent-bg);
+}
+.toc-sidebar nav a.active::before {
+  height: 80%;
+  opacity: 1;
+}
+.toc-sidebar nav a.depth-3 {
+  padding-left: 1.3rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+.toc-sidebar nav a.depth-3:hover { padding-left: 1.45rem; }
+
+/* ── Content ───────────────────────────────────────── */
+.content { max-width: var(--max-w); padding: 3rem 2.5rem 4rem; }
+
+/* Display headings — Fraunces optical-size driven so they get more
+   contrast and personality at the larger end. */
+.content h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 2.4vw, 1.85rem);
+  font-weight: 600;
+  font-variation-settings: 'opsz' 96, 'SOFT' 50;
+  margin: 3rem 0 1rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(90deg, var(--accent) 0%, transparent 65%) 1;
+  letter-spacing: -0.022em;
+  line-height: 1.2;
+  color: var(--text);
+}
+.content h2:first-child { margin-top: 0; }
+.content h3 {
+  font-family: var(--font-display);
+  font-size: 1.22rem;
+  font-weight: 600;
+  font-variation-settings: 'opsz' 32;
+  margin: 2.2rem 0 0.6rem;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+.content h4 {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  margin: 1.6rem 0 0.5rem;
+}
+.content p { margin-bottom: 1.1rem; hanging-punctuation: first last; }
+
+/* Drop cap on the very first paragraph of the body — old-school editorial
+   touch that anchors the reader. */
+.content > p:first-of-type::first-letter,
+.content > h2:first-child + p::first-letter {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-variation-settings: 'opsz' 144;
+  font-size: 3.6em;
+  line-height: 0.85;
+  float: left;
+  margin: 0.15em 0.12em 0 -0.04em;
+  color: var(--accent);
+}
+
+.content a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s, color 0.15s;
+}
+.content a:hover {
+  text-decoration-color: var(--accent);
+  color: var(--accent-light);
+}
+.content ul, .content ol { margin: 0 0 1.1rem 1.6rem; }
+.content li { margin-bottom: 0.4rem; }
+.content li::marker { color: var(--accent); }
+.content li > ul, .content li > ol { margin-top: 0.4rem; margin-bottom: 0; }
+.content blockquote {
+  position: relative;
+  border-left: 3px solid var(--gold);
+  background: var(--gold-bg);
+  padding: 1.1rem 1.4rem 1.1rem 2.6rem;
+  margin: 1.5rem 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+.content blockquote::before {
+  content: '\201C';
+  position: absolute;
+  left: 0.5rem; top: 0.3rem;
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-style: normal;
+  color: var(--gold);
+  opacity: 0.5;
+  line-height: 1;
+}
+.content hr { border: none; height: 1px; background: linear-gradient(90deg, transparent, var(--border-strong), transparent); margin: 2rem 0; }
+.content code { font-family: var(--font-mono); font-size: 0.86em; background: var(--bg-surface-alt); padding: 0.15em 0.4em; border-radius: 4px; }
+.content pre { background: var(--bg-surface-alt); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; overflow-x: auto; margin: 1.25rem 0; font-size: 0.86rem; line-height: 1.6; }
+.content pre code { background: none; padding: 0; }
+.content table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.9rem; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
+.content th { text-align: left; padding: 0.7rem 1rem; background: var(--accent-bg); font-weight: 600; border-bottom: 2px solid var(--border-strong); }
+.content td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+.content tr:last-child td { border-bottom: none; }
+.content tr:hover td { background: var(--accent-bg); }
+
+/* ── Sources (collapsible list) ───────────────────── */
+.sources-panel { margin-top: 3rem; border-top: 2px solid var(--border); padding-top: 1.5rem; }
+.sources-panel details { margin: 0; }
+.sources-panel summary {
+  display: flex; align-items: center; gap: 0.5rem;
+  cursor: pointer; font-size: 1rem; font-weight: 600;
+  color: var(--text); padding: 0.5rem 0; list-style: none;
+  user-select: none;
+}
+.sources-panel summary::-webkit-details-marker { display: none; }
+.sources-panel summary::before {
+  content: '\25B6'; font-size: 0.65em; color: var(--text-muted);
+  transition: transform 0.2s;
+}
+.sources-panel details[open] summary::before { transform: rotate(90deg); }
+.sources-list { padding: 0.5rem 0 0 0.25rem; }
+.sources-list a {
+  display: flex; align-items: baseline; gap: 0.5rem;
+  padding: 0.35rem 0; font-size: 0.85rem;
+  color: var(--text); text-decoration: none;
+  transition: color 0.15s;
+}
+.sources-list a:hover { color: var(--accent); }
+.sources-list .snum {
+  color: var(--text-muted); font-size: 0.75rem;
+  min-width: 1.5rem; text-align: right; flex-shrink: 0;
+}
+.sources-list .sdomain {
+  color: var(--text-muted); font-size: 0.75rem;
+  margin-left: auto; flex-shrink: 0;
+}
+
+/* ── Chat-about CTA ────────────────────────────────── */
+.chat-cta {
+  margin: 3rem 0 1rem; padding: 1.5rem;
+  text-align: center;
+  border: 1px solid var(--border); border-radius: 12px;
+  background: var(--bg-surface);
+}
+.chat-cta-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px; font-size: 0.95rem; font-weight: 600;
+  background: var(--accent); color: #fff;
+  border: none; border-radius: 8px; cursor: pointer;
+  font-family: inherit;
+  transition: filter 0.15s, transform 0.05s;
+}
+.chat-cta-btn:hover:not(:disabled) { filter: brightness(1.1); }
+.chat-cta-btn:active:not(:disabled) { transform: translateY(1px); }
+.chat-cta-btn:disabled { opacity: 0.6; cursor: progress; }
+.chat-cta-hint {
+  margin-top: 8px; font-size: 0.8rem; color: var(--text-muted);
+}
+
+/* ── Footer ────────────────────────────────────────── */
+.report-footer {
+  text-align: center; padding: 2rem; font-size: 0.75rem;
+  color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 2rem;
+}
+
+/* ── Animations ────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .content h2, .content h3, .content p, .content ul, .content ol,
+  .content blockquote, .content table, .content pre, .section-image {
+    animation: fadeUp 0.4s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* ── Print ─────────────────────────────────────────── */
+@media print {
+  .toc-sidebar, .toolbar { display: none !important; }
+  .layout { grid-template-columns: 1fr; }
+  .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* ── Category palettes ───────────────────────────────────
+   Override the accent + aurora vars per category so each report
+   type has a distinct visual identity. */
+body.category-product {
+  --accent: #2a8a8c;
+  --accent-light: #4ab0b2;
+  --accent-bg: rgba(42,138,140,0.07);
+  --aurora-a: rgba(42,138,140,0.11);
+  --aurora-b: rgba(201,149,46,0.06);
+  --aurora-c: rgba(64,98,128,0.06);
+}
+body.category-comparison {
+  --accent: #7a4cb8;
+  --accent-light: #9d76d0;
+  --accent-bg: rgba(122,76,184,0.07);
+  --aurora-a: rgba(122,76,184,0.11);
+  --aurora-b: rgba(184,84,58,0.05);
+  --aurora-c: rgba(64,98,128,0.07);
+}
+body.category-howto {
+  --accent: #3d8a3d;
+  --accent-light: #62b162;
+  --accent-bg: rgba(61,138,61,0.07);
+  --aurora-a: rgba(61,138,61,0.11);
+  --aurora-b: rgba(201,149,46,0.07);
+  --aurora-c: rgba(42,138,140,0.05);
+}
+body.category-landscape {
+  --accent: #b88a2e;
+  --accent-light: #d4a955;
+  --accent-bg: rgba(184,138,46,0.08);
+  --aurora-a: rgba(184,138,46,0.13);
+  --aurora-b: rgba(184,84,58,0.06);
+  --aurora-c: rgba(122,76,184,0.05);
+}
+@media (prefers-color-scheme: dark) {
+  body.category-product {
+    --accent: #5cc8cb; --accent-light: #8fdde0;
+    --accent-bg: rgba(92,200,203,0.10);
+    --aurora-a: rgba(92,200,203,0.13);
+    --aurora-b: rgba(232,192,90,0.07);
+    --aurora-c: rgba(125,180,224,0.08);
+  }
+  body.category-comparison {
+    --accent: #b896e8; --accent-light: #d0b8f0;
+    --accent-bg: rgba(184,150,232,0.10);
+    --aurora-a: rgba(184,150,232,0.13);
+    --aurora-b: rgba(232,143,115,0.06);
+    --aurora-c: rgba(125,180,224,0.08);
+  }
+  body.category-howto {
+    --accent: #82c882; --accent-light: #a8dba8;
+    --accent-bg: rgba(130,200,130,0.09);
+    --aurora-a: rgba(130,200,130,0.12);
+    --aurora-b: rgba(232,192,90,0.07);
+    --aurora-c: rgba(92,200,203,0.07);
+  }
+  body.category-landscape {
+    --accent: #e6c069; --accent-light: #f0d390;
+    --accent-bg: rgba(230,192,105,0.10);
+    --aurora-a: rgba(230,192,105,0.15);
+    --aurora-b: rgba(232,143,115,0.07);
+    --aurora-c: rgba(184,150,232,0.06);
+  }
+}
+
+/* ── Per-category font pairings ───────────────────────
+   Body font shifts between serif (long-form categories) and sans
+   (practical/data categories) so each report reads as a different
+   publication, not just a re-tinted version of the same template. */
+
+/* Long-form: literary serif for both display and body */
+body:not([class*="category-"]),
+body.category-landscape {
+  --font-body: 'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+}
+
+/* Comparison: analytical serif display + clean sans body */
+body.category-comparison {
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+}
+
+/* How-to: friendly geometric sans, top to bottom */
+body.category-howto {
+  --font-display: 'Manrope', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+}
+
+/* Product: techy/engineery — IBM Plex Sans display + Inter body */
+body.category-product {
+  --font-display: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+}
+
+/* Source Serif sits visually larger than Inter at the same px — pull it
+   back one notch for the categories that use it as body so line length
+   and rhythm stay comparable across categories. */
+body:not([class*="category-"]) body, /* no-op selector, kept for clarity */
+body.category-landscape { font-size: 16.5px; }
+
+/* Drop cap looks bad on geometric sans — kill it for those categories */
+body.category-product   .content > p:first-of-type::first-letter,
+body.category-howto     .content > p:first-of-type::first-letter,
+body.category-comparison .content > p:first-of-type::first-letter,
+body.category-product   .content > h2:first-child + p::first-letter,
+body.category-howto     .content > h2:first-child + p::first-letter,
+body.category-comparison .content > h2:first-child + p::first-letter {
+  font-size: 1em; float: none; margin: 0; color: inherit;
+  font-family: inherit; font-weight: inherit;
+}
+
+/* ── Per-category background effects ───────────────
+   Each category overrides body::before so the page reads as a
+   distinctly-textured surface. Aurora stays the default. */
+
+/* Product → blueprint grid that slowly pans */
+body.category-product::before {
+  background:
+    linear-gradient(to right, var(--aurora-a) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--aurora-a) 1px, transparent 1px),
+    radial-gradient(70vw 60vh at 50% 50%, var(--aurora-a) 0%, transparent 75%);
+  background-size: 56px 56px, 56px 56px, 100% 100%;
+  filter: none;
+  animation: cat-grid-pan 60s linear infinite;
+}
+@keyframes cat-grid-pan {
+  to { background-position: 56px 56px, 56px 56px, 0 0; }
+}
+
+/* Comparison → dot grid + slow opacity pulse */
+body.category-comparison::before {
+  background:
+    radial-gradient(circle, var(--aurora-a) 1.4px, transparent 1.8px),
+    radial-gradient(60vw 55vh at 25% 25%, var(--aurora-b) 0%, transparent 65%),
+    radial-gradient(60vw 55vh at 75% 75%, var(--aurora-c) 0%, transparent 65%);
+  background-size: 26px 26px, 100% 100%, 100% 100%;
+  filter: none;
+  animation: cat-dot-pulse 14s ease-in-out infinite alternate;
+}
+@keyframes cat-dot-pulse {
+  from { opacity: 0.65; }
+  to   { opacity: 1; }
+}
+
+/* How-to → flat surface with a very subtle vignette. Drop the flow-lines
+   pattern — it competes visually with the step number rails on the
+   right-hand side of each H2. The reading should feel like an O'Reilly
+   procedure: clean, scannable, no decoration in the way. */
+body.category-howto::before {
+  background:
+    radial-gradient(70vw 70vh at 50% 0%, var(--aurora-a) 0%, transparent 60%),
+    radial-gradient(50vw 50vh at 50% 100%, var(--aurora-b) 0%, transparent 65%);
+  filter: blur(40px);
+  animation: none;
+}
+
+/* Landscape → horizontal horizon bands that slowly shift sideways */
+body.category-landscape::before {
+  background:
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      var(--aurora-a) 22%,
+      transparent 35%,
+      var(--aurora-b) 55%,
+      transparent 68%,
+      var(--aurora-c) 85%,
+      transparent 100%
+    );
+  background-size: 100% 200%;
+  filter: blur(40px);
+  animation: cat-horizon-drift 36s ease-in-out infinite alternate;
+}
+@keyframes cat-horizon-drift {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.category-product::before,
+  body.category-comparison::before,
+  body.category-howto::before,
+  body.category-landscape::before {
+    animation: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────
+   PER-CATEGORY STRUCTURAL TREATMENTS
+   Each category gets distinctive structural CSS so the page
+   reads as a different publication — not just retinted.
+   ───────────────────────────────────────────────────── */
+
+/* ── HOWTO: O'Reilly-style numbered procedure ─────── */
+body.category-howto .content { counter-reset: howto-step; }
+body.category-howto .content h2 {
+  counter-increment: howto-step;
+  display: flex; align-items: center; gap: 14px;
+  border-bottom: none;
+  padding-left: 0;
+  margin-top: 3.5rem;
+}
+body.category-howto .content h2::before {
+  content: counter(howto-step);
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+/* Step body gets a colored left rail so you can scan "this is step 1's stuff" */
+body.category-howto .content h2 ~ p,
+body.category-howto .content h2 ~ ul,
+body.category-howto .content h2 ~ ol,
+body.category-howto .content h2 ~ pre,
+body.category-howto .content h2 ~ blockquote {
+  border-left: 2px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  padding-left: 1rem;
+  margin-left: 4px;
+}
+body.category-howto .content h2:has(+ *) ~ h2 ~ * { border-left: none; padding-left: 0; margin-left: 0; }
+/* Terminal-style code blocks — green $ prompt, monospaced, dark surface */
+body.category-howto .content pre {
+  background: #1a1a1e;
+  color: #d4e4d4;
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  border-radius: 8px;
+  position: relative;
+  padding-left: 2.6rem;
+}
+body.category-howto .content pre::before {
+  content: '$';
+  position: absolute;
+  left: 1.1rem; top: 1.15rem;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.86rem;
+  opacity: 0.85;
+}
+body.category-howto .content pre code { color: inherit; }
+
+/* ── LANDSCAPE: editorial briefing with H3 player cards ─ */
+body.category-landscape .content h3 {
+  /* Each H3 in landscape = a "player" in the field — give it a card frame */
+  margin-top: 2.5rem;
+  padding: 14px 18px 4px;
+  border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 4%, transparent);
+  border-radius: 0 8px 8px 0;
+  font-family: var(--font-display);
+  font-size: 1.18rem;
+}
+body.category-landscape .content h3 + p {
+  margin-top: 0;
+  padding: 0 18px 14px;
+  background: color-mix(in srgb, var(--accent) 4%, transparent);
+  border-left: 3px solid var(--accent);
+  margin-left: 0;
+  border-radius: 0 0 8px 0;
+}
+/* Pull-quote treatment for any standalone blockquote */
+body.category-landscape .content blockquote {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  max-width: 90%;
+  margin: 2rem auto;
+  text-align: center;
+  border-left: none;
+  border-top: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  background: transparent;
+  border-radius: 0;
+  padding: 1.5rem 1rem;
+  font-style: italic;
+}
+body.category-landscape .content blockquote::before {
+  display: none;
+}
+
+/* ── COMPARISON: lab-report tables with winner badges ─ */
+body.category-comparison .content {
+  font-feature-settings: 'tnum' on, 'ss01';  /* tabular numerals for tables */
+}
+body.category-comparison .content table {
+  font-size: 0.92rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
+body.category-comparison .content th {
+  background: color-mix(in srgb, var(--accent) 18%, var(--bg-surface));
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+body.category-comparison .content td:first-child {
+  font-weight: 600;
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+/* The first H3 inside a comparison report often names the recommended pick */
+body.category-comparison .content h3:first-of-type::after {
+  content: 'Pick';
+  display: inline-block;
+  margin-left: 10px;
+  padding: 2px 10px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-radius: 999px;
+  vertical-align: middle;
+}
+
+/* ── PRODUCT: spec-sheet cards for each H3 ─────────── */
+body.category-product .content h3 {
+  /* Each product gets a spec-card frame — bordered, slight bg lift */
+  margin-top: 2.4rem;
+  padding: 16px 18px;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border));
+  background: var(--bg-surface);
+  border-radius: 10px;
+  display: flex; align-items: baseline; gap: 10px;
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+body.category-product .content h3::after {
+  /* small "spec" tag on each product heading */
+  content: 'SPEC';
+  margin-left: auto;
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+body.category-product .content h3 + p,
+body.category-product .content h3 + ul,
+body.category-product .content h3 + table {
+  margin-top: 0.8rem;
+  padding-left: 4px;
+}
+
+/* How-to category */
+.category-howto .content h2 {
+  counter-increment:step-counter;
+}
+.category-howto .content h2::before {
+  content:counter(step-counter);
+  display:inline-flex; align-items:center; justify-content:center;
+  width:28px; height:28px; border-radius:50%;
+  background:var(--accent); color:#fff; font-size:0.8em; font-weight:700;
+  margin-right:10px; flex-shrink:0;
+}
+.category-howto .content { counter-reset:step-counter; }
+.category-howto .content blockquote {
+  border-left:3px solid var(--accent); background:color-mix(in srgb, var(--accent) 8%, transparent);
+  padding:12px 16px; border-radius:0 6px 6px 0; margin:1em 0;
+}
+.category-howto .content blockquote strong:first-child {
+  display:inline-block; margin-bottom:4px; text-transform:uppercase;
+  font-size:0.82em; letter-spacing:0.5px;
+}
+.category-howto .content h2#quick-guide + ol,
+.category-howto .content h2#quick-guide ~ ol:first-of-type {
+  background:color-mix(in srgb, var(--accent) 8%, transparent);
+  border:1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  border-radius:8px; padding:14px 14px 14px 32px; font-size:0.95em; line-height:1.8;
+}
+.category-howto .content h2#quick-guide {
+  counter-increment:none;
+}
+.category-howto .content h2#quick-guide::before {
+  content:'\26A1'; background:none; width:auto; height:auto; margin-right:6px;
+}
+
+</style>
+</head>
+<body class="category-howto">
+
+<!-- Toolbar: Export + Restore hidden images -->
+<div class="toolbar">
+  
+  <div class="dropdown">
+    <button id="btn-export" title="Export">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+      Export ▾
+    </button>
+    <div class="dropdown-menu" id="export-menu">
+      <button id="btn-pdf">Save as PDF</button>
+      <button id="btn-html">Download HTML</button>
+    </div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-label">Odysseus — Deep Research Report</div>
+  <h1>The Architect’s Guide: How to Create and Deploy Custom Models in Ollama</h1>
+</div>
+
+<div class="hero-image" data-img-url="https://ollama-9269c548.mintlify.app/mintlify-assets/_next/image?url=%2F_mintlify%2Fapi%2Fog%3Fdivision%3DMore%2Binformation%26title%3DModelfile%2BReference%26logoLight%3Dhttps%253A%252F%252Fmintcdn.com%252Follama-9269c548%252FXefrxzvUktkk84RL%252Fimages%252Flogo.png%253Ffit%253Dmax%2526auto%253Dformat%2526n%253DXefrxzvUktkk84RL%2526q%253D85%2526s%253D03a38b5749aa7f530044e9b251dc10d8%26logoDark%3Dhttps%253A%252F%252Fmintcdn.com%252Follama-9269c548%252FXefrxzvUktkk84RL%252Fimages%252Flogo-dark.png%253Ffit%253Dmax%2526auto%253Dformat%2526n%253DXefrxzvUktkk84RL%2526q%253D85%2526s%253Dc214b467f5623414c31d4e05c66110fb%26primaryColor%3D%2523000%26lightColor%3D%2523b5b5b5%26darkColor%3D%2523000%26backgroundLight%3D%2523ffffff%26backgroundDark%3D%2523000000&amp;w=1200&amp;q=100"><img src="https://ollama-9269c548.mintlify.app/mintlify-assets/_next/image?url=%2F_mintlify%2Fapi%2Fog%3Fdivision%3DMore%2Binformation%26title%3DModelfile%2BReference%26logoLight%3Dhttps%253A%252F%252Fmintcdn.com%252Follama-9269c548%252FXefrxzvUktkk84RL%252Fimages%252Flogo.png%253Ffit%253Dmax%2526auto%253Dformat%2526n%253DXefrxzvUktkk84RL%2526q%253D85%2526s%253D03a38b5749aa7f530044e9b251dc10d8%26logoDark%3Dhttps%253A%252F%252Fmintcdn.com%252Follama-9269c548%252FXefrxzvUktkk84RL%252Fimages%252Flogo-dark.png%253Ffit%253Dmax%2526auto%253Dformat%2526n%253DXefrxzvUktkk84RL%2526q%253D85%2526s%253Dc214b467f5623414c31d4e05c66110fb%26primaryColor%3D%2523000%26lightColor%3D%2523b5b5b5%26darkColor%3D%2523000%26backgroundLight%3D%2523ffffff%26backgroundDark%3D%2523000000&amp;w=1200&amp;q=100" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><button class="img-reroll-btn" type="button" title="Swap for another image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg></button><button class="img-hide-btn" type="button" title="Hide image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div>
+
+<div class="stats-bar">
+  <div class="stat"><span class="stat-value">417.2s</span> Duration</div>
+  <div class="stat"><span class="stat-value">3</span> Rounds</div>
+  <div class="stat"><span class="stat-value">7</span> Queries</div>
+  <div class="stat"><span class="stat-value">22</span> URLs Analyzed</div>
+  <div class="stat"><span class="stat-value">gemma4:latest</span> Model</div>
+  <div class="stat"><span class="stat-value">duckduckgo</span> Search</div>
+</div>
+
+<div class="layout">
+  <aside class="toc-sidebar">
+    <nav>
+      <a href="#executive-summary" class="depth-2">Executive Summary</a>
+      <a href="#quick-guide" class="depth-2">Quick Guide</a>
+      <a href="#prerequisites" class="depth-2">Prerequisites</a>
+      <a href="#hardware-and-software-requirements" class="depth-3">Hardware and Software Requirements</a>
+      <a href="#conceptual-understanding" class="depth-3">Conceptual Understanding</a>
+      <a href="#step-1-writing-the-modelfile-the-blueprint-phase" class="depth-2">Step 1: Writing the Modelfile (The Blueprint Phase)</a>
+      <a href="#understanding-the-mandatory-from-directive" class="depth-3">Understanding the Mandatory FROM Directive</a>
+      <a href="#mastering-customization-directives-the-fine-tuning-knobs" class="depth-3">Mastering Customization Directives (The Fine-Tuning Knobs)</a>
+      <a href="#step-2-building-the-model-the-compilation-phase" class="depth-2">Step 2: Building the Model (The Compilation Phase)</a>
+      <a href="#executing-the-creation-command" class="depth-3 active">Executing the Creation Command</a>
+      <a href="#analyzing-the-build-process" class="depth-3">Analyzing the Build Process</a>
+      <a href="#step-3-running-and-testing-the-model-the-deployment-phase" class="depth-2">Step 3: Running and Testing the Model (The Deployment Phase)</a>
+      <a href="#invocation-and-interaction" class="depth-3">Invocation and Interaction</a>
+      <a href="#verification-and-iteration" class="depth-3">Verification and Iteration</a>
+      <a href="#common-mistakes-and-troubleshooting" class="depth-2">Common Mistakes and Troubleshooting</a>
+      <a href="#conclusion" class="depth-2">Conclusion</a>
+    </nav>
+  </aside>
+  <main class="content">
+    <p><strong>Estimated Time:</strong> 1–3 hours (depending on model size and complexity)
+<strong>Difficulty Level:</strong> Intermediate (Requires familiarity with command line interfaces and basic AI concepts)</p>
+<hr>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>Creating a custom model within the Ollama ecosystem is not about generating raw weights; it is an act of <strong>configuration and compilation</strong>. The core mechanism involves writing a specialized text file, known as a <strong>Modelfile</strong>, which acts as the blueprint or "DNA" for your AI. This Modelfile dictates how Ollama should load existing foundational model weights (the base model) and apply specific customizations—such as defining a persistent persona (<code>SYSTEM</code>), adjusting operational parameters (<code>PARAMETER</code>), or integrating fine-tuning layers (<code>ADAPTER</code>) [Finding 1, Finding 7].</p>
+<p>The process is highly structured: first, the user writes the Modelfile; second, they execute the <code>ollama create</code> command to compile this blueprint into a usable local model file; and finally, they run the resulting custom model using <code>ollama run</code>. This guide provides a comprehensive, step-by-step walkthrough, detailing every directive and best practice required to successfully build a specialized AI assistant or character.</p>
+<hr>
+<h2 id="quick-guide">Quick Guide</h2>
+<figure class="section-image" data-img-url="https://oneuptime.com/blog/post/2026-02-02-ollama-custom-modelfiles/social-media.png"><img src="https://oneuptime.com/blog/post/2026-02-02-ollama-custom-modelfiles/social-media.png" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><button class="img-reroll-btn" type="button" title="Swap for another image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg></button><button class="img-hide-btn" type="button" title="Hide image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></figure>
+
+<ol>
+<li><strong>Draft:</strong> Create a plain text Modelfile containing your base model source (<code>FROM</code>) and desired customizations (e.g., <code>SYSTEM</code>, <code>PARAMETER</code>).</li>
+<li><strong>Build:</strong> Run the command: <code>ollama create &lt;custom-model-name&gt; -f ./&lt;path/to/Modelfile&gt;</code></li>
+<li><strong>Test:</strong> Execute the custom model using: <code>ollama run &lt;custom-model-name&gt;</code></li>
+</ol>
+<hr>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before embarking on the creation process, ensure your environment is correctly configured and that you have gathered all necessary source materials. Failure to meet these prerequisites will halt the compilation process at Step 2.</p>
+<h3 id="hardware-and-software-requirements">Hardware and Software Requirements</h3>
+<ul>
+<li><strong>Ollama Installation:</strong> Ollama must be installed and running on your local machine (macOS, Linux, or Windows). This application provides the core inference engine [Finding 4].</li>
+<li><strong>Command Line Interface (CLI):</strong> Access to a terminal (e.g., Bash, PowerShell) is mandatory for executing the <code>ollama create</code> command.</li>
+<li><strong>Source Weights:</strong> You must possess the foundational model weights you intend to customize. These can take several forms:<ul>
+<li>A standard, named base model (e.g., <code>llama3.2</code>).</li>
+<li>Local GGUF files (<code>file.gguf</code>) for full weight import [Finding 1].</li>
+<li>Local directories containing raw Safetensors weights or LoRA adapters [Finding 5, Finding 6].</li>
+</ul>
+</li>
+</ul>
+<h3 id="conceptual-understanding">Conceptual Understanding</h3>
+<p>A basic understanding of the difference between <em>weights</em> (the numerical data that defines the model's knowledge) and <em>configuration</em> (the instructions on how to use those weights) is crucial. The Modelfile handles the configuration; Ollama manages the loading of the weights [Finding 7].</p>
+<hr>
+<h2 id="step-1-writing-the-modelfile-the-blueprint-phase">Step 1: Writing the Modelfile (The Blueprint Phase)</h2>
+<figure class="section-image" data-img-url="https://deepwiki.com/ollama/ollama/og-image.png?page=4.1"><img src="https://deepwiki.com/ollama/ollama/og-image.png?page=4.1" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><button class="img-reroll-btn" type="button" title="Swap for another image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg></button><button class="img-hide-btn" type="button" title="Hide image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></figure>
+
+<p>The Modelfile is the single most critical component, serving as the architectural blueprint for your custom model. It is a plain text file that uses specific directives to instruct Ollama on how to assemble and initialize the final AI personality [Finding 3]. The structure of this file must be precise; incorrect syntax will result in a build failure.</p>
+<h3 id="understanding-the-mandatory-from-directive">Understanding the Mandatory <code>FROM</code> Directive</h3>
+<p>The <code>FROM</code> instruction is non-negotiable, as it defines the foundational source material—the model's "DNA"—from which all customizations will derive their power [Finding 1]. The syntax used here must be meticulously chosen based on whether you are using a named model or local files.</p>
+<h4 id="a-using-named-base-models-easiest-method">A. Using Named Base Models (Easiest Method)</h4>
+<p>If you wish to build upon a publicly available, standard model that is already hosted within the Ollama library (e.g., <code>llama3:8b</code>), you simply specify its name:</p>
+<div class="code"><pre><span></span><code>FROM llama3:8b
+</code></pre></div>
+<p>This method is ideal for rapid prototyping and customization because it relies on models already validated by the community [Finding 2].</p>
+<h4 id="b-importing-local-gguf-weights-full-control">B. Importing Local GGUF Weights (Full Control)</h4>
+<p>If your weights are in a single, optimized file format like GGUF, you must provide the absolute or relative path to that file:</p>
+<div class="code"><pre><span></span><code>FROM /path/to/my_local_model.gguf
+</code></pre></div>
+<p>This method gives maximum control but requires the model to be correctly formatted for Ollama's ingestion process [Finding 1].</p>
+<h4 id="c-integrating-adapters-fine-tuning">C. Integrating Adapters (Fine-Tuning)</h4>
+<p>When you have performed fine-tuning using techniques like LoRA, your weights are typically stored as adapters that must be applied <em>on top</em> of a base model. This requires the <code>ADAPTER</code> directive and is one of the most complex setups [Finding 5].</p>
+<p>The syntax dictates that the base model must be listed first, followed by the adapter path:</p>
+<div class="code"><pre><span></span><code>FROM llama3:8b ADAPTER ./my-lora-adapter/safetensors_directory
+</code></pre></div>
+<p>Here, Ollama understands that it must load <code>llama3:8b</code> and then apply the specialized knowledge contained within the local <code>./my-lora-adapter</code> directory [Finding 6].</p>
+<h3 id="mastering-customization-directives-the-fine-tuning-knobs">Mastering Customization Directives (The Fine-Tuning Knobs)</h3>
+<p>Once the source is defined by <code>FROM</code>, you use subsequent directives to sculpt the model's behavior, personality, and operational constraints. These are the "knobs" that allow the user to fine-tune the AI experience far beyond simple prompt engineering [Finding 7].</p>
+<h4 id="the-system-directive-the-persona">The <code>SYSTEM</code> Directive (The Persona)</h4>
+<p>This is arguably the most important directive for defining character. The <code>SYSTEM</code> prompt establishes a persistent context, acting as an invisible set of rules and background knowledge that guides <em>every</em> response the model generates throughout a conversation [Finding 1, Finding 7]. It should be detailed, specifying not only the role (e.g., "You are a historian") but also the tone ("Your tone must be academic yet witty") and constraints ("Never discuss modern politics").</p>
+<h4 id="the-parameter-directive-operational-control">The <code>PARAMETER</code> Directive (Operational Control)</h4>
+<p>These directives allow you to override Ollama's default inference settings, which significantly impacts the quality and predictability of the output. Understanding these parameters is key to moving from a generic chatbot experience to a specialized tool:</p>
+<ul>
+<li><strong><code>temperature</code></strong>: This controls the randomness or creativity of the model's response. A low temperature (e.g., 0.2) makes the model deterministic, safe, and factual—ideal for coding or summarization. A high temperature (e.g., 1.0) increases entropy, leading to more creative but potentially less coherent output—perfect for poetry or brainstorming [Finding 1].</li>
+<li><strong><code>num_ctx</code></strong>: This sets the maximum context window size in tokens. If your application requires the model to remember long conversations or process large documents, increasing this value (e.g., <code>PARAMETER num_ctx 8192</code>) is mandatory. A larger context window prevents "forgetting" details early in a lengthy chat [Finding 5].</li>
+<li><strong><code>top_p</code> and <code>repeat_penalty</code></strong>: These are advanced controls that manage the vocabulary selection process, preventing repetitive or overly predictable language patterns [Finding 7].</li>
+</ul>
+<h4 id="the-template-directive-controlling-dialogue-flow">The <code>TEMPLATE</code> Directive (Controlling Dialogue Flow)</h4>
+<p>The template defines the structural format of the conversation history. If you do not specify a template, Ollama uses a default structure which might not align with how your application expects input. By defining a custom template, you ensure that when user prompts and assistant responses are inserted into the model's context window, they appear in the exact sequence and format required by the underlying LLM [Finding 6].</p>
+<hr>
+<h2 id="step-2-building-the-model-the-compilation-phase">Step 2: Building the Model (The Compilation Phase)</h2>
+<p>Once your Modelfile is perfectly written, the next step is to compile it. This process uses the <code>ollama create</code> command and instructs Ollama to read the blueprint, download any necessary components (like base models), apply all parameters, and register the resulting artifact locally [Finding 4].</p>
+<h3 id="executing-the-creation-command">Executing the Creation Command</h3>
+<p>You must navigate your terminal into the directory where you saved your Modelfile. The syntax is straightforward:</p>
+<div class="code"><pre><span></span><code>ollama<span class="w"> </span>create<span class="w"> </span>&lt;custom-model-name&gt;<span class="w"> </span>-f<span class="w"> </span>./&lt;path/to/Modelfile&gt;
+</code></pre></div>
+<p><strong>Detailed Breakdown of the Command:</strong>
+*   <code>ollama create</code>: This command initiates the model compilation process within the Ollama engine.
+*   <code>&lt;custom-model-name&gt;</code>: This is the name you choose for your new, specialized AI (e.g., <code>chef-isabella</code>). This name must be unique locally.
+*   <code>-f ./&lt;path/to/Modelfile&gt;</code>: The <code>-f</code> flag specifies the path to the Modelfile that contains all the instructions [Finding 4].</p>
+<h3 id="analyzing-the-build-process">Analyzing the Build Process</h3>
+<p>During execution, Ollama performs several critical background tasks:
+1.  <strong>Validation:</strong> It first checks the syntax of your Modelfile for errors (e.g., missing quotes, incorrect directive usage).
+2.  <strong>Dependency Check:</strong> If you used <code>FROM llama3:8b</code>, and that model is not locally available, Ollama will automatically download it before proceeding.
+3.  <strong>Compilation/Layering:</strong> It then loads the base weights and applies all specified customizations (system prompts, parameter overrides, adapter layers) to create a single, cohesive local model artifact [Finding 7].</p>
+<blockquote>
+<p><strong>Warning:</strong> The compilation process can consume significant disk space and time, especially when integrating large adapters or using very large base models. Ensure you have sufficient resources allocated to your system.</p>
+</blockquote>
+<hr>
+<h2 id="step-3-running-and-testing-the-model-the-deployment-phase">Step 3: Running and Testing the Model (The Deployment Phase)</h2>
+<figure class="section-image" data-img-url="https://opengraph.githubassets.com/6c5d1d30cb8eca862bdbae1739da50abff5c71048a8f8c3e22d4a90c0d712c73/ollama/ollama"><img src="https://opengraph.githubassets.com/6c5d1d30cb8eca862bdbae1739da50abff5c71048a8f8c3e22d4a90c0d712c73/ollama/ollama" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><button class="img-reroll-btn" type="button" title="Swap for another image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg></button><button class="img-hide-btn" type="button" title="Hide image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></figure>
+
+<p>After the <code>ollama create</code> command successfully completes, your custom model is fully registered in Ollama's local library. It behaves exactly like any standard model that was pre-downloaded—it simply requires a different invocation command [Finding 4].</p>
+<h3 id="invocation-and-interaction">Invocation and Interaction</h3>
+<p>To begin using your new AI, you use the <code>ollama run</code> command:</p>
+<div class="code"><pre><span></span><code>ollama<span class="w"> </span>run<span class="w"> </span>&lt;custom-model-name&gt;
+</code></pre></div>
+<p><em>Example:</em> <code>ollama run chef-isabella</code></p>
+<p>Upon running this command, Ollama initializes the model, loading all the parameters and system prompts defined in your Modelfile. When you type your first prompt, the model's response will be governed by:
+1.  The persistent persona set by the <code>SYSTEM</code> directive.
+2.  The operational constraints (e.g., creativity level) set by <code>PARAMETER temperature</code>.
+3.  The structural expectations defined by the <code>TEMPLATE</code>.</p>
+<h3 id="verification-and-iteration">Verification and Iteration</h3>
+<p>It is crucial to test your model with diverse prompts. If the output does not match the desired behavior, do not assume the issue lies with Ollama; instead, review and refine your Modelfile. For instance:
+*   <strong>Problem:</strong> The AI ignores its persona. <strong>Solution:</strong> Strengthen the <code>SYSTEM</code> prompt using more authoritative language and add explicit constraints.
+*   <strong>Problem:</strong> The model is too repetitive. <strong>Solution:</strong> Increase the <code>PARAMETER temperature</code> slightly or adjust the <code>repeat_penalty</code>.</p>
+<p>This iterative cycle of testing, analyzing output failures, and refining the Modelfile is the core skill of custom LLM development [Finding 7].</p>
+<hr>
+<h2 id="common-mistakes-and-troubleshooting">Common Mistakes and Troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Mistake</th>
+<th>Symptom/Error Message</th>
+<th>Root Cause &amp; Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Incorrect <code>FROM</code> Syntax</strong></td>
+<td>Build fails immediately, citing "Unknown base model" or "Invalid path."</td>
+<td>The source weights (local path vs. named model) were not correctly specified for the Modelfile's first line [Finding 1]. <strong>Solution:</strong> Verify if you need a full GGUF path or just a simple model name.</td>
+</tr>
+<tr>
+<td><strong>Parameter Overrides Conflict</strong></td>
+<td>Model runs but ignores specific settings (e.g., temperature).</td>
+<td>The parameter might be conflicting with an internal default, or the directive was placed incorrectly. <strong>Solution:</strong> Ensure <code>PARAMETER</code> directives are listed <em>after</em> the <code>FROM</code> statement and test by removing all custom parameters to isolate the conflict.</td>
+</tr>
+<tr>
+<td><strong>Adapter Mismatch</strong></td>
+<td>Build fails with "Architecture mismatch" or similar errors.</td>
+<td>The base model specified in <code>FROM</code> does not match the architecture of the adapter weights [Finding 5]. <strong>Solution:</strong> Ensure both the base model name (e.g., Llama 3) and the adapter were trained on the same foundational architecture.</td>
+</tr>
+<tr>
+<td><strong>Missing Quotes</strong></td>
+<td>Modelfile reads directives as single lines, ignoring multi-sentence prompts.</td>
+<td>System or template prompts containing special characters (like commas or newlines) must be enclosed in triple quotes (<code>"""..."""</code>) to ensure they are treated as a single string block [Finding 6].</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="conclusion">Conclusion</h2>
+<figure class="section-image" data-img-url="https://mljourney.com/wp-content/uploads/2025/09/distribution_container_dock.webp"><img src="https://mljourney.com/wp-content/uploads/2025/09/distribution_container_dock.webp" alt="" loading="lazy" onerror="this.parentElement.style.display='none'"><button class="img-reroll-btn" type="button" title="Swap for another image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg></button><button class="img-hide-btn" type="button" title="Hide image"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></figure>
+
+<p>Creating an Ollama model file is fundamentally the process of <strong>defining and compiling a sophisticated configuration blueprint</strong> using a Modelfile. It is not a matter of generating weights, but rather of orchestrating existing knowledge. By mastering the syntax—specifically the mandatory <code>FROM</code> directive for source control, and the powerful directives like <code>SYSTEM</code>, <code>PARAMETER</code>, and <code>ADAPTER</code> for customization—the user transforms a generic base model into a highly specialized, predictable, and robust AI assistant tailored precisely to their needs [Finding 7]. Following the structured process of writing, building (<code>ollama create</code>), and testing ensures that the resulting custom model is fully functional and ready for deployment via <code>ollama run</code>.</p>
+
+    <div class="sources-panel">
+<details>
+<summary>Sources (20)</summary>
+<div class="sources-list">
+<a href="https://docs.ollama.com/modelfile" target="_blank" rel="noopener noreferrer"><span class="snum">1.</span><span>Modelfile Reference - Ollama</span><span class="sdomain">docs.ollama.com</span></a>
+<a href="https://mljourney.com/how-to-use-ollama-modelfile-custom-models-system-prompts-and-parameters/" target="_blank" rel="noopener noreferrer"><span class="snum">2.</span><span>How to Use Ollama Modelfile: Custom Models, System Prompts, and Parameters</span><span class="sdomain">mljourney.com</span></a>
+<a href="https://markaicode.com/building-character-ai-ollama-modelfile-configuration/" target="_blank" rel="noopener noreferrer"><span class="snum">3.</span><span>How to Build Character AI with Ollama Modelfile Configuration (Step-by ...</span><span class="sdomain">markaicode.com</span></a>
+<a href="https://github.com/ollama/ollama/blob/main/docs/modelfile.mdx" target="_blank" rel="noopener noreferrer"><span class="snum">4.</span><span>ollama/docs/modelfile.mdx at main · ollama/ollama · GitHub</span><span class="sdomain">github.com</span></a>
+<a href="https://deepwiki.com/ollama/ollama/4.1-modelfiles" target="_blank" rel="noopener noreferrer"><span class="snum">5.</span><span>Modelfiles | ollama/ollama | DeepWiki</span><span class="sdomain">deepwiki.com</span></a>
+<a href="https://oneuptime.com/blog/post/2026-02-02-ollama-custom-modelfiles/view" target="_blank" rel="noopener noreferrer"><span class="snum">6.</span><span>How to Create Custom Modelfiles in Ollama - oneuptime.com</span><span class="sdomain">oneuptime.com</span></a>
+<a href="https://pocketcmds.com/commands/ollama/ollama-modelfile" target="_blank" rel="noopener noreferrer"><span class="snum">7.</span><span>FROM, PARAMETER, SYSTEM - Modelfile Syntax | PocketCmds</span><span class="sdomain">pocketcmds.com</span></a>
+<a href="https://www.llamafactory.cn/ollama-docs/en/modelfile.html" target="_blank" rel="noopener noreferrer"><span class="snum">8.</span><span>Ollama Modelfile Creation and Usage Guide | LlamaFactory | LlamaFactory</span><span class="sdomain">llamafactory.cn</span></a>
+<a href="https://www.serverman.co.uk/ai/ollama/ollama-modelfile-guide/" target="_blank" rel="noopener noreferrer"><span class="snum">9.</span><span>How to Create Custom Ollama Models with Modelfiles</span><span class="sdomain">serverman.co.uk</span></a>
+<a href="https://markaicode.com/ollama-gguf-conversion-tutorial/" target="_blank" rel="noopener noreferrer"><span class="snum">10.</span><span>Ollama Model Format Migration: Complete GGUF Conversion Tutorial</span><span class="sdomain">markaicode.com</span></a>
+<a href="https://docs.ollama.com/import" target="_blank" rel="noopener noreferrer"><span class="snum">11.</span><span>Importing a Model - Ollama</span><span class="sdomain">docs.ollama.com</span></a>
+<a href="https://docs.ollama.com/cli" target="_blank" rel="noopener noreferrer"><span class="snum">12.</span><span>CLI Reference - Ollama</span><span class="sdomain">docs.ollama.com</span></a>
+<a href="https://kaitchup.substack.com/p/deploy-your-fine-tuned-langue-models" target="_blank" rel="noopener noreferrer"><span class="snum">13.</span><span>Modelfile with LoRA Adapters for Ollama: How to Deploy Your Fine-Tuned ...</span><span class="sdomain">kaitchup.substack.com</span></a>
+<a href="https://shshell.com/blog/ollama-module-11-lesson-5" target="_blank" rel="noopener noreferrer"><span class="snum">14.</span><span>Module 11 Lesson 5: Loading Adapters in Ollama - shshell.com</span><span class="sdomain">shshell.com</span></a>
+<a href="https://github.com/POC-2025/ollama/blob/main/docs/import.md" target="_blank" rel="noopener noreferrer"><span class="snum">15.</span><span>ollama/docs/import.md at main · POC-2025/ollama · GitHub</span><span class="sdomain">github.com</span></a>
+<a href="https://leeroopedia.com/index.php/Workflow:Ollama_Ollama_Custom_Model_Creation" target="_blank" rel="noopener noreferrer"><span class="snum">16.</span><span>Workflow:Ollama Ollama Custom Model Creation - Leeroopedia</span><span class="sdomain">leeroopedia.com</span></a>
+<a href="https://www.llamafactory.cn/ollama-docs/en/import.html" target="_blank" rel="noopener noreferrer"><span class="snum">17.</span><span>Ollama Model Import Guide - Safetensors and GGUF | LlamaFactory ...</span><span class="sdomain">llamafactory.cn</span></a>
+<a href="https://www.fahdmirza.com/2024/07/run-lora-adapter-of-any-model-with.html" target="_blank" rel="noopener noreferrer"><span class="snum">18.</span><span>Run LoRA Adapter of Any Model with Ollama - Fahd Mirza</span><span class="sdomain">fahdmirza.com</span></a>
+<a href="https://deepwiki.com/distil-labs/distil-cli-skill/9.2-ollama-deployment" target="_blank" rel="noopener noreferrer"><span class="snum">19.</span><span>Ollama Deployment | distil-labs/distil-cli-skill | DeepWiki</span><span class="sdomain">deepwiki.com</span></a>
+<a href="https://www.tspi.at/2025/08/10/ollamaparams.html" target="_blank" rel="noopener noreferrer"><span class="snum">20.</span><span>Setting Parameters like Context Length and Temperature in Ollama Models</span><span class="sdomain">tspi.at</span></a>
+</div>
+</details>
+</div>
+
+    <div class="chat-cta"><button id="btn-chat-about" class="chat-cta-btn" data-research-id="rp-a7ac4c920d5d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Discuss</span></button><div class="chat-cta-hint">Opens a new chat with this report as context.</div></div>
+  </main>
+</div>
+
+<div class="report-footer">
+  Generated by Odysseus Deep Research · June 05, 2026 at 22:48
+</div>
+
+<script>
+(function() {
+  // ESC closes the report tab. window.close() works when the tab was
+  // opened via window.open() (which is how the panel launches it). If the
+  // browser blocks self-close (rare — e.g. report opened by direct URL),
+  // fall back to history.back() so ESC still feels responsive.
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'Escape' || e.defaultPrevented) return;
+    // Don't hijack ESC while typing in a field or with an open dropdown.
+    var t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    var menu = document.getElementById('export-menu');
+    if (menu && menu.classList.contains('open')) { menu.classList.remove('open'); return; }
+    try { window.close(); } catch (err) {}
+    // window.close() is a no-op when the tab wasn't script-opened; in that
+    // case fall back to navigation so the key isn't ignored.
+    setTimeout(function() { if (!window.closed) history.back(); }, 50);
+  });
+
+  // Export dropdown toggle
+  var exportBtn = document.getElementById('btn-export');
+  var exportMenu = document.getElementById('export-menu');
+  exportBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    exportMenu.classList.toggle('open');
+  });
+  document.addEventListener('click', function() { exportMenu.classList.remove('open'); });
+
+  // Save as PDF (browser print)
+  document.getElementById('btn-pdf').addEventListener('click', function() {
+    exportMenu.classList.remove('open');
+    window.print();
+  });
+
+  // Download HTML
+  document.getElementById('btn-html').addEventListener('click', function() {
+    exportMenu.classList.remove('open');
+    var blob = new Blob([document.documentElement.outerHTML], { type: 'text/html' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = document.title.replace(/[^a-z0-9]+/gi, '-').substring(0, 60) + '.html';
+    a.click();
+  });
+
+  // Per-image hide — fades the image out, then POSTs to the backend so
+  // future renders of this report skip the URL. Falls back to a silent
+  // no-op if there's no session_id (e.g. the report was opened from a
+  // saved-HTML download where the backend isn't reachable).
+  var __sessionId = "rp-a7ac4c920d5d";
+  // Unused scraped images — the reroll pool. Each is used at most once.
+  var __spareImages = ["https://pocketcmds.com/commands/ollama/ollama-modelfile/opengraph-image", "https://www.serverman.co.uk/wp-content/uploads/2026/04/ollama-ollama-modelfile.jpg", "https://ollama-9269c548.mintlify.app/mintlify-assets/_next/image?url=%2F_mintlify%2Fapi%2Fog%3Fdivision%3DMore%2Binformation%26title%3DImporting%2Ba%2BModel%26logoLight%3Dhttps%253A%252F%252Fmintcdn.com%252Follama-9269c548%252FXefrxzvUktkk84RL%252Fimages%252Flogo.png%253Ffit%253Dmax%2526auto%253Dformat%2526n%253DXefrxzvUktkk84RL%2526q%253D85%2526s%253D03a38b5749aa7f530044e9b251dc10d8%26logoDark%3Dhttps%253A%252F%252Fmintcdn.com%252Follama-9269c548%252FXefrxzvUktkk84RL%252Fimages%252Flogo-dark.png%253Ffit%253Dmax%2526auto%253Dformat%2526n%253DXefrxzvUktkk84RL%2526q%253D85%2526s%253Dc214b467f5623414c31d4e05c66110fb%26primaryColor%3D%2523000%26lightColor%3D%2523b5b5b5%26darkColor%3D%2523000%26backgroundLight%3D%2523ffffff%26backgroundDark%3D%2523000000&w=1200&q=100", "https://ollama-9269c548.mintlify.app/mintlify-assets/_next/image?url=%2F_mintlify%2Fapi%2Fog%3Fdivision%3DMore%2Binformation%26title%3DCLI%2BReference%26logoLight%3Dhttps%253A%252F%252Fmintcdn.com%252Follama-9269c548%252FXefrxzvUktkk84RL%252Fimages%252Flogo.png%253Ffit%253Dmax%2526auto%253Dformat%2526n%253DXefrxzvUktkk84RL%2526q%253D85%2526s%253D03a38b5749aa7f530044e9b251dc10d8%26logoDark%3Dhttps%253A%252F%252Fmintcdn.com%252Follama-9269c548%252FXefrxzvUktkk84RL%252Fimages%252Flogo-dark.png%253Ffit%253Dmax%2526auto%253Dformat%2526n%253DXefrxzvUktkk84RL%2526q%253D85%2526s%253Dc214b467f5623414c31d4e05c66110fb%26primaryColor%3D%2523000%26lightColor%3D%2523b5b5b5%26darkColor%3D%2523000%26backgroundLight%3D%2523ffffff%26backgroundDark%3D%2523000000&w=1200&q=100", "https://substackcdn.com/image/fetch/$s_!JtQc!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F12954930-8264-4458-aab2-59d2d5d98cc8_526x472.png", "https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?q=80&w=1200&auto=format&fit=crop", "https://opengraph.githubassets.com/bf7ef3aeeaf2a539a7da117994c55c59482ff2f22d28012b18914bbd5ba5a373/POC-2025/ollama", "https://lh3.googleusercontent.com/blogger_img_proxy/AEn0k_sLLQvg2h5Dg3ecxnCr1_-0MqTEO9UZMaH3zsSXnTn-wR3XRN6_l7Nm286cVbSsyNuiZnvnpqWLDLWghkw6-qkmM_ZMevzbsGkrYzpKZsMHGo9x6A", "https://deepwiki.com/distil-labs/distil-cli-skill/og-image.png?page=9.2", "https://www.tspi.at/assets/images/png/ollamamodelfile001_small.png"];
+
+  // Persist a rejected URL so future renders skip it.
+  function __persistHide(url) {
+    if (!__sessionId || !url) return;
+    fetch('/api/research/' + encodeURIComponent(__sessionId) + '/hide-image', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: url }),
+    }).catch(function(err) { console.warn('hide-image POST failed', err); });
+  }
+
+  // Once the pool is empty, there's nothing to swap to — hide all reroll btns.
+  function __syncRerollAvailability() {
+    if (__spareImages.length === 0) {
+      document.querySelectorAll('.img-reroll-btn').forEach(function(b) { b.disabled = true; });
+    }
+  }
+
+  document.querySelectorAll('.img-hide-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault(); e.stopPropagation();
+      var wrap = btn.closest('[data-img-url]');
+      if (!wrap) return;
+      var url = wrap.dataset.imgUrl;
+      wrap.classList.add('fading');
+      setTimeout(function() { wrap.remove(); }, 280);
+      __persistHide(url);
+    });
+  });
+
+  // Reroll — swap the current image for the next unused scraped one, and
+  // persist-hide the rejected URL so it won't resurface on reload.
+  document.querySelectorAll('.img-reroll-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault(); e.stopPropagation();
+      // Per-button busy flag — a rapid double-click would otherwise both
+      // shift the spare pool, but only the second probe's image would land,
+      // silently consuming the first one. Bail until finish() clears it.
+      if (btn.dataset._busy === '1') return;
+      if (__spareImages.length === 0) { btn.disabled = true; return; }
+      var wrap = btn.closest('[data-img-url]');
+      if (!wrap) return;
+      var img = wrap.querySelector('img');
+      if (!img) return;
+      btn.dataset._busy = '1';
+      var oldUrl = wrap.dataset.imgUrl;
+      var newUrl = __spareImages.shift();
+      btn.classList.add('spinning');
+      // Swap once the new image has loaded (or failed) to avoid a flash of empty.
+      var probe = new Image();
+      var done = false;
+      var finish = function(ok) {
+        if (done) return; done = true;
+        btn.classList.remove('spinning');
+        delete btn.dataset._busy;
+        if (ok) {
+          img.src = newUrl;
+          wrap.dataset.imgUrl = newUrl;
+          __persistHide(oldUrl);
+        } else {
+          // Bad candidate — persist-hide it so it can't resurface on reload,
+          // then try the next spare if any remain. Busy flag already cleared
+          // so the synthetic click below proceeds.
+          __persistHide(newUrl);
+          if (__spareImages.length) btn.click();
+        }
+        __syncRerollAvailability();
+      };
+      probe.onload = function() { finish(true); };
+      probe.onerror = function() { finish(false); };
+      probe.src = newUrl;
+    });
+  });
+  __syncRerollAvailability();
+
+  // "Show hidden (N)" button — clears the hidden_images list on the
+  // server, then reloads the page so all images come back.
+  var restoreBtn = document.getElementById('btn-restore-images');
+  if (restoreBtn && __sessionId) {
+    restoreBtn.addEventListener('click', function() {
+      restoreBtn.disabled = true;
+      restoreBtn.textContent = 'Restoring…';
+      fetch('/api/research/' + encodeURIComponent(__sessionId) + '/unhide-images', {
+        method: 'POST', credentials: 'same-origin',
+      }).then(function() { window.location.reload(); })
+        .catch(function(err) {
+          restoreBtn.disabled = false;
+          restoreBtn.textContent = 'Failed — retry?';
+          console.warn('unhide-images POST failed', err);
+        });
+    });
+  }
+
+  // TOC: explicit smooth-scroll handler (some browsers/anchor plugins
+  // bypass the CSS `scroll-behavior: smooth` rule on hash clicks).
+  // Also keeps the URL hash updated and toggles an `.active` highlight.
+  var tocLinks = document.querySelectorAll('.toc-sidebar nav a[href^="#"]');
+  tocLinks.forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      var id = link.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', '#' + id);
+    });
+  });
+
+  // Highlight the TOC entry that matches whichever heading is currently
+  // closest to the top of the viewport. IntersectionObserver keeps it
+  // cheap (no scroll listener spam).
+  var tocMap = {};
+  tocLinks.forEach(function(link) {
+    tocMap[link.getAttribute('href').slice(1)] = link;
+  });
+  var activeId = null;
+  function setActive(id) {
+    if (id === activeId) return;
+    if (activeId && tocMap[activeId]) tocMap[activeId].classList.remove('active');
+    if (id && tocMap[id]) tocMap[id].classList.add('active');
+    activeId = id;
+  }
+  var headings = document.querySelectorAll('.content h2[id], .content h3[id]');
+  if (headings.length && 'IntersectionObserver' in window) {
+    var visible = new Set();
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(en) {
+        if (en.isIntersecting) visible.add(en.target.id);
+        else visible.delete(en.target.id);
+      });
+      // Pick the visible heading that's furthest down in document order
+      // before the current scroll — i.e. the section we're reading.
+      var current = null;
+      for (var i = 0; i < headings.length; i++) {
+        if (visible.has(headings[i].id)) { current = headings[i].id; break; }
+      }
+      if (current) setActive(current);
+    }, { rootMargin: '-10% 0px -75% 0px', threshold: 0 });
+    headings.forEach(function(h) { io.observe(h); });
+  }
+
+  // Chat about this research — POST to spinoff and redirect to the new chat
+  var chatBtn = document.getElementById('btn-chat-about');
+  if (chatBtn) {
+    chatBtn.addEventListener('click', function() {
+      var researchId = chatBtn.dataset.researchId;
+      if (!researchId) return;
+      var origLabel = chatBtn.innerHTML;
+      chatBtn.disabled = true;
+      chatBtn.innerHTML = '<span>Creating chat…</span>';
+      fetch('/api/research/spinoff/' + encodeURIComponent(researchId), {
+        method: 'POST', credentials: 'same-origin',
+      }).then(function(res) {
+        if (!res.ok) {
+          return res.json().then(function(d) {
+            throw new Error(d && d.detail ? d.detail : ('HTTP ' + res.status));
+          }, function() { throw new Error('HTTP ' + res.status); });
+        }
+        return res.json();
+      }).then(function(data) {
+        if (!data || !data.session_id) {
+          throw new Error('Server did not return a session id');
+        }
+        var url = '/#' + data.session_id;
+        var opened = false;
+        // The report typically opens in a new tab — if we have access to the
+        // original Odysseus tab, navigate it and close this report tab so the
+        // user lands directly in the new chat.
+        try {
+          if (window.opener && !window.opener.closed) {
+            window.opener.location.href = url;
+            window.opener.location.reload();
+            window.opener.focus();
+            opened = true;
+            window.close();
+          }
+        } catch (e) { /* cross-origin or detached opener — fall through */ }
+        if (!opened) {
+          // No opener (report was opened directly via URL) — open the chat in a
+          // new tab so the report stays available.
+          var w = window.open(url, '_blank');
+          if (w) {
+            chatBtn.disabled = false;
+            chatBtn.innerHTML = '<span>Chat opened in new tab</span>';
+          } else {
+            // Popup blocked — navigate this tab as a last resort.
+            window.location.href = url;
+            window.location.reload();
+          }
+        }
+      }).catch(function(err) {
+        chatBtn.disabled = false;
+        chatBtn.innerHTML = origLabel;
+        alert('Could not start follow-up chat: ' + err.message);
+      });
+    });
+  }
+})();
+
+// Colorize comparison table cells
+if (document.body.classList.contains('category-comparison')) {
+  const pos = /^(yes|excellent|best|great|strong|fast|high|superior|winner|free|unlimited|native|full|advanced|built[- ]in|✓|✅|⭐)/i;
+  const neg = /^(no|none|poor|weak|slow|low|limited|lacking|missing|basic|minimal|✗|❌|N\/A$)/i;
+  const mid = /^(moderate|average|fair|partial|some|decent|okay|mixed|varies|depends)/i;
+  document.querySelectorAll('.content table td').forEach(td => {
+    if (td.cellIndex === 0) return;
+    const t = td.textContent.trim();
+    if (pos.test(t)) td.classList.add('cmp-pos');
+    else if (neg.test(t)) td.classList.add('cmp-neg');
+    else if (mid.test(t)) td.classList.add('cmp-mid');
+  });
+}
+</script>
+
+
+<iframe frameborder="0" scrolling="no" style="background-color: transparent; border: 0px; display: none;"></iframe><div id="GOOGLE_INPUT_CHEXT_FLAG" input="en-t-k0-und" input_stat="{&quot;tlang&quot;:true,&quot;tsbc&quot;:true,&quot;pun&quot;:true,&quot;mk&quot;:true,&quot;ss&quot;:true}" style="display: none;"></div><iframe frameborder="0" scrolling="no" src="chrome-extension://mclkkofklkfljcocdinagocijmpgbhab/keyboard.html?origin=http%3A%2F%2F127.0.0.1%3A7000" style="background-color: transparent; border: 0px; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 16px 0px; box-sizing: content-box; height: 211px; margin: 0px; position: fixed; width: 517px; z-index: 2147483644; left: 825px; top: 697px; display: none;"></iframe></body></html>

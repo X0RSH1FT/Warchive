@@ -1,6 +1,6 @@
 ---
 name: debug-task
-description: Debug a failing test, command, traceback, runtime symptom, or regression. Use when the goal is to reproduce a problem, isolate the owning code path, and route the work through testing or implementation.
+description: Warchive - Debug a failing test, command, traceback, runtime symptom, or regression. Use when the goal is to reproduce a problem, isolate the owning code path, and route the work through testing or implementation.
 argument-hint: "[Optional: failing test, command, traceback, symptom, expected behavior, recent change, or target files.]"
 agent: Coordinator Agent
 ---
@@ -13,16 +13,23 @@ agent: Coordinator Agent
 6. Route to `Implementation Agent` when the controlling source path is already clear and the likely fix is in production code.
 7. Keep the debug loop tight: reproduce, isolate, fix, rerun the same narrowest falsifying check, then widen only if confidence requires it.
 8. Use `#askQuestions` only when the missing symptom details, acceptance criteria, or scope boundaries block progress, and make the prompt self-contained enough that the user can answer without already knowing the code layout.
-9. If the issue turns into a broader refactor, doc refresh, or cross-cutting change, switch back to the normal coordinator flow instead of forcing a debug-shaped workflow.
+9. If the issue turns into a broader refactor, doc refresh, customization update, or cross-cutting change, switch back to the normal coordinator flow instead of forcing a debug-shaped workflow.
 10. After the active debugging pass, summarize the root cause, what changed, and what was validated.
 11. If the debug work ends in implementation, return to the same post-implementation coordinator path used by `next-task`, including any needed testing, documentation, and review follow-up.
 12. Provide a concise, imperative commit message when the fix is ready to keep.
 
-Example response shape:
-- Failure anchor: `pytest tests/test_cli.py::test_empty_input` fails with a traceback in `src/app/cli.py`.
-- Owning path: input normalization in `src/app/cli.py`.
-- First check: rerun that one failing test before widening scope.
-- Root cause: empty input bypasses the default branch and reaches an invalid parse path.
-- What changed: add the missing empty-input fallback before parsing.
-- Validation: the same focused test passes after the fix.
-- Commit message: Fix CLI empty-input handling.
+## Output
+
+- End with a short debug summary: failure anchor, root cause, the tasks performed, and the narrow validation rerun.
+
+## Example Final Response
+
+```markdown
+Failure anchor: `uv run pytest test/interface/cli/test_world_status.py -q`
+Root cause: the CLI formatter assumed every runner snapshot included a populated `summary` field.
+Task summary:
+- Testing Agent reproduced the failure and reduced it to one fixture.
+- Implementation Agent added a guard for missing summaries.
+Validation:
+- `uv run pytest test/interface/cli/test_world_status.py -q` passed.
+```

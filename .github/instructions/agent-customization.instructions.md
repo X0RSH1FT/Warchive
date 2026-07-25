@@ -32,7 +32,7 @@ When you rely on an upstream web doc for a rule in this repository, prefer to al
 
 ## Discovery and File Locations
 
-- Keep repository customizations in the standard `.github/` layout unless there is a deliberate reason to rely on settings-based discovery.
+- Keep repository customizations in the standard `.github/` layout.
 - Use the conventional paths for committed files: `.github/copilot-instructions.md`, `.github/instructions/`, `.github/prompts/`, `.github/agents/`, and `.github/skills/`.
 - Do not assume user-level customizations, parent-repository discovery, or settings such as `chat.agentFilesLocations`, `chat.promptFilesLocations`, or `chat.agentSkillsLocations` will carry repository behavior. Commit the workflow the repo depends on.
 - If authoring notes mention parent-repository discovery, treat it as an operational detail, not as the primary loading strategy for this repository.
