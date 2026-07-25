@@ -88,6 +88,22 @@ Export templates are required to create platform builds. Keep `export_presets.cf
 
 Profile before and after a change. CPU profiling alone cannot identify GPU bottlenecks or all stalls, so use suitable external GPU tooling when the evidence points to rendering or driver work. See [General optimization](https://docs.godotengine.org/en/stable/tutorials/performance/general_optimization.html).
 
+## C# Tutorial Path
+
+Use the following short path to become familiar with Godot's core concepts while keeping C# as the scripting language. The official beginner game tutorials commonly show GDScript, but the node, scene, editor, input, physics, signal, resource, UI, animation, 3D, and export concepts apply to C# projects. When a tutorial uses GDScript, recreate the same steps in a C# script and consult the [C# basics](https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/c_sharp_basics.html) page for naming and API differences.
+
+1. **Set up .NET and C#:** Start with the [C# overview](https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/index.html) to install the .NET editor, configure the .NET SDK, and understand the C# workflow.
+2. **Create a first project with nodes and scenes:** Read [Nodes and scenes](https://docs.godotengine.org/en/stable/getting_started/step_by_step/nodes_and_scenes.html), then build the small project in [Your first 2D game](https://docs.godotengine.org/en/stable/getting_started/first_2d_game/index.html). These tutorials are language-neutral in their editor and scene steps; the game tutorial's GDScript can be reproduced in C#.
+3. **Attach a C# script and learn lifecycle:** Work through [C# basics](https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/c_sharp_basics.html), paying particular attention to attaching scripts and the C# forms of `_Ready`, `_Process`, and `_PhysicsProcess`.
+4. **Add input:** Follow [InputEvent and input handling](https://docs.godotengine.org/en/stable/tutorials/inputs/inputevent.html) and define named actions in the Input Map. The concepts are language-neutral; use the C# API names shown by the C# documentation or editor completion when translating examples.
+5. **Move a 2D body and handle physics:** Read [2D movement overview](https://docs.godotengine.org/en/stable/tutorials/2d/2d_movement.html), then [Physics introduction](https://docs.godotengine.org/en/stable/tutorials/physics/physics_introduction.html). These are primarily concept and editor tutorials, and examples may use GDScript; the corresponding C# classes and methods are available, with PascalCase method names such as `MoveAndSlide`.
+6. **Connect signals:** Complete [Signals](https://docs.godotengine.org/en/stable/getting_started/step_by_step/signals.html). The editor workflow is language-neutral, while the callback declaration and connection syntax should follow the [C# signals documentation](https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/c_sharp_signals.html).
+7. **Create reusable data:** Read [Resources](https://docs.godotengine.org/en/stable/tutorials/scripting/resources.html). The resource concepts are language-neutral; define custom resources in C# when the project needs typed, reusable data assets.
+8. **Build UI:** Use the [UI documentation](https://docs.godotengine.org/en/stable/tutorials/ui/index.html) to practice `Control` nodes, anchors, containers, and themes. This is language-neutral, and the same scene tree and layout rules apply when UI behavior is scripted in C#.
+9. **Animate properties:** Follow [Animation introduction](https://docs.godotengine.org/en/stable/tutorials/animation/introduction.html) to use `AnimationPlayer` and then `AnimationTree`. The editor workflow is language-neutral; C# can trigger the same animation nodes through their C# APIs.
+10. **Learn 3D composition:** Build the [Your first 3D game](https://docs.godotengine.org/en/stable/getting_started/first_3d_game/index.html). The tutorial may use GDScript, but its nodes, scenes, cameras, lighting, physics, and input concepts map directly to C# scripts.
+11. **Export a build:** Finish with [Exporting projects](https://docs.godotengine.org/en/stable/tutorials/export/exporting_projects.html). Export setup is mostly language-neutral; for a C# project, use the .NET editor and matching export templates and confirm that the target platform supports Godot C# export.
+
 ## Migration Comparisons and Caveats
 
 | Familiar engine idea | Godot starting point | Caveat |
