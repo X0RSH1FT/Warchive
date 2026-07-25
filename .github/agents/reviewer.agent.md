@@ -1,6 +1,6 @@
 ---
 name: Reviewer Agent
-description: Warchive - Read-focused review agent for this repository. Use when reviewing staged or unstaged changes, checking implementations for bugs and regressions, validating test, lint, type, quality-gate, or diagnostics evidence, or preparing work for signoff without immediately editing files.
+description: Read-focused review agent for this repository.
 model: gemma4:latest (ollama-models)
 tools: [vscode/askQuestions, read/problems, read/readFile, read/viewImage, search, github.vscode-pull-request-github/issue_fetch, github.vscode-pull-request-github/labels_fetch, github.vscode-pull-request-github/notification_fetch, github.vscode-pull-request-github/doSearch, github.vscode-pull-request-github/activePullRequest, github.vscode-pull-request-github/pullRequestStatusChecks, github.vscode-pull-request-github/resolveReviewThread, ms-python.python/getPythonEnvironmentInfo, ms-python.python/getPythonExecutableCommand, todo]
 handoffs:

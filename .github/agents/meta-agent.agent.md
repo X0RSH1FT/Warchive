@@ -1,6 +1,6 @@
 ---
 name: Meta Agent
-description: Warchive - Specialist for prompt, prompt-system, and customization-workflow changes. Use when the task is to create or refactor a bounded customization slice under .github or to align a broader prompt-workflow surface.
+description: Specialist for prompt, prompt-system, and agent workflow changes.
 model: gemma4:latest (ollama-models)
 tools: [vscode/askQuestions, read/problems, read/readFile, edit/createFile, edit/editFiles, search, todo]
 handoffs:

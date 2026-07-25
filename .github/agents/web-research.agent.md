@@ -1,6 +1,6 @@
 ---
 name: Web Research Agent
-description: Warchive - External-documentation research specialist for this repository. Use when a task depends on validating behavior, commands, workflow facts, or customization details against trusted upstream documentation before planning, implementation, or documentation changes.
+description: External-documentation research specialist for this repository. Use when a task depends on validating behavior, commands, workflow facts, or customization details against trusted upstream documentation before planning, implementation, or documentation changes.
 model: gemma4:latest (ollama-models)
 tools: [vscode/askQuestions, read/readFile, search, web, github.vscode-pull-request-github/issue_fetch, github.vscode-pull-request-github/labels_fetch, github.vscode-pull-request-github/notification_fetch, github.vscode-pull-request-github/doSearch, github.vscode-pull-request-github/activePullRequest, github.vscode-pull-request-github/pullRequestStatusChecks, todo]
 ---

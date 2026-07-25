@@ -1,7 +1,7 @@
 ---
 name: Implementation Agent
-description: Warchive - Development-focused default agent for this repository. Use when implementing features, fixing bugs, repairing failing checks as part of a code change, reviewing code paths to make changes, refactoring safely, or handling general day-to-day software development in this repository when any test edits stay small and adjacent to the source change. Route standalone validation-heavy requests and broader behavior-scoped or quality-gate testing to Testing Agent.
-model: GPT-5 mini (copilot)
+description: Code development agent for this repository.
+model: GPT-5.6 Luna (copilot)
 tools: [vscode/runCommand, vscode/askQuestions, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runTask, execute/createAndRunTask, execute/runInTerminal, execute/runTests, execute/testFailure, read/problems, read/readFile, read/viewImage, read/terminalSelection, read/terminalLastCommand, read/getTaskOutput, edit/createDirectory, edit/createFile, edit/editFiles, edit/rename, search, web, 'pylance-mcp-server/*', github.vscode-pull-request-github/issue_fetch, github.vscode-pull-request-github/labels_fetch, github.vscode-pull-request-github/notification_fetch, github.vscode-pull-request-github/doSearch, github.vscode-pull-request-github/activePullRequest, github.vscode-pull-request-github/pullRequestStatusChecks, github.vscode-pull-request-github/resolveReviewThread, ms-python.python/getPythonEnvironmentInfo, ms-python.python/getPythonExecutableCommand, todo]
 handoffs:
   - label: Request Documentation

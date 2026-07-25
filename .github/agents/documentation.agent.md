@@ -1,6 +1,6 @@
 ---
 name: Documentation Agent
-description: Warchive - Documentation-focused specialist for this repository. Use when authoring, moving, or updating README, docs/app, docs/research, docs/sprint, or targeted .github customization docs, or when code changes should trigger documentation updates and cross-link cleanup.
+description: Documentation-focused specialist for this repository.
 model: GPT-5.6 Luna (copilot)
 tools: [vscode/askQuestions, read/problems, read/readFile, read/viewImage, edit/createDirectory, edit/createFile, edit/editFiles, search, todo]
 handoffs:
