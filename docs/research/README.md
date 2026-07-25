@@ -13,7 +13,9 @@ Use the `/research` slash command (defined in `.opencode/commands/research.promp
 | `agentic-coding.md` | Overview of practical agentic coding workflows as a delivery loop of context, bounding, work, validation, and knowledge updates. |
 | `completion-format-prompting.md` | Research note on chat, completion, and continuation-style prompt formatting for roleplay with small LLMs. |
 | `creative-roleplay-prompt-surface-reference.md` | Durable reference for choosing between creative, roleplay, and prompt-evaluation entry points. |
+| `dotnet-installation-and-setup.md` | Windows-focused .NET and C# setup crash course for developers returning after several years away. |
 | `git-commands-cheatsheet.md` | Practical reference for everyday Git operations — from setup through advanced recovery. |
+| `learning-godot-engine-for-experienced-unity3d-and-unreal-engine-developers-installation-choice-net-versus-standard-and-fundamental-concepts.md` | Practical Godot orientation for experienced Unity3D and Unreal Engine developers, including the .NET versus Standard installation decision and core concepts. |
 | `node-and-npm-command-cheatsheets.md` | Practical reference for everyday Node.js and npm operations — runtime flags, module system, package management, scripts, publishing, diagnostics, and config. |
 | `github-ssh-setup-ubuntu.md` | Step-by-step guide for setting up GitHub SSH access from an Ubuntu environment. |
 | `kubectl-command-cheat-sheet.md` | Practical reference for everyday kubectl operations — from cluster management and resource CRUD through debugging, configuration, and advanced workflows. |
