@@ -1,6 +1,6 @@
 ---
 name: "Python Code Style"
-description: "Python coding standards and formatting guidelines"
+description: "Python coding standards"
 applyTo: "**/*.py"
 ---
 
@@ -13,7 +13,7 @@ This document defines the coding standards and formatting guidelines for Python 
 ### Region Comments
 Use `# region <Name>` and `# endregion` to organize code into logical sections.
 
-Common regions: `Imports`, `Logger`, `Enum`, `Static`, `Properties`, `Constructor`, `Functions`, `Operations`, `Nodes`, `Tests`, `Fixtures`
+Common regions: `Imports`, `Enum`, `Static`, `Properties`, `Constructor`, `Functions`, `Operations`, `Accessors`, `Tests`, `Fixtures`
 
 ### File Structure
 1. Imports region (always at top)
