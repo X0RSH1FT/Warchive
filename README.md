@@ -2,6 +2,8 @@
 
 Warchive is a repository for agent prompts, working guidance, and knowledge documents. It is a practical archive first: a place to keep reusable instructions, research references, and support material organized enough for both humans and coding agents to navigate.
 
+It is also a control repository for dispatching and coordinating agentic work across systems.
+
 The tone can stay playful and a little cyberpunk, but the content is meant to be durable, readable, and useful during real work.
 
 ## What this repository is for
@@ -32,6 +34,7 @@ If you are new to the repo, start here:
 ## Key reference docs
 
 - [docs/research/agentic-coding.md](docs/research/agentic-coding.md): practical notes on agentic delivery loops, validation, and role splits.
+- [docs/research/codebase-security-and-malware-review.md](docs/research/codebase-security-and-malware-review.md): repository-agnostic guidance for authorized codebase security and malware reviews.
 - [docs/research/vscode-copilot-agent-customization-reference.md](docs/research/vscode-copilot-agent-customization-reference.md): local reference for always-on instructions, scoped instructions, prompts, agents, skills, and related VS Code Copilot behavior.
 - [docs/research/opencode-agent-configuration-reference.md](docs/research/opencode-agent-configuration-reference.md): local reference for OpenCode rules, config precedence, agents, permissions, commands, skills, custom tools, and MCP-related tool behavior.
 - [docs/research/ollama-troubleshooting-windows.md](docs/research/ollama-troubleshooting-windows.md): Windows-local troubleshooting reference for Ollama performance, configuration pressure, and diagnostic flow.

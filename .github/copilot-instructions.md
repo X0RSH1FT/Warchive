@@ -1,6 +1,10 @@
 # Warchive Copilot Instructions
 
-Warchive is a documentation-first repository for agent prompts, customization assets, and knowledge documents. Treat the repository structure and existing Markdown files as the source of truth.
+Warchive is a documentation repository for agent prompts, customization assets, and knowledge documents.
+
+It is also a control repository for dispatching and coordinating agentic work across systems
+
+Treat the repository structure and existing Markdown files as the source of truth.
 
 ## Stable context
 
