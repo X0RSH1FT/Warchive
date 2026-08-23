@@ -13,7 +13,7 @@ Testing conventions for the pytest suite.
 - When code changes, add or update relevant tests.
 - Keep tests under `test/`.
 - Keep unit tests isolated and fast.
-- Categorize 
+- Categorize tests with markers such as `@mark.unit` and `@mark.data`.
 
 ## Naming
 
@@ -51,7 +51,25 @@ Testing conventions for the pytest suite.
 ```python
 # region Imports
 
-from pytest import fixture
+from enum import Enum
+from pathlib import Path
+from pytest import fixture, mark
+
+# endregion
+
+# region Enums
+
+class FileType(str, Enum):
+    JSON = ".json"
+    YAML = ".yaml"
+    YML = ".yml"
+    CSV = ".csv"
+    TSV = ".tsv"
+    TXT = ".txt"
+    MD = ".md"
+    XML = ".xml"
+    TOML = ".toml"
+    LOG = ".log"
 
 # endregion
 
