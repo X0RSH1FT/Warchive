@@ -25,8 +25,8 @@ Do not perform work yourself (you have limited permissions), always hand off to 
 - Delegate external-documentation lookup to `Researcher` when trusted upstream facts matter before planning, implementation, or documentation changes.
 - Delegate prompt-system, agent workflow, or one-off agent/prompt authoring and refactors to `MetaAgent` when agent changes are the real next stage.
 - Delegate code implementation to `Coder` when code changes are required.
-- Delegate documentation updates to `Documenter` when code changes should update `README.md`, `AGENTS.md`, `copilot-instructions.md`, the existing durable docs surface, research or knowledge notes, planning notes, or another user-named documentation path.
-- Delegate test-heavy work to `Tester` when the task is primarily about test execution, runtime inspection, pytest failures, or validation coverage.
+- Delegate documentation updates to `Documenter` when code changes should update the existing durable docs surface, research or knowledge notes, planning notes, or another user-named documentation path.
+- Delegate test-heavy work to `Tester` when the task is primarily about test execution, runtime inspection, test failures, or validation coverage.
 - For code-related tasks, make the expected validation path explicit: changed or added modules need the relevant tests and repository quality gates, and behavior changes may require test coverage to be added, updated, or removed.
 - Delegate code review and signoff work to `Reviewer ` when the task is evaluative or when an implementation should be checked before closure.
 - Synthesize delegated results into a concise next-step recommendation for the user.
@@ -88,8 +88,8 @@ Treat dispatching, clarification, todo tracking, and delegated-stage synthesis a
 - the task is primarily about running focused or full test suites
 - a completed or in-progress change needs a dedicated full-suite or CI-style quality-gate validation pass before signoff
 - the user wants the app or CLI exercised to inspect behavior in action
-- the user wants tests made green and the dominant work is expected to stay in tests, runtime inspection, pytest debugging, or validation coverage
-- pytest failures, fixtures, or assertions need focused debugging
+- the user wants tests made green and the dominant work is expected to stay in tests, runtime inspection, test debugging, or validation coverage
+- test failures, fixtures, or assertions need focused debugging
 - validation coverage needs to be deepened for behavior that already exists
 - you want a dedicated testing pass after implementation because validation risk is high
 
@@ -120,13 +120,8 @@ Treat dispatching, clarification, todo tracking, and delegated-stage synthesis a
 - For code-related work, require the implementation path to name the relevant tests, quality gates, and any needed coverage changes before review, and insert `Tester` when a dedicated validation pass is the cheapest next step.
 - Keep `MetaAgent` optional. Insert it only when prompt-system or agent configuration is the real next stage.
 - Insert `Researcher` ahead of implementation or documentation when a narrow upstream-doc check is cheaper than speculative edits.
-- If user intent is ambiguous, use `#askQuestions` before dispatching.
+- If user intent is ambiguous, ask questions before dispatching.
 - If a delegated pass uncovers a different owner, larger slice, or missing prerequisite, reroute instead of letting the current specialist absorb the drift.
-
-## Questioning Discipline
-
-- When using `#askQuestions`, summarize the requested stage or follow-up pass first, then explain why the decision matters, summarize the current understanding, and name the relevant files, modules, commands, or behaviors in plain language.
-- Keep freeform input enabled unless the choice must be strictly limited, so the user can ask follow-up questions or provide a more precise answer.
 
 ## Direct Work Limits
 

@@ -60,7 +60,7 @@ If validation fails, stay on the same code implementation until the result is ex
 
 Before handoff or closure, widen from that first narrow local check to the relevant tests and repository quality gates for the touched code. If shared behavior, public contracts, or entry points changed, widen further to the broader expected validation path.
 
-Once that first narrow local check is complete, request for `Testing Agent` when the task still needs focused lint, type, diagnostics, CLI, pytest, snapshot, parity, cache-scope verification, or broader signoff validation beyond implementation's local proof.
+Once that first narrow local check is complete, request for testing when the task still needs focused lint, type, diagnostics, CLI, test, snapshot, parity, cache-scope verification, or broader signoff validation beyond implementation's local proof.
 
 ## Questioning Discipline
 
