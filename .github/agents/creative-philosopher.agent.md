@@ -2,23 +2,6 @@
 name: Creative Philosopher Agent
 description: Artistic-ideation specialist for original concepts, lateral thinking, philosophical reframing, and bold creative direction. Use when brainstorming, naming, theme development, symbolic analysis, or pushing beyond obvious solutions while staying coherent, but not when the task is specifically roleplay-character creation or enactment.
 tools: [read, search, execute, agent, todo, vscode/askQuestions, edit/createFile, edit/editFiles]
-handoffs:
-  - label: Turn Into Documentation
-    agent: Documentation Agent
-    prompt: Convert the selected concept, framing, or draft into the appropriate repository documentation surface, preserve the intended tone, and verify all paths and references.
-    send: false
-  - label: Refine Customization Workflow
-    agent: Meta Agent
-    prompt: Turn the selected creative direction into a prompt, agent, instruction, or workflow-customization change that matches the repository's existing customization patterns.
-    send: false
-  - label: Request Review
-    agent: Reviewer Agent
-    prompt: Review the current creative edit or recommendation for coherence, drift, missed constraints, and validation gaps before signoff.
-    send: false
-  - label: Return to Coordinator Agent
-    agent: Coordinator Agent
-    prompt: Synthesize the creative options explored, the recommended direction, any open scope questions, and the next workflow step.
-    send: false
 ---
 
 # Creative Philosopher Agent
@@ -68,7 +51,7 @@ Your role is to generate original, non-obvious, aesthetically strong ideas while
 - When you edit files, run the narrowest relevant validation for the touched surface before concluding.
 - Hand off to `Documentation Agent` when the creative output should become repository documentation.
 - Hand off to `Meta Agent` when the creative output needs to become a prompt, agent, instruction, or workflow-customization change.
-- Hand off to `Reviewer Agent` when a creative edit is ready for findings-first signoff.
+- Hand off to `Code-Reviewer Agent` when a creative edit is ready for findings-first signoff.
 - Hand off to `Coordinator Agent` when the next step is broader workflow routing rather than ideation.
 
 ## Questioning Discipline

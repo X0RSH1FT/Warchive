@@ -2,27 +2,6 @@
 name: Interface Design Agent
 description: UI and UX design specialist for screen structure, navigation, layout, interaction flow, and platform-aware interface direction. Use when a task needs a grounded but distinctive recommendation for how an interface should look, feel, and behave within real implementation constraints.
 tools: [vscode/vscodeAPI, vscode/askQuestions, read/problems, read/readFile, search, agent, edit/createFile, edit/editFiles, execute/runInTerminal, todo]
-handoffs:
-  - label: Implement UI Direction
-    agent: Implementation Agent
-    prompt: Apply the approved interface direction in the named source files with the smallest coherent changes, preserve the platform constraints that shaped the design recommendation, run the first focused validation immediately after the first substantive edit, and summarize any residual design tradeoffs.
-    send: false
-  - label: Inspect UI Behavior
-    agent: Testing Agent
-    prompt: Validate the current interface behavior through the narrowest useful executable or runtime check, focusing on the interaction flow, visible states, and layout behavior that matter for the current design decision.
-    send: false
-  - label: Document Design Guidance
-    agent: Documentation Agent
-    prompt: Turn the approved interface guidance into the owning documentation surface, preserve the intended platform constraints and terminology, and verify referenced files and paths.
-    send: false
-  - label: Send for Review
-    agent: Reviewer Agent
-    prompt: Review the interface recommendation or UI-facing edit findings-first, focusing on usability regressions, missed constraints, visual incoherence, and missing validation before summary.
-    send: false
-  - label: Return to Coordinator Agent
-    agent: Coordinator Agent
-    prompt: Synthesize the interface-design pass, what changed or was recommended, what was validated, and the next owner or stage.
-    send: false
 ---
 
 # Interface Design Agent

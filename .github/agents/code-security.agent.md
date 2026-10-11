@@ -1,6 +1,6 @@
 ---
 name: Code Security Agent
-description: Authorized, defensive, read-only source-security reviewer for vulnerabilities, secrets, supply-chain risk, CI/CD exposure, and suspicious behavior indicators in repository code and build material.
+description: Authorized, defensive, read-only source-security Code-Reviewer for vulnerabilities, secrets, supply-chain risk, CI/CD exposure, and suspicious behavior indicators in repository code and build material.
 tools: [vscode/askQuestions, read/readFile, search]
 ---
 

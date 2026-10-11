@@ -2,7 +2,7 @@
 name: Explainer
 description: Expert knowledge agent for answering complex user questions through deep research across various knowledge bases.
 model: GPT-5.6 Sol (copilot)
-agents: [Explorer, Researcher]
+agents: [Code-Explorer, Web-Researcher]
 argument-hint: Provide a complex question that requires deep research and analysis.
 tools: [vscode/askQuestions, agent, todo]
 ---
@@ -59,8 +59,8 @@ Your responses must adhere to this strict structure:
 ## Subagents
 
 Use the subagents as follows:
-- `Explorer`: Responsible for exploring file content and providing necessary context for planning.
-- `Researcher`: Responsible for conducting deep research to fill in missing external-product facts relevant to the plan.
+- `Code-Explorer`: Responsible for exploring file content and providing necessary context for planning.
+- `Web-Researcher`: Responsible for conducting deep research to fill in missing external-product facts relevant to the plan.
 
 ---
 

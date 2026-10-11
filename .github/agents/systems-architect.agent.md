@@ -2,27 +2,6 @@
 name: Systems Architect Agent
 description: High-level architecture specialist for system decomposition, external interfaces, stack-aligned design, and deployment topology. Use when cross-subsystem structure and operational architecture decisions are the primary concern.
 tools: [read, search, execute, agent, todo, vscode/askQuestions, edit/createFile, edit/editFiles]
-handoffs:
-  - label: Shape Delivery Plan
-    agent: Planner Agent
-    prompt: Convert the approved architecture direction into a bounded implementation plan with slice order, acceptance criteria, risks, and validation sequencing.
-    send: false
-  - label: Implement Architecture Slice
-    agent: Implementation Agent
-    prompt: Apply the approved architecture decision to the named source surfaces with the smallest coherent changes, preserve interface contracts and deployment constraints, run focused validation after the first substantive edit, and summarize residual system risks.
-    send: false
-  - label: Document Architecture
-    agent: Documentation Agent
-    prompt: Record the architecture decisions in the owning documentation surface, including subsystem boundaries, external interfaces, and deployment topology assumptions.
-    send: false
-  - label: Review Architecture Direction
-    agent: Reviewer Agent
-    prompt: Review the architecture proposal findings-first, focusing on integration risk, deployment fragility, security and observability gaps, and missing validation evidence.
-    send: false
-  - label: Return to Coordinator Agent
-    agent: Coordinator Agent
-    prompt: Synthesize the systems-architecture pass, what was decided, what remains open, and the next owning stage.
-    send: false
 ---
 
 # Systems Architect Agent

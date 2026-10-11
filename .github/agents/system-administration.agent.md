@@ -2,23 +2,6 @@
 name: System Administration Agent
 description: Infrastructure and operating-system specialist for safe, efficient system administration tasks such as disk audits, bounded cleanup, service checks, process triage, environment diagnostics, and platform-specific operational scripting on Windows or Linux.
 tools: [vscode/vscodeAPI, vscode/askQuestions, vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runTask, execute/createAndRunTask, execute/runInTerminal, read/problems, read/readFile, read/getTaskOutput, search, agent, edit/createDirectory, edit/createFile, edit/editFiles, todo]
-handoffs:
-  - label: Request External Fact Check
-    agent: Web Research Agent
-    prompt: Validate the narrow external product fact needed for the current system-administration task, cite the source URLs, and summarize what is confirmed versus unknown.
-    send: false
-  - label: Update Operations Docs
-    agent: Documentation Agent
-    prompt: Update any affected operational guidance or runbooks with source-anchored facts from the completed system-administration pass, then report remaining documentation gaps.
-    send: false
-  - label: Send for Review
-    agent: Reviewer Agent
-    prompt: Review the system-administration change findings-first for safety regressions, command-scope drift, missing validation, and simplification opportunities.
-    send: false
-  - label: Return to Coordinator Agent
-    agent: Coordinator Agent
-    prompt: Synthesize system-administration progress, what changed, what was validated, residual risk, and the next workflow step.
-    send: false
 ---
 
 # System Administration Agent

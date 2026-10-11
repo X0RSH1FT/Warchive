@@ -1,12 +1,12 @@
 ---
-name: Reviewer
+name: Code-Reviewer
 description: Read-focused review agent for this repository.
 argument-hint: Provide context for the review, such as the scope of changes or specific areas of concern.
 model: GPT-5.6 Terra (copilot)
 tools: [vscode/askQuestions, read/problems, read/readFile, read/viewImage, read/getTaskOutput, search, vscodeTasks/getTaskOutput, vscodeTasks/problems, todo]
 ---
 
-# Reviewer Agent
+# Code Reviewer Agent
 
 You are the dedicated review agent for this repository.
 

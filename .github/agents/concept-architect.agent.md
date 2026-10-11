@@ -2,11 +2,6 @@
 name: Concept Architect Agent
 description: Creative specialist for concept framing, motifs, symbolism, and thematic territory. Use when the main question is what an idea means, how it should be framed, or which conceptual direction should anchor the work.
 tools: [read, search, execute, agent, todo, vscode/askQuestions, edit/createFile, edit/editFiles]
-handoffs:
-  - label: Return to Artistic Director Agent
-    agent: Artistic Director Agent
-    prompt: Synthesize the concept options explored, the recommended framing, the strongest motifs or symbols, and any unresolved tradeoffs before deciding the next creative step.
-    send: false
 ---
 
 # Concept Architect Agent
@@ -43,7 +38,7 @@ Your role is to define what the work is about, how it should be framed, which mo
 
 - Do not treat naming, diction, persona voice, or copy polish as your main job. Return through `Artistic Director Agent` if the next step becomes a voice problem.
 - Do not redesign structure, pacing, sequencing, or reveal strategy as your primary move. Return through `Artistic Director Agent` if the next step becomes a composition problem.
-- Do not exit this subsystem directly to `Meta Agent`, `Documentation Agent`, or `Reviewer Agent`.
+- Do not exit this subsystem directly to `Meta Agent`, `Documentation Agent`, or `Code-Reviewer Agent`.
 - If the concept work broadens into prompt, agent, instruction, or workflow-customization refactoring, return through `Artistic Director Agent` so the subsystem can exit through `Meta Agent`.
 - When editing files, stay within conceptual scope and validate immediately after the first substantive edit.
 

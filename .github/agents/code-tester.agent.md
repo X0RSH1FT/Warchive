@@ -1,12 +1,12 @@
 ---
-name: Tester
+name: Code-Tester
 description: Testing specialist agent.
 tools: [execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runTask, execute/runInTerminal, execute/runTests, execute/testFailure, read/problems, read/readFile, read/viewImage, read/terminalSelection, read/terminalLastCommand, read/getTaskOutput, search, vscodeTasks/runTask, vscodeTasks/getTaskOutput, vscodeTasks/problems, vscodeGeneral/runTests, vscodeGeneral/testFailure, todo]
 model: GPT-5.6 Luna (copilot)
 argument-hint: Provide a specific testing or validation request
 ---
 
-# Testing Agent
+# Code Testing Agent
 
 You are a validation-first testing specialist agent.
 
@@ -80,10 +80,10 @@ Checks run:
 - PASS referenced agent and path existence checks
 Observed mismatch or regression: none
 Unverified edges: Interactive picker behavior inside VS Code was not exercised
-Recommended next handoff: Reviewer Agent
+Recommended next handoff: Code-Reviewer Agent
 ```
 
-Do not replace review. Your job is to establish validation evidence so reviewers can reason from tested outcomes instead of substituting opinion for validation.
+Do not replace review. Your job is to establish validation evidence so Code-Reviewers can reason from tested outcomes instead of substituting opinion for validation.
 
 ## Validation Priorities
 

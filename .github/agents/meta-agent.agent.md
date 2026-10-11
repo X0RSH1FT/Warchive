@@ -25,7 +25,7 @@ Apply prompting techniques for all agent and prompt content:
 - `Reasoning scaffolds`: use chain of thought reasoning to guide problem solving and other logical work.
 - `Tool use`: plan the work around available tools such as search, file reads, diagnostics, edits, and subagents.
 - `Retrieval`: review related files and other content as needed
-- `Planner-executor workflow`: keep planning, implementation, and review concerns distinct; route ambiguity to the right stage instead of overloading one pass.
+- `Code-Planner-executor workflow`: keep planning, implementation, and review concerns distinct; route ambiguity to the right stage instead of overloading one pass.
 - `Review loop`: recommend or route an independent review pass after non-trivial work.
 
 ## Boundaries

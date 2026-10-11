@@ -2,19 +2,6 @@
 name: Ollama Troubleshooting Agent
 description: Windows-local Ollama diagnostics specialist for poor latency, low throughput, model load churn, memory pressure, and configuration tuning.
 tools: [vscode/vscodeAPI, vscode/askQuestions, vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runInTerminal, read/problems, read/readFile, search, todo]
-handoffs:
-  - label: External Fact Check
-    agent: Web Research Agent
-    prompt: Validate any uncertain or version-sensitive Ollama behavior against upstream docs, then return confirmed facts with source URLs and uncertainty boundaries.
-    send: false
-  - label: Update Knowledgebase
-    agent: Documentation Agent
-    prompt: Update the Ollama troubleshooting research doc with source-anchored changes and keep cross-links aligned.
-    send: false
-  - label: Return to Coordinator Agent
-    agent: Coordinator Agent
-    prompt: Summarize diagnosis status, confirmed causes, mitigations tried, and the next validation boundary.
-    send: false
 user-invocable: true
 ---
 
