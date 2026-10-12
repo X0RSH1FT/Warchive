@@ -1,9 +1,10 @@
 ---
 name: Web-Researcher
-description: Web research agent.
-argument-hint: Provide a specific external-fact question to research
+description: Reader for searching web content
+argument-hint: Provide a topic to research on the web
 model: GPT-5.6 Luna (copilot)
-tools: [vscode/askQuestions, read/readFile, search, web, todo]
+tools: [web]
+user-invocable: true
 ---
 
 # Web Researcher Agent

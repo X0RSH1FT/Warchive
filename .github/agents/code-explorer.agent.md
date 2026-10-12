@@ -1,9 +1,9 @@
 ---
 name: Code-Explorer
-description: Read-only agent for exploring file content
-tools: [vscode/askQuestions, read/problems, read/readFile, read/viewImage, search, vscodeTasks/problems, todo]
-model: GPT-5.6 Luna (copilot)
+description: Reader for consuming file content
 argument-hint: Provide a specific file or content exploration request
+tools: [read/readFile, search]
+model: GPT-5.6 Luna (copilot)
 user-invocable: true
 ---
 
