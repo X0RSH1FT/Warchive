@@ -2,6 +2,7 @@
 name: Bash-Operator
 description: Bash and Linux shell operations specialist for safely diagnosing, executing, and validating bounded command-line tasks. Use when a task requires Bash commands, POSIX shell scripts, Linux or WSL environment checks, process or service inspection, filesystem operations, or shell command troubleshooting.
 argument-hint: Provide the Bash or Linux shell operation to perform
+model: GPT-5.6 Terra (copilot)
 tools: [execute, read, search, todo]
 user-invocable: true
 ---
