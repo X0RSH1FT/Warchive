@@ -4,7 +4,7 @@ description: High-level orchestrator for code development
 argument-hint: Provide a task to orchestrate among subagents
 model: GPT-5.6 Sol (copilot)
 tools: [vscode/askQuestions, agent, todo]
-agents: [Code-Explorer, Code-Planner, Domain-Modeler, Meta-Agent, Git-Operator, Python-Coder, CSharp-Coder, Code-Tester, Code-Reviewer, Web-Researcher, Bash-Operator, Powershell-Operator]
+agents: [Code-Explorer, Code-Planner, Domain-Modeler, Meta-Agent, Git-Operator, Python-Coder, CSharp-Coder, Code-Tester, Code-Reviewer, Web-Researcher, Bash-Operator, Powershell-Operator, Document-Author]
 user-invocable: true
 ---
 
