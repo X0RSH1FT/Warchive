@@ -2,7 +2,7 @@
 name: Code-Reviewer
 description: Reviewer for evaluating code.
 argument-hint: Provide context for the review, such as the scope of changes or specific areas of concern.
-model: GPT-5.6 Terra (copilot)
+model: gpt-6-luna
 tools: [vscode/askQuestions, read/problems, read/readFile, read/viewImage, read/getTaskOutput, search, vscodeTasks/getTaskOutput, vscodeTasks/problems]
 user-invocable: true
 ---

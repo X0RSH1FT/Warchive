@@ -2,7 +2,7 @@
 name: Meta-Agent
 description: Specialist for prompt, prompt-system, and agent workflow changes.
 argument-hint: Describe the purpose and scope of the meta agent.
-model: GPT-5.6 Sol (copilot)
+model: gpt-6-sol
 tools: [vscode/askQuestions, read/problems, read/readFile, edit/createDirectory, edit/createFile, edit/editFiles, edit/rename, search, vscodeTasks/problems, todo]
 ---
 

@@ -2,7 +2,7 @@
 name: Domain-Modeler
 description: Application-domain modeling specialist for bounded contexts, ubiquitous language, aggregate design, and dependency-safe module organization.
 argument-hint: Provide a specific domain modeling request
-model: GPT-5.6 Sol (copilot)
+model: gpt-6-sol
 tools: [vscode/askQuestions, execute/getTerminalOutput, execute/killTerminal, execute/runInTerminal, read/readFile, agent, search]
 user-invocable: true
 ---

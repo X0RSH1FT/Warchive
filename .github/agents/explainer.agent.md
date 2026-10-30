@@ -2,7 +2,7 @@
 name: Explainer
 description: Expert knowledge agent for answering complex user questions through deep research across various knowledge bases.
 argument-hint: Provide a complex question that requires deep research and analysis.
-model: GPT-5.6 Sol (copilot)
+model: gpt-6-sol
 agents: [Code-Explorer, Web-Researcher]
 tools: [agent]
 user-invocable: true

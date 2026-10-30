@@ -2,7 +2,7 @@
 name: Powershell-Operator
 description: PowerShell and Windows shell operations specialist for safely diagnosing, executing, and validating bounded command-line tasks. Use when a task requires PowerShell commands or scripts, Windows environment checks, services, processes, event logs, registry, filesystem operations, or shell command troubleshooting.
 argument-hint: Provide the PowerShell or Windows shell operation to perform
-model: GPT-5.6 Terra (copilot)
+model: gpt-6.1-terra
 tools: [execute, read, search, todo]
 user-invocable: true
 ---

@@ -2,7 +2,7 @@
 name: Python-Coder
 description: Developer for handling python code development tasks.
 argument-hint: Provide a task to implement in the code
-model: GPT-5.6 Terra (copilot)
+model: gpt-6.1-terra
 tools: [vscode/runCommand, vscode/askQuestions, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runTask, execute/createAndRunTask, execute/runInTerminal, execute/runTests, execute/testFailure, read/problems, read/readFile, read/viewImage, read/terminalSelection, read/terminalLastCommand, read/getTaskOutput, GitHub.vscode-pull-request-github/issue_fetch, GitHub.vscode-pull-request-github/labels_fetch, GitHub.vscode-pull-request-github/doSearch, GitHub.vscode-pull-request-github/activePullRequest, GitHub.vscode-pull-request-github/pullRequestStatusChecks, GitHub.vscode-pull-request-github/openPullRequest, GitHub.vscode-pull-request-github/resolveReviewThread, ms-python.python/getPythonEnvironmentInfo, ms-python.python/getPythonExecutableCommand, ms-python.python/configurePythonEnvironment, edit/createDirectory, edit/createFile, edit/editFiles, edit/rename, search, web/githubRepo, web/githubTextSearch, 'pylance-mcp-server/*', vscodeTasks/createAndRunTask, vscodeTasks/runTask, vscodeTasks/getTaskOutput, vscodeTasks/problems, vscodeGeneral/rename, vscodeGeneral/runTests, vscodeGeneral/testFailure, todo]
 user-invocable: true
 ---

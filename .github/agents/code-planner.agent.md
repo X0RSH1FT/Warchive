@@ -2,7 +2,7 @@
 name: Code-Planner
 description: Planner for breaking down tasks into actionable implementation steps.
 argument-hint: Provide a task to plan
-model: GPT-5.6 Sol (copilot)
+model: gpt-6-sol
 tools: [vscode/askQuestions, execute/getTerminalOutput, execute/killTerminal, execute/runInTerminal, read/readFile, agent, GitHub.vscode-pull-request-github/issue_fetch, GitHub.vscode-pull-request-github/labels_fetch, GitHub.vscode-pull-request-github/doSearch, GitHub.vscode-pull-request-github/activePullRequest, GitHub.vscode-pull-request-github/pullRequestStatusChecks, search]
 user-invocable: true
 ---
