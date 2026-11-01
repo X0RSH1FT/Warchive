@@ -11,7 +11,7 @@ argument-hint: "[Optional: target prompt or agent files, packet format ideas, lo
 5. Treat structured packets, few-shot dialogue examples, late-turn steering, reply boundaries, scene memory summaries, dual-layer knowledge, and continuation-style prompt construction as techniques to compare rather than assumptions that are always superior.
 6. When the request includes a local service or interface such as Ollama, include runtime evaluation in the same workflow by comparing actual responses or by preparing the narrowest executable evaluation path the current project can support.
 7. When runtime evidence is unavailable, still produce a prompt-only comparison and call out the missing runtime validation explicitly.
-8. If the outcome broadens into shared prompt, agent, instruction, or workflow-customization refactoring, keep the work in `Meta Agent`. If it becomes documentation, hand off to `Documentation Agent`.
+8. If the outcome broadens into shared prompt, agent, instruction, or workflow-customization refactoring, route it to `Meta-Agent`. If it becomes maintained documentation, route it to `Document-Author`.
 9. End with the tested or proposed prompt structures, the evaluation outcome, the strongest recommended structure, remaining uncertainty, and the next experiment or refactor step.
 
 ## Output
