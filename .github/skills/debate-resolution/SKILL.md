@@ -46,7 +46,7 @@ Debate roster guidance:
 - Use `Documentation Agent` when the dispute is primarily durable knowledge ownership, docs clarity, or knowledge-surface fit.
 - Use `Reviewer Agent` when the dispute is primarily regression risk, findings quality, and signoff readiness.
 - Use `Web Research Agent` when the dispute depends on narrow external product facts not yet validated locally.
-- Use `Creative-Philosopher` or `Artistic-Director` when the dispute is stylistic, narrative, or creative-directional.
+- Use `Artistic-Director` for stylistic or narrative direction; optionally use `Creative-Philosopher` only to challenge an existing direction's assumptions and tradeoffs.
 
 Few-shot examples:
 - Good debate question: Should we resolve data-import failures with strict schema rejection now, or introduce a staged compatibility layer first?

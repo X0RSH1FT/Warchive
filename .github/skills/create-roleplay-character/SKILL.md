@@ -1,24 +1,15 @@
 ---
 name: create-roleplay-character
-description: Coordinate the design or normalization of a roleplay-ready character packet, scene context, and optional reusable character wrapper, then start in-character chat when requested.
+description: Coordinate a roleplay-ready character packet and, if requested, a reusable character agent file or in-character chat.
 disable-model-invocation: true
-argument-hint: "[Optional: character idea or notes, relationship to the user, setting, scenario, tone, secrets, goals, desired intensity, and whether to begin roleplay immediately.]"
+argument-hint: "[Optional: character notes, relationship, setting, scene, fixed canon, dossier scope/count, inline or saved character agent file with export scope, and whether to begin roleplay.]"
 ---
-1. Read the attached context and identify whether the user wants to create a new character, substantially redesign an existing one, normalize mostly-supplied character details, build a reusable wrapper, or start roleplay immediately.
-2. Use this workflow for both fresh design and mostly-specified normalization. If identity, relationship, and scene are already mostly supplied, preserve them and only fill or strengthen the genuinely missing packet fields.
-3. If identity, relationship, current environment, or desired interaction style is unclear, use `#askQuestions` to summarize the roleplay-character brief first and gather only the decisions that materially change the packet or first scene.
-4. Route character-packet design or normalization to `Character-Generator`, which owns the structured dossier, voice samples, relationship model, roleplay guidance, and agent-file transfer.
-5. Use `Concept-Architect`, `Voice-and-Naming`, and `Composition` only for clearly separate concept, voice, or structure questions; return those results through `Artistic-Director` before `Character-Generator` integrates them.
-6. When the user already supplied most of the character, preserve the supplied identity and relationship model unless they explicitly ask for redesign.
-7. Treat few-shot dialogue examples, structured packet fields, late-turn steering, scene memory summaries, dual-layer knowledge, and reply boundaries as first-class prompting tools.
-8. Treat continuation-style prompt construction as an experiment to support when the hosting workflow allows it, not as a guaranteed runtime behavior.
-9. If the user wants a one-off character packet artifact, produce the dossier directly or save it only when requested. If the work becomes a reusable `.github` wrapper or otherwise broadens into prompt, agent, instruction, or workflow-customization authoring or refactoring, use `Meta-Agent` as the next owner.
-10. If the user wants to begin roleplay once the packet is ready, hand off to `Roleplay-Character` with the approved packet, relationship context, current scene, and any memory or mood guidance.
-11. If the user only wants the packet or wrapper, stop after the approved character package is ready and summarize the remaining optional next step.
-12. End with a concise summary of the route taken, the packet or edits produced, the validation run, any unresolved taste or scope question, and a concise imperative commit message when the changes are ready to keep.
+1. Read the supplied canon, relationship, scene, and requested output scope; follow the [director's character workflow](../../agents/artistic-director.agent.md) and the [generator's dossier schema](../../agents/character-generator.agent.md). Invoke `Character-Generator` explicitly when supported; loading this skill alone does not activate that agent. If unavailable, follow its dossier instructions without claiming a specialist pass. For a structured packet, that agent owns the dossier; ask only a blocking decision through the permitted harness tool (`vscode/askQuestions` in VS Code; `ask_user` only where available), otherwise ask in chat or return the question to the caller if delegated without a user channel.
+2. Default to the full eight-section dossier and six speech exchanges. If a subset or detail level is explicitly requested, deliver that scope only, preserving applicable canon and coherence. Six exchanges still apply when speech samples are requested without a count; honor an explicit count. Distinguish omitted fields from genuinely unknown included fields.
+3. Use a separate concept, voice, or composition pass only for a material open decision, not a mandatory pipeline. If a reusable character `.agent.md` is explicitly requested, follow the [director's export branch](../../agents/artistic-director.agent.md): check the generator's dossier or approved supplied packet, then hand customization authoring to `Meta-Agent` when supported; otherwise follow its scoped guidance without claiming delegation. Default export retains full character detail (including eight sections and voice exchanges for a full dossier) or faithfully preserves the approved supplied packet; an explicit export abbreviation/subset/detail request applies to export, not automatically to dossier creation. Do not stop at transfer bullets or a dossier when a file was requested. Return full inline file content when requested inline; save only at an authorized path, verify edit/validation, and only then report that path.
+4. If enactment is requested, supply the approved packet, relationship, scene, and continuity to `Roleplay-Character` after completing any requested export. A delegated one-off scene response is not a user-session transfer; use an explicit supported handoff if available, otherwise ask the user to switch with context or continue one turn at a time.
+5. Stop after the requested packet and/or agent-file artifact if no enactment was requested; validate edits after the first substantive change and report only material open dependencies.
 
 ## Output
 
-- State whether the task is packet design, packet normalization, one-off packet artifact creation, reusable customization-wrapper creation, or start-roleplay.
-- Present the approved character packet or the route used to build it.
-- Name the next owner when the work should move into in-character chat or broader customization work.
+- Present the complete requested packet scope and any explicitly requested agent-file artifact, not a routing summary, and only the next step if one is needed.

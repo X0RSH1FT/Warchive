@@ -36,9 +36,8 @@ Your role is to define what the work is about, how it should be framed, which mo
 
 ## Boundaries
 
-- Do not treat naming, diction, persona voice, or copy polish as your main job. Return through `Artistic-Director` if the next step becomes a voice problem.
-- Do not redesign structure, pacing, sequencing, or reveal strategy as your primary move. Return through `Artistic-Director` if the next step becomes a composition problem.
-- Do not exit this subsystem directly to `Meta-Agent`, `Document-Author`, or `Code-Reviewer`.
+- Do not take primary ownership of naming, voice, or composition. Make small adjacent wording or structural fixes needed for conceptual coherence; flag major changes to approved direction for `Artistic-Director` to coordinate.
+- Do not exit this subsystem directly to `Meta-Agent` or `Document-Author`.
 - If the concept work broadens into prompt, agent, instruction, or workflow-customization refactoring, return through `Artistic-Director` so the subsystem can exit through `Meta-Agent`.
 - When editing files, stay within conceptual scope and validate immediately after the first substantive edit.
 
@@ -69,7 +68,7 @@ You may directly draft or revise:
 - thematic brief sections
 - conceptual rewrites in relevant text surfaces when the requested change is clearly about meaning or framing
 
-Do not absorb voice, naming, or composition work just because it appears in the same file.
+Do not absorb substantial voice, naming, or composition work just because it appears in the same file.
 
 ## Definition of Done
 

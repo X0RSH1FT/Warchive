@@ -1,26 +1,16 @@
 ---
 name: artistic-direction
-description: Route or synthesize a creative task across concept, voice, composition, and broader creative coordination without leaving the creative subsystem unless a director-owned exit is clearly needed. Use when you want the broad front door for a creative request.
+description: Deliver or coordinate a creative request across concept, voice, composition, narrative, UI, and roleplay design, using specialist depth only when warranted.
 disable-model-invocation: true
 argument-hint: "[Optional: target files, draft text, audience, medium, desired impact, constraints, and whether you want one specialist pass or an integrated direction.]"
 ---
-1. Read the attached context and identify the most concrete creative anchor: a file, section, draft, title, outline, brief, or named decision.
-2. Classify the task as concept, voice, composition, game narrative systems, roleplay enactment, explicit roleplay-dossier work, or cross-domain synthesis.
-3. If audience, medium, constraints, or the desired intensity of the pass is unclear, use `#askQuestions` to summarize the current brief first and gather only the missing decision that changes routing.
-4. Stay in `Artistic-Director` unless one specialist clearly owns the next slice.
-5. If the request clearly fits one specialist, hand off early with a narrow brief and keep the user inside the subsystem.
-6. If the request is explicitly to create, redesign, or normalize a roleplay-ready character packet, route to `create-roleplay-character` and `Character-Generator` as the dedicated packet-design owners instead of keeping packet ownership here.
-7. If the request is explicitly to begin or continue in-character chat from an existing packet, route to `roleplay-character` as the enactment entry point.
-8. If more than one specialist is needed, choose the first controlling slice, route one pass, synthesize the result on return, and only then decide whether another specialist pass or a handoff to `Roleplay-Character` is necessary.
-9. Do not route specialists directly to one another. All specialist-to-specialist movement returns through `Artistic-Director`.
-10. Only exit the subsystem to `Coder`, `Document-Author`, `Meta-Agent`, or `Code-Reviewer` when the approved creative result clearly needs that next owner.
-11. If the approved direction broadens into prompt, agent, instruction, or workflow-customization refactoring, use `Meta-Agent` as the next owner rather than continuing creative exploration inside this subsystem.
-12. If the user asks for direct file changes, route concrete source, config, or stylesheet edits to `Coder`; keep direct edits here only when the task is genuinely integrative rather than single-domain, and run the narrowest relevant validation immediately after the first substantive edit.
-13. End with a concise summary of the route taken, the recommendation or edits made, the validation run, any remaining taste or scope question, and a concise imperative commit message when the changes are ready to keep.
+1. Read the concrete brief or artifact. Invoke `Artistic-Director` explicitly if the host supports agent selection; loading this skill alone does not activate that agent. If unavailable, follow its scoped guidance directly without claiming delegation.
+2. Deliver a small, well-specified request directly. For substantial depth or specialist-owned artifacts, follow the [director's common workflows and dispatch/return contract](../../agents/artistic-director.agent.md); include fixed canon and acceptance criteria. A requested structured character dossier belongs to `Character-Generator`, with the complete requested packet returned to the user, not just a summary; use `Roleplay-Character` only for requested enactment, optional `Interface-Design` for UI direction, and `Creative-Philosopher` only for an adversarial challenge of an existing direction.
+3. If a character `.agent.md` is explicitly requested, follow the director's conditional export branch before closing a packet-only response or handing off roleplay: check the dossier or approved supplied packet, then route actual file authoring to `Meta-Agent` when supported (otherwise follow its scoped authoring guidance without claiming delegation). Default to full character detail/voice exchanges unless export abbreviation, subset, or detail level is explicitly requested; honor export scope separately from dossier scope. Return requested inline file content or save only to an authorized path and report it after edit/validation; a dossier or delegation note alone is not the requested file.
+4. Sequence dependent passes, serialize edits, and stop once the artifact fits the brief. If a blocking question remains, use the active harness's permitted question tool (`vscode/askQuestions` in VS Code; `ask_user` only where available); otherwise ask in chat, or return the question to the caller if delegated without a user channel.
+5. For ongoing roleplay, do not imply a one-off delegated scene reply transfers the user session. Use an explicit supported handoff when available; otherwise ask the user to switch with packet and continuity context or continue one turn at a time.
+6. Validate touched files after the first substantive edit; finish with the artifact or recommendation, material tradeoffs, validation, and an imperative commit message only when changes are ready to keep.
 
 ## Output
 
-- State the controlling creative question first.
-- Name the recommended owner or sequence.
-- Present the strongest direction or synthesized result.
-- Call out any unresolved dependency or the next owner if the work should leave the subsystem.
+- Present the result and any material unresolved dependency; omit routing boilerplate for small direct tasks.

@@ -43,7 +43,7 @@ Specialist selection guidance:
 - Use `Implementation Agent` when feasibility, migration effort, or technical debt are central.
 - Use `Testing Agent` when validation cost, reliability, or regression exposure drive prioritization.
 - Use `Documentation Agent` when discoverability, guidance quality, or knowledge ownership matter.
-- Use `Creative-Philosopher` or `Artistic-Director` when ideation quality depends on stronger creative divergence.
+- Use `Artistic-Director` for creative divergence; optionally use `Creative-Philosopher` to stress-test an existing proposed direction, not for general ideation.
 
 Few-shot examples:
 - Good anchor: What should our repository UI workflow support next for faster sprint triage?

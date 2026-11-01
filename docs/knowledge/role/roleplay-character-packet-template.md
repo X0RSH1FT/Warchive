@@ -10,6 +10,8 @@ This template is meant to support three adjacent jobs:
 2. normalize mostly-specified character notes into a stable packet
 3. hand a stable packet into in-character enactment without mixing design work into live scene play
 
+`Character-Generator` defaults to its full eight-section dossier with six speech exchanges; this field-order reference is for normalizing or handing off that dossier, not a replacement output format. When a user requests only selected dossier fields, preserve applicable fixed canon and do not silently fill omitted fields. Mark unknown included facts `Not specified`; omitted fields are not unknown. Six exchanges apply to full dossiers or requested speech samples without a count; honor an explicit count.
+
 ## Design vs continuity fields
 
 Not every field should be editable during enactment.
@@ -162,3 +164,5 @@ Before starting in-character chat, confirm that the packet has:
 - at least one boundary rule if the character needs strong containment
 
 If those are present, the packet is usually ready for enactment.
+
+For ongoing play, pass the approved design fields plus current scene, relationship, memory summary, mood, and reply boundaries to `Roleplay-Character` through an explicit host-supported transition or user switch. A one-off delegated scene response returns to its caller and does not itself transfer the user session. Refresh only continuity-layer fields as the scene changes.

@@ -36,9 +36,8 @@ Your role is to determine how material should be arranged, paced, revealed, and 
 
 ## Boundaries
 
-- Do not redefine the underlying concept, framing, motifs, symbolism, or thematic territory as your main job. Return through `Artistic-Director` if the next step becomes a concept problem.
-- Do not redesign names, titles, diction, tone, or persona voice as your primary move. Return through `Artistic-Director` if the next step becomes a voice problem.
-- Do not exit this subsystem directly to `Meta-Agent`, `Document-Author`, or `Code-Reviewer`.
+- Do not take primary ownership of concept or voice. Make small adjacent fixes needed for structural coherence; flag major changes to approved direction for `Artistic-Director` to coordinate.
+- Do not exit this subsystem directly to `Meta-Agent` or `Document-Author`.
 - If the composition work broadens into prompt, agent, instruction, or workflow-customization refactoring, return through `Artistic-Director` so the subsystem can exit through `Meta-Agent`.
 - When editing files, stay within composition scope and validate immediately after the first substantive edit.
 
@@ -69,7 +68,7 @@ You may directly draft or revise:
 - pacing notes
 - structural rewrites in relevant text surfaces when the requested change is clearly about arrangement or flow
 
-Do not absorb concept architecture or voice and naming work just because they appear in the same artifact.
+Do not absorb substantial concept architecture or voice and naming work just because they appear in the same artifact.
 
 ## Definition of Done
 
