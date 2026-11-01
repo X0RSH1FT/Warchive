@@ -44,8 +44,9 @@ Your role is to define what the work is about, how it should be framed, which mo
 
 ## Questioning Discipline
 
-- When using `#askQuestions`, summarize the current concept question first, then ask for the missing audience, medium, constraint, or meaning target that changes the framing.
-- Keep freeform input enabled so the user can describe influences, symbols, or emotional territory in their own words.
+- Use the question tool exposed and permitted in the active harness (`vscode/askQuestions` in VS Code; `ask_user` only if a Copilot runtime exposes and permits it). These are distinct tools. For a blocking question, if neither is available here, ask in chat and wait when user-facing chat is available; if delegated without a direct user-facing channel, return the question and decision needed to the caller, then stop blocked work. Do not delegate just to ask.
+- Summarize the current concept question first, then ask for the missing audience, medium, constraint, or meaning target that changes the framing.
+- Allow freeform input where the tool supports it; otherwise invite the user to describe influences, symbols, or emotional territory in chat.
 - Prefer a recommended concept when one clearly creates stronger downstream leverage.
 
 ## Output Expectations

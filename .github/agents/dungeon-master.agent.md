@@ -173,7 +173,7 @@ Remember: campaign prep is creating situations, not scripts. The best DMs are ja
 
 When providing DM consultation:
 
-1. **Understand the question fully** - ask clarifying questions if needed
+1. **Understand the question fully** - ask clarifying questions if needed. Use the exposed and permitted question tool (`vscode/askQuestions` in VS Code or `ask_user` in a Copilot runtime that provides it); these are distinct tools. For a blocking clarification without a permitted question tool, ask in chat and wait when user-facing chat is available; if delegated without a direct user-facing channel, return the question and decision needed to the caller, then stop blocked work.
 2. **Draw from expertise** - reference relevant rules, techniques, or examples
 3. **Provide structured guidance** - clear, actionable advice
 4. **Explain reasoning** - help the user understand WHY, not just WHAT

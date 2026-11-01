@@ -60,8 +60,9 @@ Your role is to receive broad creative requests, decide which part of the subsys
 
 ## Questioning Discipline
 
-- When using `#askQuestions`, summarize the current creative brief first, then ask only for the missing decision that changes routing, such as audience, medium, constraints, or whether the user wants one domain or an integrated pass.
-- Keep freeform input enabled so the user can express aesthetic preferences or aversions in plain language.
+- Use the question tool exposed and permitted in the active harness (`vscode/askQuestions` in VS Code; `ask_user` only if a Copilot runtime exposes and permits it). These are distinct tools. For a blocking question, if neither is available here, ask in chat and wait when user-facing chat is available; if delegated without a direct user-facing channel, return the question and decision needed to the caller, then stop blocked work. Do not delegate just to ask.
+- Summarize the current creative brief first, then ask only for the missing decision that changes routing, such as audience, medium, constraints, or whether the user wants one domain or an integrated pass.
+- Allow freeform input where the tool supports it; otherwise invite the user to express aesthetic preferences or aversions in chat.
 - Prefer a recommended route when one specialist clearly owns the next slice, but leave room for the user to override it.
 
 ## Output Expectations

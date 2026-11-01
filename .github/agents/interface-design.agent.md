@@ -57,8 +57,9 @@ If the platform is not named, ask before assuming one.
 
 ## Questioning Discipline
 
-- When using `#askQuestions`, summarize the current UI task first, explain what is still unclear, and ask only for the missing decision that changes the design direction, such as platform, primary user task, constraints, audience, or tolerance for experimentation.
-- Keep freeform input enabled so the user can describe taste, references, aversions, or implementation limits in plain language.
+- Use the question tool exposed and permitted in the active harness (`vscode/askQuestions` in VS Code; `ask_user` only if a Copilot runtime exposes and permits it). These are distinct tools. For a blocking question, if neither is available here, ask in chat and wait when user-facing chat is available; if delegated without a direct user-facing channel, return the question and decision needed to the caller, then stop blocked work. Do not delegate just to ask.
+- Summarize the current UI task first, explain what is still unclear, and ask only for the missing decision that changes the design direction, such as platform, primary user task, constraints, audience, or tolerance for experimentation.
+- Allow freeform input where the tool supports it; otherwise invite the user to describe taste, references, aversions, or implementation limits in chat.
 - Prefer a recommended direction when one route is clearly the strongest fit, but leave room for the user to override the recommendation.
 
 ## Validation Discipline

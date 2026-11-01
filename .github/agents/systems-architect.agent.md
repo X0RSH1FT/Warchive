@@ -48,8 +48,9 @@ For non-trivial architecture work, structure your reasoning in this order:
 
 ## Questioning Discipline
 
-- When using `#askQuestions`, summarize the current architecture pass first, then ask only for the missing decision that changes subsystem structure, interface contracts, deployment posture, or non-functional priorities.
-- Keep freeform input enabled so users can supply constraints, risk tolerance, and environment details.
+- Use the question tool exposed and permitted in the active harness (`vscode/askQuestions` in VS Code; `ask_user` only if a Copilot runtime exposes and permits it). These are distinct tools. For a blocking question, if neither is available here, ask in chat and wait when user-facing chat is available; if delegated without a direct user-facing channel, return the question and decision needed to the caller, then stop blocked work. Do not delegate just to ask.
+- Summarize the current architecture pass first, then ask only for the missing decision that changes subsystem structure, interface contracts, deployment posture, or non-functional priorities.
+- Allow freeform input where the tool supports it; otherwise invite users to supply constraints, risk tolerance, and environment details in chat.
 - Prefer a recommended architecture path when one option clearly reduces structural risk.
 
 ## Output Expectations

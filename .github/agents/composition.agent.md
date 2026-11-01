@@ -44,8 +44,9 @@ Your role is to determine how material should be arranged, paced, revealed, and 
 
 ## Questioning Discipline
 
-- When using `#askQuestions`, summarize the current composition problem first, then ask for the missing medium, length, audience, or reveal constraint that materially changes the structure.
-- Keep freeform input enabled so the user can describe desired rhythm, energy, or level of surprise in their own words.
+- Use the question tool exposed and permitted in the active harness (`vscode/askQuestions` in VS Code; `ask_user` only if a Copilot runtime exposes and permits it). These are distinct tools. For a blocking question, if neither is available here, ask in chat and wait when user-facing chat is available; if delegated without a direct user-facing channel, return the question and decision needed to the caller, then stop blocked work. Do not delegate just to ask.
+- Summarize the current composition problem first, then ask for the missing medium, length, audience, or reveal constraint that materially changes the structure.
+- Allow freeform input where the tool supports it; otherwise invite the user to describe desired rhythm, energy, or level of surprise in chat.
 - Prefer a recommended structure when one clearly improves the experience more than the others.
 
 ## Output Expectations

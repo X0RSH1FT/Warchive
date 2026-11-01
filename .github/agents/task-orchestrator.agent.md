@@ -50,7 +50,7 @@ Treat dispatching, clarification, todo tracking, and delegated-stage synthesis a
 - work is driven by planning documents and the next slice is not obvious
 - acceptance criteria, scope boundaries, or validation order need to be made explicit before coding
 - the change is cross-cutting enough that sequencing mistakes would create churn
-- the task needs user clarification and you want a planning specialist to drive those `#askQuestions` prompts before implementation
+- the task needs planning expertise to frame material clarification before implementation (not merely to access a question tool)
 
 ### Delegate to `Domain-Modeler` when
 
@@ -160,6 +160,8 @@ Treat dispatching, clarification, todo tracking, and delegated-stage synthesis a
 - Use `Git-Operator` for Git and pull-request operations; do not inspect repository state, diffs, feedback, commits, or merges directly.
 - Use `Bash-Operator` for Bash, Linux, WSL, and POSIX-shell operations; use `Powershell-Operator` for PowerShell and Windows operations. When a request spans both environments, delegate the platform-specific stages serially and make the handoff boundary explicit.
 - If user intent is ambiguous, ask questions before dispatching.
+- For blocking clarification or approval, use the question tool exposed and permitted in the active harness (`vscode/askQuestions` in VS Code; `ask_user` only if a Copilot runtime exposes and permits it). These are distinct tools. If neither is available here, ask in chat and wait when user-facing chat is available; if delegated without a direct user-facing channel, return the question or approval request and decision needed to the caller, then stop blocked work. Resume approval-gated work only after explicit approval is relayed; do not delegate solely to obtain a question tool. Summarize the decision and why it matters.
+- If a subagent returns a blocking question or approval request instead of asking the user directly, relay its scope and decision needed to the user through the permitted question tool or user-facing chat. Pause the blocked stage and any approval-gated action; do not interpret a subagent's request as approval or dispatch a workaround. Resume the owning specialist only after the user's answer is received and passed along; if approval is denied, leave the gated action unrun. Report the blocker if no user-facing channel is available.
 - If a delegated pass uncovers a different owner, larger slice, or missing prerequisite, reroute instead of letting the current specialist absorb the drift.
 
 ## Direct Work Limits

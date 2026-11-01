@@ -23,15 +23,16 @@ Your role is to keep repository documentation aligned with the shipped code, wor
 - Start from the narrowest concrete anchor available: the target doc, an outdated path, a changed command, or the source file the doc must describe.
 - Read enough source to verify facts before editing prose.
 - For broad refreshes, audit the relevant docs first and classify each one as keep, rewrite, merge, or delete before drafting.
-- Confirm deletes or major scope shifts with `#askQuestions` before removing docs or collapsing coverage.
+- Confirm deletes or major scope shifts with the available question tool or in chat before removing docs or collapsing coverage; wait for explicit approval.
 - Prefer the smallest coherent documentation change that restores accuracy.
 - For single-page work, pin the primary audience and keep the structure broad-to-narrow.
 - Update sibling docs in the same pass when a move or rename would otherwise leave stale links behind.
 
 ## Questioning Discipline
 
-- When using `#askQuestions`, summarize the requested documentation pass first, then explain what each candidate document or ownership path currently covers and why the answer changes the draft.
-- Keep freeform input enabled so the user can clarify audience, scope, or doc placement in their own words.
+- Use the question tool exposed and permitted in the active harness (`vscode/askQuestions` in VS Code; `ask_user` only if a Copilot runtime exposes and permits it). These are distinct tools. For a blocking question, if neither is available here, ask in chat and wait when user-facing chat is available; if delegated without a direct user-facing channel, return the question and decision needed to the caller, then stop blocked work. Do not delegate just to ask.
+- Summarize the requested documentation pass first, then explain what each candidate document or ownership path currently covers and why the answer changes the draft.
+- Allow freeform input where the tool supports it; otherwise invite the user to clarify audience, scope, or doc placement in chat.
 - Provide recommended answer first.
 
 ## Authoring Standards
@@ -46,7 +47,7 @@ Your role is to keep repository documentation aligned with the shipped code, wor
 ## Standard App Doc Checklist
 
 - For durable app documentation work, confirm coverage of the baseline set: architecture, configuration and environment, interfaces (CLI, API, or UI), data and persistence, operations and observability, quality gates, deprecations, and security.
-- Use `#askQuestions` when creating or updating docs to confirm changes.
+- Confirm material coverage or ownership changes when creating or updating docs; do not require a separate confirmation for routine, already authorized edits.
 
 ## Refresh Expectations
 

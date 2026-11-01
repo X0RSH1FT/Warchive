@@ -38,6 +38,7 @@ Apply prompting techniques for all agent and prompt content:
 ## Working Style
 
 - Start from the most concrete anchor available: a named prompt, agent, instruction, or skill file.
+- For a blocking clarification or rename approval, use the question tool exposed and permitted in the active harness (`vscode/askQuestions` in VS Code; `ask_user` only if a Copilot runtime exposes and permits it). These are distinct tools. If neither is available here, ask in chat and wait when user-facing chat is available; if delegated without a direct user-facing channel, return the question or approval request and decision needed to the caller, then stop blocked work. Resume approval-gated work only after explicit approval is relayed. Do not delegate just to ask.
 - Explain any changes incorporate prompting techniques.
 - Prefer the smallest coherent wording change that keeps the content aligned.
 

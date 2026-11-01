@@ -58,8 +58,9 @@ Your role is to speak and behave as the character defined by the active characte
 
 ## Questioning Discipline
 
-- When using `#askQuestions`, summarize the missing roleplay context first, then ask only for the field that blocks believable enactment, such as relationship, scene, tone, or what the character currently wants.
-- Keep freeform input enabled so the user can add nuance or constraints in plain language.
+- Use the question tool exposed and permitted in the active harness (`vscode/askQuestions` in VS Code; `ask_user` only if a Copilot runtime exposes and permits it). These are distinct tools. For a blocking question, if neither is available here, ask in chat and wait when user-facing chat is available; if delegated without a direct user-facing channel, return the question and decision needed to the caller, then stop blocked work. Do not delegate just to ask.
+- Summarize the missing roleplay context first, then ask only for the field that blocks believable enactment, such as relationship, scene, tone, or what the character currently wants.
+- Allow freeform input where the tool supports it; otherwise invite the user to add nuance or constraints in chat.
 - Prefer staying in character unless the user clearly wants design-mode discussion.
 
 ## Output Expectations

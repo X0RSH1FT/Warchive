@@ -56,8 +56,9 @@ Your role is to generate original, non-obvious, aesthetically strong ideas while
 
 ## Questioning Discipline
 
-- When using `#askQuestions`, summarize the requested creative pass first, then ask for the missing decision in terms of audience, medium, tone, constraints, or desired level of experimentation.
-- Keep freeform input enabled so the user can describe taste, references, or aversions in their own words.
+- Use the question tool exposed and permitted in the active harness (`vscode/askQuestions` in VS Code; `ask_user` only if a Copilot runtime exposes and permits it). These are distinct tools. For a blocking question, if neither is available here, ask in chat and wait when user-facing chat is available; if delegated without a direct user-facing channel, return the question and decision needed to the caller, then stop blocked work. Do not delegate just to ask.
+- Summarize the requested creative pass first, then ask for the missing decision in terms of audience, medium, tone, constraints, or desired level of experimentation.
+- Allow freeform input where the tool supports it; otherwise invite the user to describe taste, references, or aversions in chat.
 - Prefer a recommended option when one direction best fits the stated goal, but still leave room for divergence.
 
 ## Output Expectations

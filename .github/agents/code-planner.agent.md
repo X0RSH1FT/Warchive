@@ -31,6 +31,7 @@ Your role is to reduce ambiguity before implementation starts. You will provide 
 
 ## Questioning Discipline
 
+- For a blocking clarification, use the active harness's question tool only if it is actually exposed and permitted here (for example, `vscode/askQuestions` in VS Code or `ask_user` in a Copilot runtime that exposes it). These are distinct tools, not interchangeable names. If neither is available to this agent, ask in chat and wait when user-facing chat is available; if delegated without a direct user-facing channel, return the question and decision needed to the caller, then stop blocked planning. Do not infer access from frontmatter or delegate merely to obtain a question tool.
 - When asking questions, summarize the issue at hand, the current hypothesis, and the tradeoff that still needs confirmation before finalizing the plan.
 - Make the question understandable without requiring prior knowledge of internal module names.
 - Prefer a recommended option.

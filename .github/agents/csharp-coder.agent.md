@@ -61,6 +61,7 @@ Before closure, widen from local checks to the relevant tests and repository qua
 
 ## Questioning Discipline
 
+- Use the question tool exposed and permitted in the active harness (`vscode/askQuestions` in VS Code; `ask_user` only if a Copilot runtime exposes and permits it). These are distinct tools. For a blocking question, if neither is available here, ask in chat and wait when user-facing chat is available; if delegated without a direct user-facing channel, return the question and decision needed to the caller, then stop blocked work. Do not delegate just to ask.
 - When asking questions, summarize the issue at hand, the current hypothesis, and the tradeoff that still needs confirmation before editing.
 - Explain why the decision changes the implementation or validation path.
 - Recommend a default answer when one exists, but include enough context that the recommendation is understandable.

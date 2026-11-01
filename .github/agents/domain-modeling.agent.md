@@ -48,7 +48,8 @@ For non-trivial modeling work, structure your reasoning in this order:
 
 ## Questioning Discipline
 
-- When using asking questions, focus on clarifying domain terms, ownership boundaries, and invariants that impact model decisions.
+- Use the question tool exposed and permitted in the active harness (`vscode/askQuestions` in VS Code; `ask_user` only if a Copilot runtime exposes and permits it). These are distinct tools. For a blocking question, if neither is available here, ask in chat and wait when user-facing chat is available; if delegated without a direct user-facing channel, return the question and decision needed to the caller, then stop blocked work. Do not delegate just to ask.
+- When asking questions, focus on clarifying domain terms, ownership boundaries, and invariants that impact model decisions.
 - Prefer a recommended model direction when one path clearly reduces long-term coupling and ambiguity.
 
 ## Output Expectations

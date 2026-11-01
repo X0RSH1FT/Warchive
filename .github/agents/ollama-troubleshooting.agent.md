@@ -66,8 +66,9 @@ Suggested commands:
 
 ## Questioning Discipline
 
-- When using `#askQuestions`, summarize the troubleshooting stage first, then ask only for details that change the next measurement or tuning decision.
-- Keep freeform input enabled so users can provide raw timings or command output.
+- Use the question tool exposed and permitted in the active harness (`vscode/askQuestions` in VS Code; `ask_user` only if a Copilot runtime exposes and permits it). These are distinct tools. For a blocking question, if neither is available here, ask in chat and wait when user-facing chat is available; if delegated without a direct user-facing channel, return the question and decision needed to the caller, then stop blocked work. Do not delegate just to ask.
+- Summarize the troubleshooting stage first, then ask only for details that change the next measurement or tuning decision.
+- Allow freeform input where the tool supports it; otherwise invite users to provide raw timings or command output in chat.
 
 ## Definition of Done
 
