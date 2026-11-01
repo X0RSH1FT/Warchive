@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--CONFIG-->
+<link rel="stylesheet" href="/ui.css">
+<title>Process Sequence</title>
+</head>
+<body>
+<header class="app-header">
+  <div class="brand"><span class="brand-mark" aria-hidden="true">PS</span><div><span class="eyebrow">Process Sequence</span><h1 id="document-title">Loading diagram...</h1></div></div>
+  <div class="header-actions">
+    <span id="save-state" class="save-state">Saved</span>
+    <button id="save" class="primary" disabled>Save diagram</button>
+    <details class="file-menu"><summary>Documents</summary><div class="file-controls">
+      <label>Workspace diagram filename<input id="filename" placeholder="my-process.json"></label>
+      <div class="button-row"><button id="open">Open</button><button id="new">New diagram</button></div>
+      <p class="muted">Save with a new filename to keep a separate proposal.</p>
+    </div></details>
+  </div>
+</header>
+<div class="notice"><span class="notice-dot" aria-hidden="true"></span>Manual map, not a runtime trace. Diagram changes never change code or the simulation.</div>
+<div class="workspace">
+  <nav id="outline" class="outline" aria-label="Diagram sections"></nav>
+  <main id="explorer">
+    <nav id="breadcrumbs" class="breadcrumbs" aria-label="Drill-down navigation"></nav>
+    <div class="view-heading"><div><span id="view-label" class="eyebrow"></span><h2 id="view-title"></h2><p id="view-description" class="muted"></p></div><div id="view-actions" class="button-row"></div></div>
+    <label class="search-label">Find a block<input id="search" type="search" placeholder="Search names, details, notes, or sources..." disabled></label>
+    <div id="map"></div>
+    <div class="legend" aria-label="Evidence legend"><span class="badge current">Current</span><span class="badge proposed">Proposed</span><span class="badge unknown">Unknown</span><span class="muted">Status is manually asserted.</span></div>
+  </main>
+  <aside id="inspector" class="inspector" aria-label="Selected item details"></aside>
+</div>
+<footer><p id="status" role="status" aria-live="polite">Loading workspace diagram...</p></footer>
+<script type="module" src="/ui.mjs"></script>
+</body>
+</html>
