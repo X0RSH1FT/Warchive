@@ -41,12 +41,12 @@ Debate roster guidance:
 - Use `Domain Modeling Agent` when the dispute is primarily bounded context, aggregate boundaries, or ubiquitous language.
 - Use `Systems Architect Agent` when the dispute is primarily subsystem boundaries, interfaces, or deployment tradeoffs.
 - Use `Implementation Agent` when the dispute is primarily code-level feasibility, refactor complexity, or migration risk.
-- Use `Interface Design Agent` when the dispute is primarily information hierarchy, interaction flow, or UI states.
+- Use `Interface-Design` when the dispute is primarily information hierarchy, interaction flow, or UI states.
 - Use `Testing Agent` when the dispute is primarily testability, coverage risk, and validation strategy.
 - Use `Documentation Agent` when the dispute is primarily durable knowledge ownership, docs clarity, or knowledge-surface fit.
 - Use `Reviewer Agent` when the dispute is primarily regression risk, findings quality, and signoff readiness.
 - Use `Web Research Agent` when the dispute depends on narrow external product facts not yet validated locally.
-- Use `Creative Philosopher Agent` or `Artistic Director Agent` when the dispute is stylistic, narrative, or creative-directional.
+- Use `Creative-Philosopher` or `Artistic-Director` when the dispute is stylistic, narrative, or creative-directional.
 
 Few-shot examples:
 - Good debate question: Should we resolve data-import failures with strict schema rejection now, or introduce a staged compatibility layer first?

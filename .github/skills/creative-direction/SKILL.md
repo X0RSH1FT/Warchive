@@ -13,7 +13,7 @@ argument-hint: "[Optional: target files, draft text, desired medium, audience, t
 7. For critique or review, lead with the largest missed opportunity, stylistic weakness, tonal mismatch, or conceptual gap before proposing stronger alternatives.
 8. If the user names a file or asks for the creative pass to land directly in the project, edit the file with the smallest coherent revision and run the narrowest relevant validation immediately after the first substantive edit.
 9. Prefer surprising but defensible synthesis over generic variation. Use contrast, inversion, metaphor, symbolism, and reframing intentionally.
-10. Hand off to `Documentation Agent` when the result should become maintained documentation, to `Meta Agent` when it should become a customization change, and to `Reviewer Agent` when a creative edit needs signoff.
+10. Hand off to `Document-Author` when the result should become maintained documentation, to `Meta-Agent` when it should become a customization change, and to `Code-Reviewer` when a creative edit needs signoff.
 11. End with a concise summary of the direction chosen or the edits made, the validation run, any remaining taste or scope question, and a concise imperative commit message when the changes are ready to keep.
 
 ## Output

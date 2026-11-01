@@ -5,7 +5,7 @@ disable-model-invocation: true
 argument-hint: "[Optional: target prompt or agent files, packet format ideas, local backend such as Ollama, response samples, evaluation criteria, and whether to run prompt-only comparison, runtime evaluation, or both.]"
 ---
 1. Read the attached context and identify whether the task is primarily prompt-structure design, technique comparison, runtime evaluation, or an end-to-end evaluation loop.
-2. If the desired roleplay behavior or experience target is unclear, consult `Artistic Director Agent` first so the evaluation is tied to a concrete packet shape, immersion target, response mode, and failure definition.
+2. If the desired roleplay behavior or experience target is unclear, consult `Artistic-Director` first so the evaluation is tied to a concrete packet shape, immersion target, response mode, and failure definition.
 3. Keep this workflow separate from direct character design and in-character enactment. This workflow owns prompt structure, technique comparison, and evaluation logic.
 4. Compare prompt structures and techniques against explicit criteria: character consistency, immersion, boundary containment, format adherence, prompt steerability, latency or token cost, and backend portability.
 5. Treat structured packets, few-shot dialogue examples, late-turn steering, reply boundaries, scene memory summaries, dual-layer knowledge, and continuation-style prompt construction as techniques to compare rather than assumptions that are always superior.

@@ -1,6 +1,6 @@
 ---
 name: interface-design
-description: Review, design, or directly refine a UI with platform-aware guidance through Interface Design Agent. Use when the main problem is screen layout, navigation, hierarchy, interaction flow, states, or visual coherence rather than general implementation.
+description: Review, design, or directly refine a UI with platform-aware guidance through Interface-Design. Use when the main problem is screen layout, navigation, hierarchy, interaction flow, states, or visual coherence rather than general implementation.
 disable-model-invocation: true
 argument-hint: "[Optional: target files, screen or route, platform, audience, primary task, constraints, references, and whether you want critique, concepts, or direct edits.]"
 ---

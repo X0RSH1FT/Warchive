@@ -35,4 +35,4 @@ Example response shape:
 - Validation: Markdown diagnostics clean on the touched customization files; referenced agent names and prompt names verified.
 - Plan status: exhausted for the requested integration slice.
 - Suggestion outside the plan: add a target-local doc update only if the team keeps a durable workflow reference outside `.github/`.
-- Commit message: Integrate Interface Design Agent into target workflow
+- Commit message: Integrate Interface-Design into target workflow

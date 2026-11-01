@@ -33,21 +33,21 @@ Workflow:
    - first execution owner
    - first validation step
 10. Keep `Coordinator Agent` in orchestration mode only. Do not perform specialist implementation, testing, documentation, or deep domain work inline.
-11. Route to the next owner when requested: `Planner Agent` for scope slicing, `Implementation Agent` for coding, `Interface Design Agent` for UI direction, `Documentation Agent` for durable write-up, `Testing Agent` for validation planning, or `Reviewer Agent` for signoff.
+11. Route to the next owner when requested: `Planner Agent` for scope slicing, `Implementation Agent` for coding, `Interface-Design` for UI direction, `Documentation Agent` for durable write-up, `Testing Agent` for validation planning, or `Reviewer Agent` for signoff.
 12. Validate that all referenced agents and target paths exist before concluding.
 
 Specialist selection guidance:
-- Use `Interface Design Agent` when ideas depend on screen hierarchy, flows, or usability.
+- Use `Interface-Design` when ideas depend on screen hierarchy, flows, or usability.
 - Use `Planner Agent` when narrowing ideas into sprint-ready slices and acceptance criteria.
 - Use `Systems Architect Agent` when ideas change boundaries, interfaces, or architecture.
 - Use `Implementation Agent` when feasibility, migration effort, or technical debt are central.
 - Use `Testing Agent` when validation cost, reliability, or regression exposure drive prioritization.
 - Use `Documentation Agent` when discoverability, guidance quality, or knowledge ownership matter.
-- Use `Creative Philosopher Agent` or `Artistic Director Agent` when ideation quality depends on stronger creative divergence.
+- Use `Creative-Philosopher` or `Artistic-Director` when ideation quality depends on stronger creative divergence.
 
 Few-shot examples:
 - Good anchor: What should our repository UI workflow support next for faster sprint triage?
-- Good specialist spread: `Interface Design Agent`, `Planner Agent`, `Implementation Agent`, and `Testing Agent`.
+- Good specialist spread: `Interface-Design`, `Planner Agent`, `Implementation Agent`, and `Testing Agent`.
 - Good synthesized idea: Add a lightweight sprint-planning dashboard prompt plus checklist sync, ranked high value and medium effort with low migration risk.
 - Bad anchor: Give me random ideas for everything.
 - Bad orchestration: Coordinator generates ideas alone without delegating to specialists.
