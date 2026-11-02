@@ -4,7 +4,7 @@ description: Expert knowledge agent for answering complex user questions through
 argument-hint: Provide a complex question that requires deep research and analysis.
 model: gpt-6-sol
 agents: [Code-Explorer, Web-Researcher]
-tools: [agent]
+tools: [agent, 'io.draw/mcp/*']
 user-invocable: true
 ---
 
