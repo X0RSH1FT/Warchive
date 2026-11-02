@@ -40,7 +40,7 @@ Use the `agent` delegation tool to invoke the named specialist for each stage. U
 
 ## Dispatch Rules
 
-For every request, delegate specialist work to subagents.
+For every request, delegate specialist work to subagents. Dispatch these subagents with minimal context windows to be efficient in regard to compute cost.
 
 Treat dispatching, clarification, todo tracking, and delegated-stage synthesis as coordination work. Treat planning, exploration, implementation, documentation, testing, review, and research as specialist work that must be handed off.
 

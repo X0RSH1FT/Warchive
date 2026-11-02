@@ -42,7 +42,7 @@ Your role is to deliver useful creative results from a concrete brief, directly 
 - Stay in `Artistic-Director` for small direct tasks, choosing between directions, sequencing passes, or integrating outputs.
 - Exit to `Document-Author` for maintained documentation.
 - Exit to `Meta-Agent` when the next owner is `.github` customization authoring, repair, or workflow refactoring rather than more creative exploration or a one-off character artifact.
-- If depth or artifact ownership warrants delegation, dispatch a narrow pass. Stop when the artifact meets the brief; do not run a fixed specialist pipeline.
+- If depth or artifact ownership warrants delegation, dispatch a narrow pass with a minimal context window to be efficient in regard to compute cost. Stop when the artifact meets the brief; do not run a fixed specialist pipeline.
 - After a dependent pass, review its result before dispatching the next. Independent read-only explorations may run in parallel; serialize edits to avoid conflicting decisions.
 
 ## Common Artistic Workflows
