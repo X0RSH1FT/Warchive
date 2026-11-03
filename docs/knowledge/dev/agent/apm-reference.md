@@ -290,26 +290,31 @@ Skill directories are included as a whole, including their scripts and assets. E
 
 In an isolated pilot project, [`apm init [PROJECT_NAME] [OPTIONS]`](https://microsoft.github.io/apm/reference/cli/init/) initializes a package. `apm init --yes` creates `apm.yml` in the current project; ordinary initialization does not create an `.apm` directory. Check `apm init --help` against the installed version before use. Follow upstream for manifest fields rather than copying an invented schema.
 
-### Local bundle and disposable consumer
+### Warchive's agent-only local package
 
-The following is a prospective **offline bundle transfer**, not a dependency declaration or public package. No registry or network publishing is needed for a local bundle. In the pilot's `apm.yml`, explicitly set `dependencies: {}` for a local-assets-only bundle: omitted or null dependencies produce no bundle. Dependencies can otherwise be bundled; development dependencies are excluded. See the [pack reference](https://microsoft.github.io/apm/reference/cli/pack/) and [bundle guide](https://microsoft.github.io/apm/producer/pack-a-bundle/).
+This section documents Warchive's sole source of truth for agent definitions, `agent-package/.apm/agents/`, not a registry or remote distribution. All 35 definitions were verified byte-identical to their former workspace copies before removal and are preserved in the package, explicitly listed under `includes` in `agent-package/apm.yml`. `.github/agents/` is empty and retired; Warchive no longer provides project-scoped agents there. `.opencode/agents/` agents are excluded.
 
-From the pilot project root, after preparing its source and manifest:
-
-```powershell
-apm pack --format apm --archive
-```
-
-The default pack format is plugin, so explicitly request `apm` format for unpacking. This command makes a legacy APM zip, normally `build/<package-name>-<version>.zip`. From that **same pilot root**, with a separate, precreated disposable `consumer` directory, substitute the actual archive filename for the example below:
+From the repository root in PowerShell, run the read-only package check after changes and before packing:
 
 ```powershell
-apm unpack '.\build\my-package-1.0.0.zip' --output '.\consumer' --dry-run
-apm unpack '.\build\my-package-1.0.0.zip' --output '.\consumer'
+./agent-package/check-package.ps1
 ```
 
-Review the dry run before unpacking. As documented in the [unpack reference](https://microsoft.github.io/apm/reference/cli/unpack/), the archive path is positional and `--output` selects the destination. Unpacking is additive but **overwrites collisions**; it does not delete unrelated files, and no backup is documented. Never test against a live workspace. Validate the resulting files, links, and skill assets in the disposable consumer before using them elsewhere.
+Edit package agent files directly; do not sync from source workspace files or regenerate `.github/agents/`. The package-only check verifies exactly 35 package agents and the complete, sorted matching include list; it does not compare agent contents or create workspace agents. When APM is available, from `agent-package/`, create the archive:
 
-A Git-based remote source is a separate alternative to transferring this local archive. Private remote sources may require Git credentials; a local-only bundle does not require registry credentials. See [authentication](https://microsoft.github.io/apm/consumer/authentication/). Do not assume a local Git or `file://` dependency syntax from this bundle workflow.
+```powershell
+apm pack --archive -o ./dist
+```
+
+The user-space installation process remains deferred and unverified. Any user's manual user-space copies are independent of this package, so edits here do not update them. This package is strictly local: do not publish it, add a registry dependency, or use a remote source. APM was unavailable for this transition: no APM pack, consumer test, or user-scope APM install was performed. See the [pack guide](https://microsoft.github.io/apm/producer/pack-a-bundle/) for upstream guidance.
+
+#### Portability and known references
+
+The package does not include the repository, documentation, or prompts referenced by some agents. Examples include `../../docs/knowledge/role/roleplay-character-packet-template.md`, `../../docs/research/codebase-security-and-malware-review.md`, `../../docs/research/ollama-troubleshooting-windows.md`, `.github/prompts/debug-task.prompt.md`, `.github/prompts/review-changes.prompt.md`, and `docs/research/agentic-coding.md`; some referenced targets are absent from this checkout, and other repository-specific paths may also need to be supplied in the consuming project. Host-specific tool IDs, pinned model IDs, platform assumptions, and extension requirements also need equivalents in the consuming host. None of these dependencies are bundled.
+
+Known portability dependency: roleplay agents retain relative links such as `../../docs/knowledge/role/roleplay-character-packet-template.md`, authored for the deployed `.github/agents/` location. From the source `.apm/agents/` location, those links do not resolve in this workspace. Consumer projects need the referenced docs at the expected relative location for deployed links to work; packaging does not silently fix these links or supply the docs.
+
+Some unchanged agent examples refer to `.github/agents/workflow-coordinator.agent.md` and the case-different `.github/agents/Code-Reviewer.agent.md`; the package reviewer is lowercase, `code-reviewer.agent.md`, and no workflow-coordinator file is present. These examples are not deployment instructions; do not silently change agent behavior as part of packaging.
 
 ### Locking and review
 

@@ -1,10 +1,11 @@
 ---
-description: Rules for authoring custom agent files under .github/agents. Use when editing coordinator, planner, explore, implementation, reviewer, documentation, testing, or web-research agent files in this repository.
-applyTo: ".github/agents/**/*.md"
+description: Rules for authoring the canonical APM package agent files. Use when editing coordinator, planner, explore, implementation, reviewer, documentation, testing, or web-research agents in agent-package.
+applyTo: "agent-package/.apm/agents/**/*.md"
 ---
 
 # Agent File Guidance
 
+- `agent-package/.apm/agents/` is the sole source of truth for the 35 preserved agent definitions. `.github/agents/` is empty and retired; Warchive has no project-scoped agents there. Edit package agents directly, not through source-to-package sync or workspace regeneration. `.opencode/agents/` is excluded.
 - VS Code custom agent file reference: `https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference`
 - GitHub Copilot custom agents configuration: `https://docs.github.com/en/copilot/reference/custom-agents-configuration`
 
@@ -43,7 +44,7 @@ applyTo: ".github/agents/**/*.md"
 
 - Keep handoff labels short and action-oriented.
 - Keep handoff metadata disciplined: use `label`, `agent`, `prompt`, and `send` to move to the next stage; add `model` only when that handoff needs a different model.
-- Make sure every referenced handoff target matches the exact current agent name in `.github/agents/`.
+- Make sure every referenced handoff target matches the exact current agent name in `agent-package/.apm/agents/`.
 - Do not duplicate the entire workflow in each handoff prompt. The handoff should name the next action, not restate the current agent body.
 - Add a new agent only when the repository needs a distinct role, tool policy, or workflow boundary that existing agents cannot represent cleanly.
 - Treat nested subagents as exceptional and avoid designing normal workflow paths that depend on them. Unless requirements explicitly state the need for an orchestrator agent and subagents, prefer workflows and roles that can be handled by a single agent.
@@ -52,6 +53,7 @@ applyTo: ".github/agents/**/*.md"
 ## Validation
 
 - After editing an agent file, run diagnostics on the touched file.
+- From the repository root, run the read-only, package-only `./agent-package/check-package.ps1` to verify exactly 35 package agents and the complete, sorted matching `agent-package/apm.yml` include list; it does not compare agent contents. When APM is available, pack from `agent-package/` with `apm pack --archive -o ./dist`. Do not assume a user-space install: that process is deferred and unverified, and users' manual copies are independent of package edits.
 - Verify that referenced agents, prompts, skills, and tool names still exist.
 - If you change workflow shape or delegation rules, inspect the neighboring prompts or agents that route into that file so the graph still makes sense.
 - If you introduce uncommon or preview metadata, confirm it is supported by the intended VS Code flow before concluding.
