@@ -37,6 +37,7 @@ If you are new to the repo, start here:
 - [docs/research/codebase-security-and-malware-review.md](docs/research/codebase-security-and-malware-review.md): repository-agnostic guidance for authorized codebase security and malware reviews.
 - [docs/research/vscode-copilot-agent-customization-reference.md](docs/research/vscode-copilot-agent-customization-reference.md): local reference for always-on instructions, scoped instructions, prompts, agents, skills, and related VS Code Copilot behavior.
 - [docs/research/opencode-agent-configuration-reference.md](docs/research/opencode-agent-configuration-reference.md): local reference for OpenCode rules, config precedence, agents, permissions, commands, skills, custom tools, and MCP-related tool behavior.
+- [docs/knowledge/dev/agent/apm-reference.md](docs/knowledge/dev/agent/apm-reference.md): reference guide to the Agent Package Manager (APM): manifest, lockfile, workflow, and agent usage.
 - [docs/research/ollama-troubleshooting-windows.md](docs/research/ollama-troubleshooting-windows.md): Windows-local troubleshooting reference for Ollama performance, configuration pressure, and diagnostic flow.
 
 ## Working model

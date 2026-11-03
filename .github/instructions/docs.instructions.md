@@ -11,9 +11,7 @@ Use these rules when editing Markdown files under `docs/`.
 ## Ownership By Directory
 
 - `docs/app/` owns durable reference material for shipped behavior and stable project guidance.
-- `docs/model/` owns the domain model, data structures, and other shared abstractions.
 - `docs/research/` owns exploratory reviews, comparisons, and design notes that are not the canonical shipped reference.
-- `docs/sprint/` owns active plans, deferred work, and other in-flight notes.
 - Keep `README.md` as the user-facing overview; do not duplicate that role inside `docs/`.
 
 ## Authoring Rules
@@ -38,7 +36,7 @@ Use these rules when editing Markdown files under `docs/`.
 
 ## Checklist - Hygiene Rules
 
-Apply these rules to active checklist in `docs/sprint/`.
+Apply these rules to active checklist.
 
 - Keep active checklist documents single-purpose: unresolved work only.
 - Capture details at the bottom if a checklist item was closed (`done` or `cancelled`).

@@ -5,7 +5,8 @@ applyTo: ".github/agents/**/*.md"
 
 # Agent File Guidance
 
-- VS Code custom agents docs: `https://code.visualstudio.com/docs/copilot/customization/custom-agents`
+- VS Code custom agent file reference: `https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference`
+- GitHub Copilot custom agents configuration: `https://docs.github.com/en/copilot/reference/custom-agents-configuration`
 
 ## Role Boundaries
 
@@ -18,7 +19,9 @@ applyTo: ".github/agents/**/*.md"
 - Keep `name` stable once prompts, handoffs, or documentation reference it.
 - Write `description` as routing text that says what the role owns and when to use it.
 - Keep `tools` least-privilege. Read-heavy roles should not gain edit or terminal access unless their job truly requires it.
-- Keep `agents` curated. Do not allow `*` unless broad delegation is a deliberate and defended design choice.
+- For agents that ask users for clarification or approval, instruct them to use only a question tool actually exposed **and permitted** by the active harness and their tool policy: `vscode/askQuestions` in VS Code, or `ask_user` if exposed in a Copilot runtime. These are distinct identifiers, not aliases; a frontmatter entry does not guarantee availability in another host, and subagents may have different access. If no permitted question tool is available, ask in chat and wait when user-facing chat is available; otherwise, a delegated agent must return the blocking question or approval request, its scope, and the decision needed to its caller, then stop the blocked work. The caller must relay it to the user and resume that work only after receiving the answer. Never perform an approval-gated action while awaiting approval. Do not delegate solely to get a question tool or add unverified tool IDs to frontmatter.
+- For delegation, `agent` is a built-in tool alias in both VS Code and Copilot cloud. `todo` works in VS Code but is not supported in Copilot cloud; shared agents must not require it for progress tracking.
+- For VS Code-only agents, keep the `agents` allowlist curated; do not allow `*` unless broad delegation is deliberate. For agents shared with the GitHub Copilot harness, omit `agents` (not documented there) and state permitted delegation targets in the body instead. Prose routing is not an enforced allowlist.
 - Use `model` only when the role has a clear, justified need for a distinct model profile; otherwise inherit the session model.
 
 ## Body Content
@@ -44,6 +47,7 @@ applyTo: ".github/agents/**/*.md"
 - Do not duplicate the entire workflow in each handoff prompt. The handoff should name the next action, not restate the current agent body.
 - Add a new agent only when the repository needs a distinct role, tool policy, or workflow boundary that existing agents cannot represent cleanly.
 - Treat nested subagents as exceptional and avoid designing normal workflow paths that depend on them. Unless requirements explicitly state the need for an orchestrator agent and subagents, prefer workflows and roles that can be handled by a single agent.
+- When delegation is required, grant the agent delegation tool in `tools` and name the specialist to invoke; an `agents` allowlist alone does not provide delegation.
 
 ## Validation
 

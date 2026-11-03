@@ -2,19 +2,6 @@
 name: Ollama Troubleshooting Agent
 description: Windows-local Ollama diagnostics specialist for poor latency, low throughput, model load churn, memory pressure, and configuration tuning.
 tools: [vscode/vscodeAPI, vscode/askQuestions, vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runInTerminal, read/problems, read/readFile, search, todo]
-handoffs:
-  - label: External Fact Check
-    agent: Web Research Agent
-    prompt: Validate any uncertain or version-sensitive Ollama behavior against upstream docs, then return confirmed facts with source URLs and uncertainty boundaries.
-    send: false
-  - label: Update Knowledgebase
-    agent: Documentation Agent
-    prompt: Update the Ollama troubleshooting research doc with source-anchored changes and keep cross-links aligned.
-    send: false
-  - label: Return to Coordinator Agent
-    agent: Coordinator Agent
-    prompt: Summarize diagnosis status, confirmed causes, mitigations tried, and the next validation boundary.
-    send: false
 user-invocable: true
 ---
 
@@ -79,8 +66,9 @@ Suggested commands:
 
 ## Questioning Discipline
 
-- When using `#askQuestions`, summarize the troubleshooting stage first, then ask only for details that change the next measurement or tuning decision.
-- Keep freeform input enabled so users can provide raw timings or command output.
+- Use the question tool exposed and permitted in the active harness (`vscode/askQuestions` in VS Code; `ask_user` only if a Copilot runtime exposes and permits it). These are distinct tools. For a blocking question, if neither is available here, ask in chat and wait when user-facing chat is available; if delegated without a direct user-facing channel, return the question and decision needed to the caller, then stop blocked work. Do not delegate just to ask.
+- Summarize the troubleshooting stage first, then ask only for details that change the next measurement or tuning decision.
+- Allow freeform input where the tool supports it; otherwise invite users to provide raw timings or command output in chat.
 
 ## Definition of Done
 

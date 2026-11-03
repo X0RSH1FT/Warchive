@@ -1,0 +1,19 @@
+:root { color-scheme: light dark; font: 14px system-ui, sans-serif; }
+body { margin: 0; }
+main { max-width: 1000px; margin: auto; padding: 1rem; }
+label { display: block; margin: .5rem 0; }
+input:not([type=color]), textarea { box-sizing: border-box; width: 100%; padding: .35rem; }
+textarea { resize: vertical; }
+button { padding: .4rem .65rem; cursor: pointer; }
+:focus-visible { outline: 3px solid #62aaff; outline-offset: 2px; }
+.toolbar, .row, .values { display: flex; flex-wrap: wrap; gap: .5rem; align-items: end; }
+.row > label { flex: 1 1 160px; }
+.overview { display: flex; flex-wrap: wrap; gap: .5rem; }
+.checker { background: conic-gradient(#bbb 25%, #fff 0 50%, #bbb 0 75%, #fff 0) 0 0 / 16px 16px; }
+.overview-item { width: 90px; }
+.swatch { width: 100%; height: 56px; border: 1px solid #888; box-sizing: border-box; }
+.card { border: 1px solid #888; border-radius: 5px; padding: .8rem; margin: .75rem 0; }
+.values label { flex: 1 1 220px; }
+.value-row { display: flex; gap: .25rem; }
+.error { color: #e85a55; font-weight: bold; }
+#status:empty { display: none; }

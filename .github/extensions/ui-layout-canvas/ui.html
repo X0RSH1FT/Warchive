@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UI Layout Drafting</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>UI Layout Drafting</h1>
+    <p>Design draft only; not a Godot scene or a verified rendering.</p>
+    <div class="toolbar">
+      <button id="new" type="button">New draft</button>
+      <button id="save" type="button">Save</button>
+      <label>Alternative file <input id="filename" placeholder="alternative-name" size="18"></label>
+      <button id="save-as" type="button">Save as</button>
+      <button id="open" type="button">Open</button>
+      <button id="export" type="button">Export SVG</button>
+    </div>
+    <p id="file"></p>
+    <p id="status" role="status" aria-live="polite"></p>
+  </header>
+  <main>
+    <section class="canvas-section" aria-label="Layout preview">
+      <div class="toolbar">
+        <label>Layout name <input id="layout-name"></label>
+        <label>Viewport width <input id="viewport-width" type="number" min="1" max="10000"></label>
+        <label>Viewport height <input id="viewport-height" type="number" min="1" max="10000"></label>
+        <button id="add" type="button">Add region</button>
+      </div>
+      <label class="block">Provenance <textarea id="provenance" rows="2"></textarea></label>
+      <p>Drag a region to move it; drag its lower-right handle to resize. Use the fields for precise and keyboard editing.</p>
+      <div class="preview-scroll"><div id="preview-space"><div id="preview" aria-label="Viewport preview"></div></div></div>
+      <div aria-live="polite"><h2>Layout warnings</h2><ul id="warnings"></ul></div>
+    </section>
+    <aside>
+      <h2>Region</h2>
+      <label class="block">Selected region <select id="selection"></select></label>
+      <form id="region-form">
+        <label>Label <input name="label" maxlength="200"></label>
+        <label>Kind <input name="kind" maxlength="200" placeholder="Panel, menu, visualization..."></label>
+        <label>Horizontal anchor <select name="anchorX"><option value="0">Left</option><option value="0.5">Center</option><option value="1">Right</option></select></label>
+        <label>Vertical anchor <select name="anchorY"><option value="0">Top</option><option value="0.5">Center</option><option value="1">Bottom</option></select></label>
+        <label>X offset <input name="x" type="number" min="-20000" max="20000"></label>
+        <label>Y offset <input name="y" type="number" min="-20000" max="20000"></label>
+        <label>Width <input name="width" type="number" min="1" max="10000"></label>
+        <label>Height <input name="height" type="number" min="1" max="10000"></label>
+        <label class="check"><input name="stretchY" type="checkbox"> Stretch to bottom inset (top anchor only)</label>
+        <label>Bottom inset <input name="bottom" type="number" min="-10000" max="10000"></label>
+        <label>Purpose <textarea name="purpose" rows="2" maxlength="4000"></textarea></label>
+        <label>Displayed information <textarea name="information" rows="2" maxlength="4000"></textarea></label>
+        <label>Interactions <textarea name="interactions" rows="2" maxlength="4000"></textarea></label>
+        <label>Open questions <textarea name="questions" rows="2" maxlength="4000"></textarea></label>
+        <button id="remove" type="button">Remove region</button>
+      </form>
+    </aside>
+  </main>
+  <script type="module" src="ui.js"></script>
+</body>
+</html>

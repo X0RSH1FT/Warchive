@@ -65,7 +65,7 @@ Write clear, maintainable C# that follows the conventions already established by
 
 ### Region Comments
 
-Use `# region <Name>` and `# endregion` to organize code into logical sections.
+Use valid C# preprocessor directives, `#region <Name>` and `#endregion`, to organize code into logical sections.
 
 Common regions: `Imports`, `Enum`, `Static`, `Properties`, `Constructor`, `Functions`, `Operations`, `Accessors`, `Tests`, `Fixtures`
 
