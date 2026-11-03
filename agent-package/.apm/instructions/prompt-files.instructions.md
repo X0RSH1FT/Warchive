@@ -6,7 +6,7 @@ applyTo: ".github/prompts/**/*.md"
 
 # Prompt File Guidance
 
-Use this file with [agent-customization.instructions.md](agent-customization.instructions.md) when editing prompt files.
+For scoped instruction authoring, see [instruction-files.instructions.md](instruction-files.instructions.md).
 
 ## Ownership
 

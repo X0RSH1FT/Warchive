@@ -1,6 +1,6 @@
 name: warchive-agents
 version: 0.1.0
-description: Canonical local-only Warchive Copilot agent definitions.
+description: Canonical local-only Warchive Copilot agents and scoped instructions.
 type: package
 includes:
   - .apm/agents/artistic-director.agent.md
@@ -38,4 +38,19 @@ includes:
   - .apm/agents/task-orchestrator.agent.md
   - .apm/agents/voice-and-naming.agent.md
   - .apm/agents/web-researcher.agent.md
+  - .apm/instructions/agent-files.instructions.md
+  - .apm/instructions/csharp-tests.instructions.md
+  - .apm/instructions/csharp.instructions.md
+  - .apm/instructions/docs.instructions.md
+  - .apm/instructions/gdscript.instructions.md
+  - .apm/instructions/gdshader.instructions.md
+  - .apm/instructions/godot-csharp.instructions.md
+  - .apm/instructions/hooks.instructions.md
+  - .apm/instructions/instruction-files.instructions.md
+  - .apm/instructions/prompt-files.instructions.md
+  - .apm/instructions/pytest.instructions.md
+  - .apm/instructions/python.instructions.md
+  - .apm/instructions/skill-files.instructions.md
+  - .apm/instructions/tscn-file.instructions.md
+  - .apm/instructions/vscode.instructions.md
 dependencies: {}

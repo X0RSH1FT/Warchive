@@ -290,9 +290,9 @@ Skill directories are included as a whole, including their scripts and assets. E
 
 In an isolated pilot project, [`apm init [PROJECT_NAME] [OPTIONS]`](https://microsoft.github.io/apm/reference/cli/init/) initializes a package. `apm init --yes` creates `apm.yml` in the current project; ordinary initialization does not create an `.apm` directory. Check `apm init --help` against the installed version before use. Follow upstream for manifest fields rather than copying an invented schema.
 
-### Warchive's agent-only local package
+### Warchive's local agent and instruction package
 
-This section documents Warchive's sole source of truth for agent definitions, `agent-package/.apm/agents/`, not a registry or remote distribution. All 35 definitions were verified byte-identical to their former workspace copies before removal and are preserved in the package, explicitly listed under `includes` in `agent-package/apm.yml`. `.github/agents/` is empty and retired; Warchive no longer provides project-scoped agents there. `.opencode/agents/` agents are excluded.
+This section documents Warchive's sole sources for 35 agent definitions in `agent-package/.apm/agents/` and 15 scoped instruction files in `agent-package/.apm/instructions/`, not a registry or remote distribution. All 35 agents were verified byte-identical to their former workspace copies before removal; the 15 instructions were moved from `.github/instructions/`. Both sets are explicitly listed under `includes` in `agent-package/apm.yml`. `.github/agents/` and `.github/instructions/` have no active definitions in this repository. `.github/copilot-instructions.md` remains at the repository root customization location, outside the package. `.opencode/agents/` agents are excluded.
 
 From the repository root in PowerShell, run the read-only package check after changes and before packing:
 
@@ -300,17 +300,17 @@ From the repository root in PowerShell, run the read-only package check after ch
 ./agent-package/check-package.ps1
 ```
 
-Edit package agent files directly; do not sync from source workspace files or regenerate `.github/agents/`. The package-only check verifies exactly 35 package agents and the complete, sorted matching include list; it does not compare agent contents or create workspace agents. When APM is available, from `agent-package/`, create the archive:
+Edit package agents and instructions directly; do not regenerate workspace copies. The read-only check verifies exactly 35 agents, 15 instructions, absence of workspace instruction duplicates, and the complete, sorted matching include list; it does not compare file contents or copy files. When APM is available, from `agent-package/`, create the archive:
 
 ```powershell
 apm pack --archive -o ./dist
 ```
 
-The user-space installation process remains deferred and unverified. Any user's manual user-space copies are independent of this package, so edits here do not update them. This package is strictly local: do not publish it, add a registry dependency, or use a remote source. APM was unavailable for this transition: no APM pack, consumer test, or user-scope APM install was performed. See the [pack guide](https://microsoft.github.io/apm/producer/pack-a-bundle/) for upstream guidance.
+The user-space installation process remains deferred and unverified. Any user's manual user-space copies are independent of this package, so edits here do not update them. This package is strictly local: do not publish it, add a registry dependency, or use a remote source. APM pack, consumer test, and user-scope APM install have not been verified for this migration. See the [pack guide](https://microsoft.github.io/apm/producer/pack-a-bundle/) for upstream guidance. `scripts/powershell/Copy-GithubMdTrees.ps1` can independently copy the package instructions into a target repository's `.github/instructions/`; this does not install APM or recreate local source files.
 
 #### Portability and known references
 
-The package does not include the repository, documentation, or prompts referenced by some agents. Examples include `../../docs/knowledge/role/roleplay-character-packet-template.md`, `../../docs/research/codebase-security-and-malware-review.md`, `../../docs/research/ollama-troubleshooting-windows.md`, `.github/prompts/debug-task.prompt.md`, `.github/prompts/review-changes.prompt.md`, and `docs/research/agentic-coding.md`; some referenced targets are absent from this checkout, and other repository-specific paths may also need to be supplied in the consuming project. Host-specific tool IDs, pinned model IDs, platform assumptions, and extension requirements also need equivalents in the consuming host. None of these dependencies are bundled.
+The package does not include the repository, documentation, or prompts referenced by some agents or instructions. Examples include `../../docs/knowledge/role/roleplay-character-packet-template.md`, `../../docs/research/codebase-security-and-malware-review.md`, `../../docs/research/ollama-troubleshooting-windows.md`, `.github/prompts/debug-task.prompt.md`, `.github/prompts/review-changes.prompt.md`, and `docs/research/agentic-coding.md`; some referenced targets are absent from this checkout, and the instruction authoring reference `../../../docs/knowledge/dev/agent/vscode-copilot-agent-customization-reference.md` is outside the package. Host-specific tool IDs, pinned model IDs, platform assumptions, and extension requirements also need equivalents in the consuming host. None of these dependencies are bundled.
 
 Known portability dependency: roleplay agents retain relative links such as `../../docs/knowledge/role/roleplay-character-packet-template.md`, authored for the deployed `.github/agents/` location. From the source `.apm/agents/` location, those links do not resolve in this workspace. Consumer projects need the referenced docs at the expected relative location for deployed links to work; packaging does not silently fix these links or supply the docs.
 

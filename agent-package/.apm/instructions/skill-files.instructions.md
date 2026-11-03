@@ -6,7 +6,7 @@ applyTo: ".github/skills/**/*.md"
 
 # Skill File Guidance
 
-Use this file with [agent-customization.instructions.md](agent-customization.instructions.md) when editing skills.
+For scoped instruction authoring, see [instruction-files.instructions.md](instruction-files.instructions.md).
 
 ## Ownership
 

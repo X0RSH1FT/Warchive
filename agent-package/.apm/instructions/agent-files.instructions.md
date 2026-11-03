@@ -53,7 +53,7 @@ applyTo: "agent-package/.apm/agents/**/*.md"
 ## Validation
 
 - After editing an agent file, run diagnostics on the touched file.
-- From the repository root, run the read-only, package-only `./agent-package/check-package.ps1` to verify exactly 35 package agents and the complete, sorted matching `agent-package/apm.yml` include list; it does not compare agent contents. When APM is available, pack from `agent-package/` with `apm pack --archive -o ./dist`. Do not assume a user-space install: that process is deferred and unverified, and users' manual copies are independent of package edits.
+- From the repository root, run the read-only `./agent-package/check-package.ps1` to verify exactly 35 package agents, 15 package instructions, and the complete, sorted matching `agent-package/apm.yml` include list; it does not compare contents. When APM is available, pack from `agent-package/` with `apm pack --archive -o ./dist`. Do not assume a user-space install: that process is deferred and unverified, and users' manual copies are independent of package edits.
 - Verify that referenced agents, prompts, skills, and tool names still exist.
 - If you change workflow shape or delegation rules, inspect the neighboring prompts or agents that route into that file so the graph still makes sense.
 - If you introduce uncommon or preview metadata, confirm it is supported by the intended VS Code flow before concluding.
