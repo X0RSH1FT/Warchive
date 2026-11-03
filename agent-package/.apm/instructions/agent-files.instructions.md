@@ -1,11 +1,11 @@
 ---
-description: Rules for authoring the canonical APM package agent files. Use when editing coordinator, planner, explore, implementation, reviewer, documentation, testing, or web-research agents in agent-package.
-applyTo: "agent-package/.apm/agents/**/*.md"
+name: "Agent File Guidance"
+description: Rules for authoring the agent files.
+applyTo: "**/*.agent.md"
 ---
 
 # Agent File Guidance
 
-- `agent-package/.apm/agents/` is the sole source of truth for the 35 preserved agent definitions. `.github/agents/` is empty and retired; Warchive has no project-scoped agents there. Edit package agents directly, not through source-to-package sync or workspace regeneration. `.opencode/agents/` is excluded.
 - VS Code custom agent file reference: `https://code.visualstudio.com/docs/agents/reference/custom-agent-file-reference`
 - GitHub Copilot custom agents configuration: `https://docs.github.com/en/copilot/reference/custom-agents-configuration`
 
@@ -53,7 +53,7 @@ applyTo: "agent-package/.apm/agents/**/*.md"
 ## Validation
 
 - After editing an agent file, run diagnostics on the touched file.
-- From the repository root, run the read-only `./agent-package/check-package.ps1` to verify exactly 35 package agents, 15 package instructions, and the complete, sorted matching `agent-package/apm.yml` include list; it does not compare contents. When APM is available, pack from `agent-package/` with `apm pack --archive -o ./dist`. Do not assume a user-space install: that process is deferred and unverified, and users' manual copies are independent of package edits.
+- From the repository root, run the read-only `./agent-package/check-package.ps1` to verify package agents, instructions, and the complete, sorted matching `agent-package/apm.yml` include list. When APM is available, pack from `agent-package/` with `apm pack --archive -o ./dist`.
 - Verify that referenced agents, prompts, skills, and tool names still exist.
 - If you change workflow shape or delegation rules, inspect the neighboring prompts or agents that route into that file so the graph still makes sense.
 - If you introduce uncommon or preview metadata, confirm it is supported by the intended VS Code flow before concluding.

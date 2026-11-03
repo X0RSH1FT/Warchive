@@ -1,6 +1,6 @@
 ---
-name: "Customization Hook Patterns"
-description: "Rules for authoring VS Code Copilot hook files in .github/hooks. Use when editing hook JSON in this repository."
+name: "Hook File Guidance"
+description: "Rules for authoring agent hook files."
 applyTo: ".github/hooks/**/*.json"
 ---
 

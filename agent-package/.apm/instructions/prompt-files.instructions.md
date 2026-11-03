@@ -1,25 +1,21 @@
 ---
 name: "Prompt File Guidance"
-description: "Authoring rules for prompt files under .github/prompts. Use when creating or editing slash-command entry prompts."
-applyTo: ".github/prompts/**/*.md"
+description: "Authoring rules for agent prompt files. Use when creating or editing slash-command entry prompts."
+applyTo: "**/*.prompt.md"
 ---
 
 # Prompt File Guidance
-
-For scoped instruction authoring, see [instruction-files.instructions.md](instruction-files.instructions.md).
 
 ## Ownership
 
 - Prompt files are user-invoked entry points.
 - Keep prompts task-scoped and operational.
-- Do not use prompt files to define persistent personas, standing tool policy, or broad handoff graphs.
 
 ## Frontmatter
 
 - Keep frontmatter minimal and valid YAML.
 - Use `name`, `description`, `argument-hint`, and `agent` by default.
 - If `agent` is omitted, the current active agent is used; set `agent` explicitly when routing should be stable.
-- Avoid prompt-level `tools` in this repository. VS Code supports prompt-level `tools` and gives them precedence over agent tools, but this repo prefers agent-owned tool policy for predictability.
 - Keep `description` as discovery text with clear "Use when" routing intent.
 
 ## Body Structure
@@ -33,7 +29,6 @@ For scoped instruction authoring, see [instruction-files.instructions.md](instru
 
 ## Routing Discipline
 
-- Route to the right owner instead of embedding broad multi-stage workflow policy.
 - If content becomes role-stable or tool-policy-heavy, move that logic to the owning agent file.
 - Keep references to agents, prompts, and paths accurate.
 

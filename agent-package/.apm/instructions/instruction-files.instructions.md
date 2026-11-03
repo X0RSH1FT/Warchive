@@ -1,12 +1,10 @@
 ---
 name: "Instruction File Guidance"
-description: "Authoring rules for scoped APM instruction files. Use when editing applyTo-driven policy files."
+description: "Authoring rules for agent instruction files. Use when editing applyTo-driven policy files."
 applyTo: "**/*.instructions.md"
 ---
 
 # Instruction File Guidance
-
-Use this file when editing the canonical package instruction files. For file roles, see [Copilot customization reference](../../../docs/knowledge/dev/agent/vscode-copilot-agent-customization-reference.md).
 
 ## Ownership
 
