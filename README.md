@@ -48,7 +48,7 @@ Warchive is easier to maintain when each area keeps a clear job:
 - Put stable reference material under `docs/`.
 - Use `inbox/` for short-lived capture, then move content into a durable home.
 - Keep tooling under `scripts/` and supporting visual material under `visuals/`.
-- Keep repository-wide Copilot context under `.github/copilot-instructions.md`; edit packaged agents and scoped instructions under `agent-package/.apm/`.
+- Keep repository-wide Copilot context under `.github/copilot-instructions.md`; packaged agents and scoped instructions under `agent-package/.apm/`.
 
 When a directory already has its own README, treat that file as the local entry point for the area.
 

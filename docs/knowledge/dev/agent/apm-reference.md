@@ -308,14 +308,6 @@ apm pack --archive -o ./dist
 
 The user-space installation process remains deferred and unverified. Any user's manual user-space copies are independent of this package, so edits here do not update them. This package is strictly local: do not publish it, add a registry dependency, or use a remote source. APM pack, consumer test, and user-scope APM install have not been verified for this migration. See the [pack guide](https://microsoft.github.io/apm/producer/pack-a-bundle/) for upstream guidance. `scripts/powershell/Copy-GithubMdTrees.ps1` can independently copy the package instructions into a target repository's `.github/instructions/`; this does not install APM or recreate local source files.
 
-#### Portability and known references
-
-The package does not include the repository, documentation, or prompts referenced by some agents or instructions. Examples include `../../docs/knowledge/role/roleplay-character-packet-template.md`, `../../docs/research/codebase-security-and-malware-review.md`, `../../docs/research/ollama-troubleshooting-windows.md`, `.github/prompts/debug-task.prompt.md`, `.github/prompts/review-changes.prompt.md`, and `docs/research/agentic-coding.md`; some referenced targets are absent from this checkout, and the instruction authoring reference `../../../docs/knowledge/dev/agent/vscode-copilot-agent-customization-reference.md` is outside the package. Host-specific tool IDs, pinned model IDs, platform assumptions, and extension requirements also need equivalents in the consuming host. None of these dependencies are bundled.
-
-Known portability dependency: roleplay agents retain relative links such as `../../docs/knowledge/role/roleplay-character-packet-template.md`, authored for the deployed `.github/agents/` location. From the source `.apm/agents/` location, those links do not resolve in this workspace. Consumer projects need the referenced docs at the expected relative location for deployed links to work; packaging does not silently fix these links or supply the docs.
-
-Some unchanged agent examples refer to `.github/agents/workflow-coordinator.agent.md` and the case-different `.github/agents/Code-Reviewer.agent.md`; the package reviewer is lowercase, `code-reviewer.agent.md`, and no workflow-coordinator file is present. These examples are not deployment instructions; do not silently change agent behavior as part of packaging.
-
 ### Locking and review
 
 The [lockfile specification](https://microsoft.github.io/apm/reference/lockfile-spec/) describes `apm.lock.yaml`, including resolved commits and content hashes. These records help review and verify resolved dependencies; a lockfile alone does not guarantee offline availability, identical agent behavior, or deterministic results across environments. Review dependency and lockfile changes and test the resulting agent behavior. Do not update dependencies or execute bundled scripts without appropriate review.
