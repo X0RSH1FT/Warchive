@@ -1,0 +1,56 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Check APM package",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\agent-package\\check-package.ps1"
+      ],
+      "problemMatcher": [],
+      "group": "test"
+    },
+    {
+      "label": "APM: Version",
+      "type": "shell",
+      "command": "apm",
+      "args": ["--version"],
+      "problemMatcher": []
+    },
+    {
+      "label": "APM: Pack package archive",
+      "type": "shell",
+      "command": "apm",
+      "args": ["pack", "--archive", "-o", "./dist"],
+      "options": {
+        "cwd": "${workspaceFolder}\\agent-package"
+      },
+      "dependsOn": "Check APM package",
+      "dependsOrder": "sequence",
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "APM: List primitives",
+      "type": "shell",
+      "command": "apm",
+      "args": ["list"],
+      "options": {
+        "cwd": "${workspaceFolder}\\agent-package"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "APM: Help",
+      "type": "shell",
+      "command": "apm",
+      "args": ["--help"],
+      "problemMatcher": []
+    }
+  ]
+}

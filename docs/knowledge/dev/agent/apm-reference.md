@@ -290,26 +290,23 @@ Skill directories are included as a whole, including their scripts and assets. E
 
 In an isolated pilot project, [`apm init [PROJECT_NAME] [OPTIONS]`](https://microsoft.github.io/apm/reference/cli/init/) initializes a package. `apm init --yes` creates `apm.yml` in the current project; ordinary initialization does not create an `.apm` directory. Check `apm init --help` against the installed version before use. Follow upstream for manifest fields rather than copying an invented schema.
 
-### Local bundle and disposable consumer
+### Warchive's local agent and instruction package
 
-The following is a prospective **offline bundle transfer**, not a dependency declaration or public package. No registry or network publishing is needed for a local bundle. In the pilot's `apm.yml`, explicitly set `dependencies: {}` for a local-assets-only bundle: omitted or null dependencies produce no bundle. Dependencies can otherwise be bundled; development dependencies are excluded. See the [pack reference](https://microsoft.github.io/apm/reference/cli/pack/) and [bundle guide](https://microsoft.github.io/apm/producer/pack-a-bundle/).
+This section documents Warchive's sole sources for 35 agent definitions in `agent-package/.apm/agents/` and 15 scoped instruction files in `agent-package/.apm/instructions/`, not a registry or remote distribution. All 35 agents were verified byte-identical to their former workspace copies before removal; the 15 instructions were moved from `.github/instructions/`. Both sets are explicitly listed under `includes` in `agent-package/apm.yml`. `.github/agents/` and `.github/instructions/` have no active definitions in this repository. `.github/copilot-instructions.md` remains at the repository root customization location, outside the package. `.opencode/agents/` agents are excluded.
 
-From the pilot project root, after preparing its source and manifest:
-
-```powershell
-apm pack --format apm --archive
-```
-
-The default pack format is plugin, so explicitly request `apm` format for unpacking. This command makes a legacy APM zip, normally `build/<package-name>-<version>.zip`. From that **same pilot root**, with a separate, precreated disposable `consumer` directory, substitute the actual archive filename for the example below:
+From the repository root in PowerShell, run the read-only package check after changes and before packing:
 
 ```powershell
-apm unpack '.\build\my-package-1.0.0.zip' --output '.\consumer' --dry-run
-apm unpack '.\build\my-package-1.0.0.zip' --output '.\consumer'
+./agent-package/check-package.ps1
 ```
 
-Review the dry run before unpacking. As documented in the [unpack reference](https://microsoft.github.io/apm/reference/cli/unpack/), the archive path is positional and `--output` selects the destination. Unpacking is additive but **overwrites collisions**; it does not delete unrelated files, and no backup is documented. Never test against a live workspace. Validate the resulting files, links, and skill assets in the disposable consumer before using them elsewhere.
+Edit package agents and instructions directly; do not regenerate workspace copies. The read-only check verifies exactly 35 agents, 15 instructions, absence of workspace instruction duplicates, and the complete, sorted matching include list; it does not compare file contents or copy files. When APM is available, from `agent-package/`, create the archive:
 
-A Git-based remote source is a separate alternative to transferring this local archive. Private remote sources may require Git credentials; a local-only bundle does not require registry credentials. See [authentication](https://microsoft.github.io/apm/consumer/authentication/). Do not assume a local Git or `file://` dependency syntax from this bundle workflow.
+```powershell
+apm pack --archive -o ./dist
+```
+
+The user-space installation process remains deferred and unverified. Any user's manual user-space copies are independent of this package, so edits here do not update them. This package is strictly local: do not publish it, add a registry dependency, or use a remote source. APM pack, consumer test, and user-scope APM install have not been verified for this migration. See the [pack guide](https://microsoft.github.io/apm/producer/pack-a-bundle/) for upstream guidance. `scripts/powershell/Copy-GithubMdTrees.ps1` can independently copy the package instructions into a target repository's `.github/instructions/`; this does not install APM or recreate local source files.
 
 ### Locking and review
 

@@ -1,11 +1,12 @@
 <#
 .SYNOPSIS
-Copy selected .md files under repository .github trees preserving relative paths.
+Copy selected customization Markdown trees into a target repository.
 
 .DESCRIPTION
 Copies and overwrites all Markdown (.md) files under the given source path for the
 following repo-relative directories when enabled: .github/agents, .github/prompts,
-.github/instructions. Relative paths are preserved under the target path. Target
+and agent-package/.apm/instructions. Instructions are copied into
+.github/instructions in the target; other relative paths are preserved. Target
 directories are created as needed.
 
 .PARAMETER SourcePath
@@ -21,12 +22,12 @@ Boolean. When true copy files under .github/agents. Defaults to $true.
 Boolean. When true copy files under .github/prompts. Defaults to $true.
 
 .PARAMETER CopyInstructions
-Boolean. When true copy files under .github/instructions. Defaults to $true.
+Boolean. When true copy canonical files under agent-package/.apm/instructions
+into the target .github/instructions. Defaults to $true.
 
 .EXAMPLE
-.
-  .\scripts\Copy-GithubMdTrees.ps1 . .\dest
-  Copies all .md files from the three .github trees to ./dest preserving paths.
+  .\scripts\powershell\Copy-GithubMdTrees.ps1 . .\dest
+  Copies selected Markdown trees into ./dest (instructions from the APM package).
 
 .NOTES
 Author: GitHub Copilot (implementation agent)
@@ -64,7 +65,8 @@ function Resolve-AbsolutePath {
 function Copy-MdTree {
     param(
         [string]$SubRelativePath,
-        [bool]$Enabled
+        [bool]$Enabled,
+        [string]$DestinationRelativePath = $SubRelativePath
     )
 
     if (-not $Enabled) {
@@ -82,7 +84,8 @@ function Copy-MdTree {
     }
 
     $sourceDirFull = (Get-Item -LiteralPath $sourceDir -ErrorAction Stop).FullName.TrimEnd('\','/')
-    $files = Get-ChildItem -LiteralPath $sourceDirFull -Recurse -File -Filter '*.md' -ErrorAction SilentlyContinue
+    $filter = if ($SubRelativePath -eq 'agent-package/.apm/instructions') { '*.instructions.md' } else { '*.md' }
+    $files = Get-ChildItem -LiteralPath $sourceDirFull -Recurse -File -Filter $filter -ErrorAction SilentlyContinue
 
     if (-not $files) {
         Write-Verbose "No .md files found under $sourceDirFull"
@@ -93,7 +96,7 @@ function Copy-MdTree {
         # Use .NET Path.GetRelativePath to compute a robust relative path
         $fileFull = $file.FullName
         $relative = [System.IO.Path]::GetRelativePath($sourceDirFull, $fileFull).TrimStart('\','/')
-        $dest = Join-Path $targetRoot (Join-Path $SubRelativePath $relative)
+        $dest = Join-Path $targetRoot (Join-Path $DestinationRelativePath $relative)
         $destDir = Split-Path -Path $dest -Parent
 
         if ($PSCmdlet.ShouldProcess($file.FullName, "Copy to $dest")) {
@@ -118,6 +121,11 @@ try {
     if (-not (Test-Path -LiteralPath $SourcePath)) {
         throw "Source path does not exist: $SourcePath"
     }
+    if ($CopyInstructions -and
+        [IO.Path]::GetFullPath((Resolve-AbsolutePath -Path $SourcePath)).TrimEnd('\','/') -eq
+        [IO.Path]::GetFullPath((Resolve-AbsolutePath -Path $TargetPath)).TrimEnd('\','/')) {
+        throw 'Source and target must differ when copying package instructions; do not generate workspace duplicates.'
+    }
 
     # Ensure target root exists (create if needed)
     if (-not (Test-Path -LiteralPath $TargetPath)) {
@@ -128,7 +136,7 @@ try {
 
     Copy-MdTree ".github/agents" $CopyAgents
     Copy-MdTree ".github/prompts" $CopyPrompts
-    Copy-MdTree ".github/instructions" $CopyInstructions
+    Copy-MdTree "agent-package/.apm/instructions" $CopyInstructions ".github/instructions"
 
     Write-Output 'Operation completed.'
 } catch {

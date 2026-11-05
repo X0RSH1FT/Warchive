@@ -25,7 +25,8 @@ If you are new to the repo, start here:
 
 | Path | Purpose | Start here |
 |---|---|---|
-| `.github/` | Repository-scoped Copilot customizations such as agents, prompts, instructions, and related workflow files. | [.github/copilot-instructions.md](.github/copilot-instructions.md) |
+| `.github/` | Repository-wide Copilot instructions, prompts, skills, and related workspace customizations. | [.github/copilot-instructions.md](.github/copilot-instructions.md) |
+| `agent-package/` | Canonical local APM package for 35 agents and 15 scoped instruction files. | [agent-package/README.md](agent-package/README.md) |
 | `docs/` | Durable documentation, research material, and sprint planning notes. | `docs/research/` |
 | `inbox/` | Fast capture area for temporarily unclassified material. | [inbox/README.md](inbox/README.md) |
 | `scripts/` | Ingestion and validation tooling. | [scripts/README.md](scripts/README.md) |
@@ -47,7 +48,7 @@ Warchive is easier to maintain when each area keeps a clear job:
 - Put stable reference material under `docs/`.
 - Use `inbox/` for short-lived capture, then move content into a durable home.
 - Keep tooling under `scripts/` and supporting visual material under `visuals/`.
-- Keep repository-wide Copilot context and customization assets under `.github/`.
+- Keep repository-wide Copilot context under `.github/copilot-instructions.md`; packaged agents and scoped instructions under `agent-package/.apm/`.
 
 When a directory already has its own README, treat that file as the local entry point for the area.
 

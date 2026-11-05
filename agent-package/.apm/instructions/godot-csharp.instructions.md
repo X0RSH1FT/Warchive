@@ -57,5 +57,8 @@ Apply these rules in addition to the repository's broad C# rules. Keep this file
 
 - Check editor and parser diagnostics for the changed script, then rebuild the C# project when metadata or assemblies may have changed.
 - Open the affected scene and verify script attachment, exported values, node paths, resources, and ownership in the Inspector.
-- Run the affected scene and then the wider project when the change crosses scene boundaries. Inspect the Godot debugger for lifecycle, invalid-node, resource-loading, signal, and disposed-object errors.
-- Use the installed Godot executable's version and help output before selecting command-line validation options; do not assume a flag, renderer, or executable name across Godot 4.x environments.
+- Build C# with `dotnet build` when the project or attached scripts require it. Run pure library tests with `dotnet test`.
+- Godot should be included in the environment path so that it can be resolved and executed from the command line.
+- Before invoking command-line options, resolve `godot` with `Get-Command godot` (or `command -v godot` in a POSIX shell); if unavailable, report the blocker instead of claiming validation. Run `godot --version` and `godot --help` first. Record the resolved executable, exact command, stdout, stderr, and exit code for every check that runs.
+- From the repository root, use `godot --headless --path . --import` for import validation and `godot --headless --editor --path . --quit` for editor-startup validation. Optionally use `godot --headless --path . --quit-after 1` for a main-scene startup smoke check. Inspect the headless CLI stdout and stderr for lifecycle, invalid-node, resource-loading, signal, and disposed-object errors. Inspect the interactive Godot debugger only after separately opening and running the project in the editor.
+- None of these headless checks prove shader visual appearance, renderer behavior, lighting, camera framing, or presentation. Run the affected scene and wider project non-headlessly when those claims matter, using visual or captured runtime evidence.

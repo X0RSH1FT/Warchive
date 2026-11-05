@@ -827,7 +827,7 @@ When building repository workflows, prefer stable mechanisms first.
 
 ## 14. Recommended Authoring Patterns for Warchive
 
-These recommendations are specific to how this repository already uses `.github/` customization files.
+These recommendations distinguish Warchive's `.github/` workspace customizations from its packaged sources: `agent-package/.apm/agents/` and `agent-package/.apm/instructions/`. APM lists these in `agent-package/apm.yml`; `.github/copilot-instructions.md` stays outside the package. `.github/instructions/` describes the usual projected or manually copied workspace location, not the canonical source in this repository. Packaging is not proof of installation in a consumer.
 
 ### 14.1 Keep `.github/copilot-instructions.md` architectural, not procedural
 

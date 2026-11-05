@@ -1,12 +1,10 @@
 ---
 name: "Instruction File Guidance"
-description: "Authoring rules for scoped instruction files under .github/instructions. Use when editing applyTo-driven policy files."
-applyTo: ".github/instructions/**/*.md"
+description: "Authoring rules for agent instruction files. Use when editing applyTo-driven policy files."
+applyTo: "**/*.instructions.md"
 ---
 
 # Instruction File Guidance
-
-Use this file with [agent-customization.instructions.md](agent-customization.instructions.md) when editing instruction files.
 
 ## Ownership
 

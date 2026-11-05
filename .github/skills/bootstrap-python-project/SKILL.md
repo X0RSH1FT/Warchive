@@ -13,7 +13,7 @@ argument-hint: "[Target folder, project name, package name, project type, audien
     - quality-gate patterns for tests, linting, formatting, typing, dependency hygiene, and builds when applicable
     - editor-task and workspace-setting patterns such as `.vscode/tasks.json` and `.vscode/settings.json` when they are present in the source repo and help the target workspace
     - repository-scoped Copilot instructions such as `.github/copilot-instructions.md` when they are present in the source repo
-    - scoped `.github/instructions/` files when they are present in the source repo
+    - relevant scoped instructions from `agent-package/.apm/instructions/`, copied into the target's `.github/instructions/` and adapted to its scope (not from this repo's retired workspace location)
     - reusable `.github/agents/`, `.github/prompts/`, and `.github/skills/` patterns when they are present in the source repo and fit the new project
     - CI patterns such as `.github/workflows/` and any other applicable automation setup when they are present in the source repo
     - `README.md`, `docs/`, `tests/`, and other project structure patterns when those surfaces add value

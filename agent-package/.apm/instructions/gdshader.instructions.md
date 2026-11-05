@@ -39,7 +39,11 @@ applyTo: "**/*.gdshader"
 - Check Godot editor shader diagnostics first, then verify the shader is assigned to the intended `ShaderMaterial` and surface or node. Use the installed project's exact Godot 4 version and renderer when validating syntax and behavior.
 - Isolate failures in stages: compile a minimal constant material output, attach it to the intended resource, verify coordinates and UVs, then restore uniforms, animation, lighting, transparency, and custom render modes one change at a time.
 - Use temporary outputs such as constant color, UV color, position-derived color, or constant emission to distinguish shader math, coordinate assumptions, material wiring, lighting, and environment effects. Remove diagnostic output before finishing.
-- Run the affected scene or project and inspect the Godot debugger for shader compilation, material, resource, and runtime errors. Check visual results on representative geometry and target renderer settings.
+- Build C# with `dotnet build` when the project or attached scripts require it. Run pure library tests with `dotnet test`.
+- Godot should be included in the environment path so that it can be resolved and executed from the command line.
+- Before invoking command-line options, resolve `godot` with `Get-Command godot` (or `command -v godot` in a POSIX shell); if unavailable, report the blocker instead of claiming validation. Run `godot --version` and `godot --help` first. Record the resolved executable, exact command, stdout, stderr, and exit code for every check that runs.
+- From the repository root, use `godot --headless --path . --import` for import validation, `godot --headless --editor --path . --quit` for editor-startup validation, and optionally `godot --headless --path . --quit-after 1` for a main-scene startup smoke check. Capture each command's stdout, stderr, and exit code, and inspect that headless CLI output for shader compilation, material, resource, and runtime errors.
+- Headless checks do not prove shader visual appearance, renderer behavior, lighting, camera framing, or presentation. Run the affected scene or project non-headlessly and inspect representative geometry with the target renderer settings, using visual or captured runtime evidence.
 - Confirm changed uniforms, textures, render modes, and stage boundaries in the Inspector or focused runtime path. Do not treat a successful parse as proof that the material is correctly bound or visually correct.
 
 ## Boundaries
