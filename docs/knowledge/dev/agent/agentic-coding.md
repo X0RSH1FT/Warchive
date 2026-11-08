@@ -16,6 +16,10 @@ flowchart LR
     Summarize --> Task
 ```
 
+### The Ralph loop
+
+The concept is inspired by the character Ralph Wiggum from The Simpsons, known for being clueless yet relentlessly persistent. Ralph Loop embodies this spirit: an AI coding loop that stubbornly iterates on a topic, failing repeatedly but never giving up until it finally succeeds.
+
 ## Typical tools
 
 | Area | Common tools |
@@ -46,9 +50,11 @@ Quality gates matter because they are deterministic. They give the agent and the
 
 The main idea is simple: the agent should work inside the same validation system the team already knows and trusts.
 
-## Optional roles
+## Roles / Sub agents
 
-Not every task needs multiple agents. One agent may be enough depending on scope/complexity. Role splits help when scope is broad, task need to be focused, and/or permissions/tools should stay narrow.
+Not every task needs multiple agents. One agent may be enough depending on scope/complexity. Role splits/subagents help when scope is broad, task need to be focused, and/or permissions/tools should stay narrow.
+
+Each subagent starts with a fresh context and defined responsibilities/scope. Additionally, the agent orchestrator handles the prompting and response handling.
 
 **General roles**
 | Role | Purpose |
@@ -86,6 +92,12 @@ Not every task needs multiple agents. One agent may be enough depending on scope
 | Review loop | Evaluate the output in a distinct pass before closing the task. | Catches regressions, missing tests, and weak assumptions. |
 
 These techniques improve reliability by adding structure, context, and verification to the prompt-response loop.
+
+**Context-rot** refers to the gradual loss of relevant context over time, which can lead to errors or inefficiencies if not managed properly. It is important to regularly refresh and validate the context to ensure accurate and effective decision-making.
+
+**Context-anxiety** refers to agent performance degrading as it fills up it's context window. This can cause increased hallucinations and short-cuts/cheating, leading to less reliable outputs and potential errors.
+
+Compaction helps with this but it can be lossy.
 
 ## Docs as guidance
 
@@ -166,3 +178,4 @@ The references below are useful if the audience wants more than a workflow overv
 | Software engineering agents | [SWE-bench: Can Language Models Resolve Real-World GitHub Issues?](https://arxiv.org/abs/2310.06770) | Grounds the discussion in a benchmark built around real maintenance tasks. |
 | Agent benchmarking | [GAIA: a Benchmark for General AI Assistants](https://arxiv.org/abs/2311.12983) | Useful when discussing evaluation beyond toy prompt examples. |
 | Mixture-of-experts models | [Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer](https://arxiv.org/abs/1701.06538) | Important background, but this is a model architecture topic rather than a prompting technique. |
+| Ralph loop | [what-is-ralph-loop-a-new-era-of-autonomous-coding](https://medium.com/@tentenco/what-is-ralph-loop-a-new-era-of-autonomous-coding-96a4bb3e2ac8) | Illustrates the idea of an AI coding loop that persistently iterates, failing repeatedly but eventually succeeding. |
