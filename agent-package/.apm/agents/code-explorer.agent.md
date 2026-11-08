@@ -3,7 +3,7 @@ name: Code-Explorer
 description: Reader for consuming file content
 argument-hint: Provide a specific file or content exploration request
 tools: [read/readFile, search]
-model: GPT-5.6 Luna (copilot)
+model: GPT-6 Luna (copilot)
 user-invocable: true
 ---
 

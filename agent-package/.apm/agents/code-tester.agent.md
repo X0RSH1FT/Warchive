@@ -3,7 +3,7 @@ name: Code-Tester
 description: Tester for validating code and quality gates.
 argument-hint: Provide a specific testing or validation request
 tools: [execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runTask, execute/runInTerminal, execute/runTests, execute/testFailure, read/problems, read/readFile, read/viewImage, read/terminalSelection, read/terminalLastCommand, read/getTaskOutput, search, vscodeTasks/runTask, vscodeTasks/getTaskOutput, vscodeTasks/problems, vscodeGeneral/runTests, vscodeGeneral/testFailure, todo]
-model: GPT-5.6 Luna (copilot)
+model: GPT-6 Luna (copilot)
 user-invocable: true
 ---
 

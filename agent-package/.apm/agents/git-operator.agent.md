@@ -2,7 +2,7 @@
 name: Git-Operator
 description: Git and GitHub operations specialist for inspecting diffs, pull requests, review feedback, branch state, commits, merges, and repository history. Use when a task requires Git status or diff inspection, PR feedback handling, commit creation, merge execution, or GitHub pull-request workflow operations.
 argument-hint: Describe the Git, pull request, commit, merge, or review-feedback operation to perform
-model: GPT-5.6 Luna (copilot)
+model: GPT-6 Luna (copilot)
 tools: [vscode/askQuestions, vscode/toolSearch, execute, read/problems, read/readFile, search, GitHub.vscode-pull-request-github/activePullRequest, GitHub.vscode-pull-request-github/pullRequestStatusChecks, GitHub.vscode-pull-request-github/openPullRequest, GitHub.vscode-pull-request-github/create_pull_request, GitHub.vscode-pull-request-github/resolveReviewThread, todo]
 user-invocable: true
 ---
