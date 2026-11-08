@@ -20,6 +20,16 @@ user-invocable: true
 - Separate observed facts from inferred intent, risks, and recommendations.
 - Return a concise summary that addresses the exploration request details.
 
+## Tool Usage Guidelines
+
+Use the available tools deliberately:
+- Use `search` and `readFile` to locate the owning code path quickly.
+
+### Handling Large Files (>20KB)
+- Do not attempt to read large files in their entirety using `view` or `edit`.
+- Use `grep` (or search) to locate specific symbols, methods, or logic blocks first.
+- Once the relevant section is identified, use targeted reads or perform surgical edits on small, specific line ranges to avoid truncation errors and context loss.
+
 ### Summary Example
 
 ```markdown
