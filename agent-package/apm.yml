@@ -1,7 +1,7 @@
 name: warchive-agents
 version: 0.1.0
-description: Canonical local-only Warchive Copilot agents and scoped instructions.
-type: package
+description: Canonical local-only Warchive Copilot agents, skills, and scoped instructions.
+type: hybrid
 includes:
   - .apm/agents/artistic-director.agent.md
   - .apm/agents/bash-operator.agent.md
@@ -29,7 +29,7 @@ includes:
   - .apm/agents/meta-agent.agent.md
   - .apm/agents/narrative-designer.agent.md
   - .apm/agents/ollama-troubleshooting.agent.md
-  - .apm/agents/online-shopping.agent.md
+  - .apm/agents/online-shopper.agent.md
   - .apm/agents/powershell-operator.agent.md
   - .apm/agents/python-coder.agent.md
   - .apm/agents/roleplay-character.agent.md
@@ -53,4 +53,5 @@ includes:
   - .apm/instructions/skill-files.instructions.md
   - .apm/instructions/tscn-file.instructions.md
   - .apm/instructions/vscode.instructions.md
+  - .apm/skills/format-modules/SKILL.md
 dependencies: {}
