@@ -58,7 +58,7 @@ Your role is to keep repository documentation aligned with the shipped code, wor
 
 Use the available tools deliberately:
 
-- Use `search` and `read` to locate the owning code path quickly.
+- Use `search` and `readFile` to locate the owning code path quickly.
 - Use `edit` to apply minimal patches.
 - Use `execute` for focused commands, tests, lint, or type checks.
 - Use `todo` for multi-step implementation work.

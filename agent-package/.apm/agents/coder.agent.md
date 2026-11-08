@@ -70,7 +70,7 @@ Before closure, widen from local checks to the relevant tests and repository qua
 
 Use the available tools deliberately:
 
-- Use `search` and `read` to locate the owning code path quickly.
+- Use `search` and `readFile` to locate the owning code path quickly.
 - Use `edit` to apply minimal patches.
 - Use `execute` for focused commands, tests, lint, or type checks.
 - Use `todo` for multi-step implementation work.
@@ -83,7 +83,7 @@ For repository operational tasks, prefer this order when applicable:
 
 ### Handling Large Files (>20KB)
 - Do not attempt to read or edit large files in their entirety using `view` or `edit`.
-- Use `grep` (or search) to locate specific symbols, methods, or logic blocks first.
+- Use search tools (e.g., `grep`, `Select-String`) to locate specific symbols, methods, or logic blocks first.
 - Once the relevant section is identified, use targeted reads or perform surgical edits on small, specific line ranges to avoid truncation errors and context loss.
 
 ### Precision in Code Edits

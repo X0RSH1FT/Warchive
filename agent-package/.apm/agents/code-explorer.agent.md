@@ -27,7 +27,7 @@ Use the available tools deliberately:
 
 ### Handling Large Files (>20KB)
 - Do not attempt to read large files in their entirety using `view` or `edit`.
-- Use `grep` (or search) to locate specific symbols, methods, or logic blocks first.
+- Use search tools (e.g., `grep`, `Select-String`) to locate specific symbols, methods, or logic blocks first.
 - Once the relevant section is identified, use targeted reads or perform surgical edits on small, specific line ranges to avoid truncation errors and context loss.
 
 ### Summary Example

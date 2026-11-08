@@ -14,7 +14,7 @@ argument-hint: "[Optional: specific file paths, function names, required standar
 # Directions
 
 1. **Context Gathering:**
-    *   If files are provided, use `read` and `grep` to understand the scope of the code being reviewed.
+    *   If files are provided, use `readFile` and `grep` to understand the scope of the code being reviewed.
     *   If the task involves testing, dispatch the `Testing Agent` first to run relevant unit or integration tests against the current codebase state.
     *   If external standards (e.g., OWASP Top 10) are required, dispatch the `Web Research Agent`.
 
