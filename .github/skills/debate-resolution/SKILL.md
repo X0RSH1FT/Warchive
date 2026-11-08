@@ -1,6 +1,6 @@
 ---
 name: debate-resolution
-description: Warchive - Resolve an issue or design decision through a structured multi-agent debate led by Coordinator Agent, then route the winning direction to the next execution owner.
+description: Warchive - Resolve an issue or design decision through a structured multi-agent debate led by `Task-Orchestrator`, then route the winning direction to the next execution owner.
 disable-model-invocation: true
 argument-hint: "[Issue or design question, optional constraints, candidate options, decision deadline, and preferred confidence level.]"
 ---
@@ -29,31 +29,31 @@ Workflow:
    - weighted or ranked comparison table
    - risk and reversibility assessment
    - confidence level with known unknowns
-10. If confidence is low or unresolved risk remains, run one focused tie-break pass with the most relevant specialist (for example `Web Research Agent` for external facts, `Testing Agent` for validation risk, or `Planner Agent` for sequencing risk).
+10. If confidence is low or unresolved risk remains, run one focused tie-break pass with the most relevant specialist (for example `Web-Researcher` for external facts, `Code-Tester` for validation risk, or `Code-Planner` for sequencing risk).
 11. Select a winner, explain why alternatives lost, and route the winning direction to the next execution owner.
-12. Keep `Coordinator Agent` in orchestration mode only: routing, clarification, debate control, and synthesis. Do not perform specialist implementation, documentation, testing, or review work inline.
-13. If the winning path requires source edits, route to `Implementation Agent` and then `Reviewer Agent` for non-trivial changes unless the user explicitly opts out.
-14. If the winning path is prompt-workflow customization, route to `Meta Agent`.
+12. Keep `Task-Orchestrator` in orchestration mode only: routing, clarification, debate control, and synthesis. Do not perform specialist implementation, documentation, testing, or review work inline.
+13. If the winning path requires source edits, route to the appropriate coder and then `Code-Reviewer` for non-trivial changes unless the user explicitly opts out.
+14. If the winning path is prompt-workflow customization, route to `Meta-Agent`.
 15. Validate that all referenced agents and target paths exist before concluding.
 
 Debate roster guidance:
-- Use `Planner Agent` when the dispute is primarily sequencing, scope slicing, or acceptance criteria.
-- Use `Domain Modeling Agent` when the dispute is primarily bounded context, aggregate boundaries, or ubiquitous language.
+- Use `Code-Planner` when the dispute is primarily sequencing, scope slicing, or acceptance criteria.
+- Use `Domain-Modeler` when the dispute is primarily bounded context, aggregate boundaries, or ubiquitous language.
 - Use `System-Architect` when the dispute is primarily subsystem boundaries, interfaces, or deployment tradeoffs.
-- Use `Implementation Agent` when the dispute is primarily code-level feasibility, refactor complexity, or migration risk.
+- Use the appropriate coder when the dispute is primarily code-level feasibility, refactor complexity, or migration risk.
 - Use `Interface-Designer` when the dispute is primarily information hierarchy, interaction flow, or UI states.
-- Use `Testing Agent` when the dispute is primarily testability, coverage risk, and validation strategy.
-- Use `Documentation Agent` when the dispute is primarily durable knowledge ownership, docs clarity, or knowledge-surface fit.
-- Use `Reviewer Agent` when the dispute is primarily regression risk, findings quality, and signoff readiness.
-- Use `Web Research Agent` when the dispute depends on narrow external product facts not yet validated locally.
+- Use `Code-Tester` when the dispute is primarily testability, coverage risk, and validation strategy.
+- Use `Document-Author` when the dispute is primarily durable knowledge ownership, docs clarity, or knowledge-surface fit.
+- Use `Code-Reviewer` when the dispute is primarily regression risk, findings quality, and signoff readiness.
+- Use `Web-Researcher` when the dispute depends on narrow external product facts not yet validated locally.
 - Use `Artistic-Director` for stylistic or narrative direction; optionally use `Creative-Philosopher` only to challenge an existing direction's assumptions and tradeoffs.
 
 Few-shot examples:
 - Good debate question: Should we resolve data-import failures with strict schema rejection now, or introduce a staged compatibility layer first?
-- Good contrasting stances: `Implementation Agent` favors staged compatibility for migration safety; `Testing Agent` favors strict rejection for simpler validation and lower long-term ambiguity.
+- Good contrasting stances: the appropriate coder favors staged compatibility for migration safety; `Code-Tester` favors strict rejection for simpler validation and lower long-term ambiguity.
 - Good synthesis line: Winner is staged compatibility because rollback risk is lower under current release constraints, with strict mode scheduled after telemetry confirms input cleanup.
 - Bad debate question: What should we do about the project overall?
-- Bad orchestration: Coordinator writes implementation steps directly without delegating to specialist agents.
+- Bad orchestration: `Task-Orchestrator` writes implementation steps directly without delegating to specialist agents.
 
 Close-out requirements:
 - Summarize the decision question, chosen debaters, and each stance in one line.

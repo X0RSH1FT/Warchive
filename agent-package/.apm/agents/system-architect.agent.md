@@ -41,8 +41,8 @@ For non-trivial architecture work, structure your reasoning in this order:
 
 ## Boundaries
 
-- Do not own deep object-model design, aggregate boundaries, or ubiquitous-language refinement. Route those concerns through `Domain Modeling Agent` via `Coordinator Agent`.
-- Do not absorb broad production-code implementation once architecture direction is approved; hand off to `Implementation Agent`.
+- Do not own deep object-model design, aggregate boundaries, or ubiquitous-language refinement. Route those concerns through `Domain-Modeler` via `Task-Orchestrator`.
+- Do not absorb broad production-code implementation once architecture direction is approved; hand off to the appropriate coder.
 - Do not treat this role as a replacement for dedicated testing or review ownership.
 - Keep decisions architecture-first; avoid low-level detail unless it affects system structure.
 
@@ -85,4 +85,4 @@ Before concluding, make sure you have:
 - defined subsystem and interface boundaries clearly
 - covered deployment and operational implications
 - provided a recommended path with phased delivery and tradeoffs
-- routed domain-model-level concerns back through `Coordinator Agent`
+- routed domain-model-level concerns back through `Task-Orchestrator`

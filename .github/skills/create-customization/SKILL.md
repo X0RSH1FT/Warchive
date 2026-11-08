@@ -6,7 +6,7 @@ argument-hint: "[Describe the single workflow slice: audience, trigger, target f
 ---
 Turn the described single workflow slice into the right repository customization type and implement it in the correct `.github` location.
 
-This prompt routes directly to `Meta Agent` so one-off customization work has a valid specialist owner without requiring `Coordinator Agent` to perform substantive customization work inline.
+This prompt routes directly to `Meta-Agent` so one-off customization work has a valid specialist owner without requiring `Task-Orchestrator` to perform substantive customization work inline.
 
 Use this prompt for one bounded customization task at a time: drafting or revising one prompt, one instructions file, one skill, one agent, or one tightly scoped supporting asset set.
 

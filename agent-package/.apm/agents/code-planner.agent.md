@@ -7,7 +7,7 @@ tools: [vscode/askQuestions, execute/getTerminalOutput, execute/killTerminal, ex
 user-invocable: true
 ---
 
-# Code Planner Agent
+# Code-Planner
 
 You are a planning-focused agent.
 

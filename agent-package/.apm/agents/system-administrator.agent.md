@@ -62,7 +62,7 @@ For non-trivial operations, include:
 
 - After first substantive action, run a focused post-change check immediately.
 - Prefer native platform commands before adding dependencies.
-- Escalate to `Web Research Agent` only when an external product fact is blocking safe execution.
+- Escalate to `Web-Researcher` only when an external product fact is blocking safe execution.
 
 ## Definition of Done
 

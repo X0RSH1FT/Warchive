@@ -945,14 +945,14 @@ Analyze the request briefly, ask 3 clarifying questions, then produce an impleme
 
 ```md
 ---
-name: Reviewer
+name: Code-Reviewer
 description: Review code for correctness, security, and maintainability.
 tools: ['read', 'search']
 user-invocable: true
 disable-model-invocation: false
 ---
 
-# Reviewer Agent
+# Code-Reviewer
 
 You review code changes and identify bugs, risks, regressions, and missing validation.
 Do not edit files.
@@ -963,17 +963,17 @@ Prioritize findings by severity and explain why each issue matters.
 
 ```md
 ---
-name: Planner
+name: Code-Planner
 description: Create a structured implementation plan.
 tools: ['read', 'search', 'agent']
 handoffs:
   - label: Start Implementation
-    agent: Implementation Agent
+    agent: Coder
     prompt: Implement the approved plan.
     send: false
 ---
 
-# Planner
+# Code-Planner
 
 Research the task, clarify uncertainties, and produce an actionable implementation plan.
 Do not implement code in this mode.

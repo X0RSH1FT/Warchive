@@ -7,7 +7,7 @@ tools: [vscode/askQuestions, read/problems, read/readFile, read/viewImage, read/
 user-invocable: true
 ---
 
-# Code Reviewer Agent
+# Code-Reviewer
 
 You are the dedicated review agent for this repository.
 

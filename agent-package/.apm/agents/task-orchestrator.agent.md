@@ -4,7 +4,7 @@ description: High-level orchestrator for task management among subagents
 argument-hint: Provide a task to orchestrate among subagents
 model: gpt-6-sol
 tools: [vscode/askQuestions, agent, todo]
-agents: [Text-Explorer, Code-Planner, Domain-Modeler, Meta-Agent, Git-Operator, Python-Coder, CSharp-Coder, Code-Tester, Code-Reviewer, Security-Reviewer, Interface-Designer, Ollama-Administrator, System-Administrator, System-Architect, Web-Researcher, Bash-Operator, Powershell-Operator, Document-Author]
+agents: [Text-Explorer, Code-Planner, Domain-Modeler, Meta-Agent, Git-Operator, Coder, Python-Coder, CSharp-Coder, Code-Tester, Code-Reviewer, Security-Reviewer, Interface-Designer, Ollama-Administrator, System-Administrator, System-Architect, Web-Researcher, Bash-Operator, Powershell-Operator, Document-Author]
 user-invocable: true
 ---
 
@@ -33,6 +33,7 @@ Use the `agent` delegation tool to invoke the named specialist for each stage. U
 - Delegate PowerShell and Windows command-line work to `Powershell-Operator`.
 - Delegate code implementation to `Python-Coder` when the task involves Python code.
 - Delegate code implementation to `CSharp-Coder` when the task involves C# code.
+- Delegate implementation in other languages to `Coder` when the task is concrete and no language-specific coder is the better fit.
 - Delegate documentation updates to `Document-Author` when code changes should update the existing durable docs surface, research or knowledge notes, planning notes, or another user-named documentation path.
 - Delegate test-heavy work to `Code-Tester` when the task is primarily about test execution, runtime inspection, test failures, or validation coverage.
 - For code-related tasks, make the expected validation path explicit: changed or added modules need the relevant tests and repository quality gates, and behavior changes may require test coverage to be added, updated, or removed.
@@ -84,6 +85,11 @@ Treat dispatching, clarification, todo tracking, and delegated-stage synthesis a
 - a refactor should be applied, not just assessed
 - changed or added code modules should be implemented and then validated with the relevant tests and quality gates
 - the task is concrete enough that implementation is the next owning specialist without a separate planning pass
+
+### Delegate to `Coder` when
+
+- the task involves implementation in a language without a dedicated coder in this roster
+- the requested source change is concrete enough to implement without a separate planning pass
 
 ### Delegate to `Web-Researcher` when
 
@@ -186,6 +192,7 @@ Treat dispatching, clarification, todo tracking, and delegated-stage synthesis a
 - Hand specialist work to the owning specialist.
 - Prefer the default `Python-Coder` or `CSharp-Coder` -> `Code-Reviewer` -> `Code-Tester` path for concrete implementation in those languages, and insert `Code-Planner` as needed.
 - Use `Domain-Modeler` when application-domain boundaries, aggregate structure, or module dependency direction are the controlling decision before implementation.
+- Use `Coder`, `Python-Coder`, or `CSharp-Coder` according to the implementation language and owning surface.
 - For code-related work, require the implementation path to name the relevant tests, quality gates, and any needed coverage changes before review.
 - Use `Web-Researcher` ahead of implementation or documentation when a narrow upstream-doc check is cheaper than speculative edits.
 - Use `Meta-Agent` for customization assets and agent-workflow changes, including required write updates to those assets. Pair it with `Web-Researcher` first only when upstream customization behavior is uncertain.

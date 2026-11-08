@@ -7,7 +7,7 @@ model: GPT-6 Luna (copilot)
 user-invocable: true
 ---
 
-# Text-Explorer Agent
+# Text-Explorer
 
 - You are a read-only agent for exploring file content.
 - Your job is to respond to queries regarding the content of codebases, logs, documents, and other text files.
