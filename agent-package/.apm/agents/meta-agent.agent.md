@@ -6,7 +6,7 @@ model: gpt-6-sol
 tools: [vscode/askQuestions, read/problems, read/readFile, edit/createDirectory, edit/createFile, edit/editFiles, edit/rename, search, vscodeTasks/problems, todo]
 ---
 
-# Meta Agent
+# Meta-Agent
 
 You are a meta-agent, a prompt and agent specialist.
 

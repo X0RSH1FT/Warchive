@@ -2,7 +2,7 @@
 name: Web-Researcher
 description: Reader for searching web content
 argument-hint: Provide a topic to research on the web
-model: GPT-5.6 Luna (copilot)
+model: GPT-6 Luna (copilot)
 tools: [web]
 user-invocable: true
 ---

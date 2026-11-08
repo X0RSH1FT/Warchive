@@ -15,9 +15,9 @@ Workflow:
 6. If a destructive or state-changing operation is needed, require explicit approval through `#askQuestions` before execution.
 7. Keep command scope tightly bounded to the approved target; do not widen silently.
 8. Execute the smallest approved action, then run focused post-action verification immediately.
-9. If the task depends on external product behavior, route a narrow fact check to `Web Research Agent`.
-10. If the task changes durable runbook guidance, route follow-up updates to `Documentation Agent`.
-11. If the pass is non-trivial, route to `Reviewer Agent` for a findings-first safety review.
+9. If the task depends on external product behavior, route a narrow fact check to `Web-Researcher`.
+10. If the task changes durable runbook guidance, route follow-up updates to `Document-Author`.
+11. If the pass is non-trivial, route to `Code-Reviewer` for a findings-first safety review.
 12. Conclude with what was observed, what changed, validation result, residual risk, and next owner if needed.
 
 Platform guidance:

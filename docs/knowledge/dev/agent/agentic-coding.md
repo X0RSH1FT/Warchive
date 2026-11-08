@@ -1,21 +1,24 @@
 # Agentic Coding Patterns For Delivery Work
 
-**Audience**: coworkers in a presentation about agentic coding.
-
-**Scope**: a light overview of practical agent workflows.
-
-Agentic coding is easiest to present as a delivery loop: get just enough context, bound the next step, do the work, validate it, and update durable knowledge when needed.
+Agentic coding is easiest to present as a delivery loop: retrieve context, scope the next step, do the work, validate it, and update knowledge.
 
 ## The basic loop
 
+**Coding task**
 ```mermaid
 flowchart LR
-    Task[Task or question] --> Context[Read the smallest useful context]
-    Context --> Plan[Bound the next step]
-    Plan --> Act[Implement or answer]
-    Act --> Validate[Run the narrowest check]
-    Validate --> Record[Update docs if needed]
+    Task[Define task] --> Context[Ingest the minimum required context]
+    Context --> Plan[Define the solution]
+    Plan --> Act[Implement solution]
+    Act --> Validate[Check the solution]
+    Validate --> Record[Update docs as needed]
+    Record --> Summarize[Summarize the changes]
+    Summarize --> Task
 ```
+
+### The Ralph loop
+
+The concept is inspired by the character Ralph Wiggum from The Simpsons, known for being clueless yet relentlessly persistent. Ralph Loop embodies this spirit: an AI coding loop that stubbornly iterates on a topic, failing repeatedly but never giving up until it finally succeeds.
 
 ## Typical tools
 
@@ -23,8 +26,8 @@ flowchart LR
 |---|---|
 | IDE | VS Code or another editor with agent support |
 | Version control | Git |
-| Python package management | `uv` or `pip` |
-| TypeScript package management | `npm` |
+| Package management | Tools for managing/installing dependencies (`uv`/`pip`, `npm`, `apm`, `nuget`) |
+| **Agent harness** | Frameworks or tools to run and manage agents (`Copilot`, `Claude`, `Codex`) |
 
 The point of listing tools is not to prescribe one stack. It is to show that agentic coding usually sits on top of a normal engineering toolchain rather than replacing it.
 
@@ -35,39 +38,48 @@ Quality gates matter because they are deterministic. They give the agent and the
 | Gate | Typical checks |
 |---|---|
 | Automated tests | Unit tests and integration tests, often through `pytest` or an equivalent test runner |
+| Static analysis | Linters to drive code quality checks |
+
+**Linters**
+| Type | Purpose |
+|---|---|
 | Type checking | `pyright`, `mypy`, or language-specific type analyzers |
-| Static analysis | Linting and code quality checks |
-| Import and dependency rules | Import boundary checks and dependency analysis |
+| Import/dependency rules | Import constraints and dependency analysis |
 | Secret scanning | Detection of committed credentials or tokens |
 | Formatting | Deterministic formatting tools such as `ruff format` or equivalent |
 
-For presentation purposes, the main idea is simple: the agent should work inside the same validation system the team already trusts.
+The main idea is simple: the agent should work inside the same validation system the team already knows and trusts.
 
-## Optional roles
+## Roles / Sub agents
 
-Not every setup needs named agents. One strong implementation agent plus review may be enough. Role splits help when scope is broad, handoffs matter, or permissions should stay narrow.
+Not every task needs multiple agents. One agent may be enough depending on scope/complexity. Role splits/subagents help when scope is broad, task need to be focused, and/or permissions/tools should stay narrow.
 
+Each subagent starts with a fresh context and defined responsibilities/scope. Additionally, the agent orchestrator handles the prompting and response handling.
+
+**General roles**
 | Role | Purpose |
 |---|---|
-| Coordinator | Routes work to the next owner. |
+| Orchestrator | Routes work to the next owner. |
+| Explorer | Optional read-only discovery step for broad code surfaces. |
 | Planner | Turns an ambiguous request into a bounded slice. |
-| Web Research | Confirms narrow external-product facts whenever planning, documentation, or implementation depend on them. |
 | Implementation | Makes the code or config change. |
 | Review | Looks for bugs, regressions, and scope drift. |
 | Testing | Reproduces failures and runs validation. |
 | Documentation | Updates durable reference material. |
-| Explorer | Optional read-only discovery step for broad code surfaces. |
 
-## Common workflows
+**Specialized roles**
+| Role | Purpose |
+|---|---|
+| Web Research | Confirms narrow external-product facts whenever planning, documentation, or implementation depend on them. |
+| Git-Operator | Performs Git operations such as branching, committing, merging, and pushing changes. |
+| Meta-Agent | Designs and implements agent prompts and workflows. Incorporates best practices and ensures consistency across agents. |
+| Canvas-Operator | Performs operations on copilot canvas tools, such as creating, updating, or deleting elements. |
+| Shell-Operator | Performs operations in the shell, such as running commands, scripts, or managing the environment. Further scoped to specific languages or environments. |
+| Domain-Modeler | Specializes in understanding and designing domain-specific models, ensuring accurate representation and integration within the system. Variation of a planner. |
+| Coder | Specializes in writing and modifying code, ensuring adherence to coding standards and best practices. Variation of an implementation role focused on a specific language. |
+| Domain-Operator | Executes operations within a specific domain, ensuring that actions conform to domain rules and constraints. Has knowledge of the domain as needed. Variation of shell, API, SQL, or MCP operator scoped to a particular domain. |
 
-| Workflow | Typical sequence | Output |
-|---|---|---|
-| Code implementation | Coordinator-owned spine with Planner, Web Research, or Explorer inserted only when needed -> Implementation -> Testing or Documentation if needed -> Review | A bounded change with optional fact-gathering, validation, and doc updates inserted only when they add value. |
-| Technical decision | Frame question -> Compare options -> Recommend one | A short decision note, not necessarily code. |
-| Debugging | Reproduce -> Inspect controlling path -> Fix -> Rerun | A focused fix tied to a concrete failure. |
-| Inquiry | Find owner -> Read minimal context -> Answer with sources | A clear answer with uncertainty called out if needed. |
-
-## Prompt patterns used here
+## Prompt patterns
 
 | Technique family | What it means in practice | Why it is useful |
 |---|---|---|
@@ -81,7 +93,13 @@ Not every setup needs named agents. One strong implementation agent plus review 
 
 These techniques improve reliability by adding structure, context, and verification to the prompt-response loop.
 
-## Durable docs as guidance
+**Context-rot** refers to the gradual loss of relevant context over time, which can lead to errors or inefficiencies if not managed properly. It is important to regularly refresh and validate the context to ensure accurate and effective decision-making.
+
+**Context-anxiety** refers to agent performance degrading as it fills up it's context window. This can cause increased hallucinations and short-cuts/cheating, leading to less reliable outputs and potential errors.
+
+Compaction helps with this but it can be lossy.
+
+## Docs as guidance
 
 Teams often separate durable reference, workflow knowledge, and active planning.
 
@@ -92,7 +110,26 @@ Teams often separate durable reference, workflow knowledge, and active planning.
 | Workflow notes | Team process, quality gates, and tool usage guidance. |
 | Planning docs | Active planning, drafts, and unshipped ideas. |
 
-This is useful because both people and agents have a stable place to look for settled facts. The risk is drift: once durable docs stop matching the code, they become a source of confusion.
+This is useful because both people and agents have a stable place to look for settled facts.
+Like code, as documents grow and evolve, they may need refactored to maintain clarity, accuracy, and relevance. Incorrect or stale documents can mislead both humans and agents, leading to errors and inefficiencies.
+
+### Agent documents
+
+#### Agents/copilot/agent-docs
+- Keep documents relatively concise and focused.
+- Include
+  - Tools and commands that aren't easily guessed
+  - Anything you do differently
+  - Gotchas and common pitfalls
+  - Boundaries/guard rails
+- Instead of injecting lots of content, provide paths/references to other docs that can be read when needed. (Progressive disclosure)
+- Large files should have a table of contents or an index to help navigate the content.
+
+#### Skills
+- For developing skills, do the task once with model and guide it. Use that experience to create agent documents capturing the steps, decisions, and any friction encountered during the process.
+
+#### Hooks
+- Use when you need to ensure that certain actions or conditions are consistently applied, such as enforcing policies, triggering automated workflows, or validating preconditions before executing tasks.
 
 ## Development process
 
@@ -110,21 +147,19 @@ This gives the team a shared baseline before code generation or refactoring star
 
 1. Enumerate the existing features or expected capabilities.
 2. Review that list with the project owner or domain owner.
-3. Mark what must be retained, what can be dropped, and what can be deferred.
-4. Use that decision set to define the initial scope of the new system.
-5. Build the first thin end-to-end slice against that scope.
+3. Mark what must be retained, improved, dropped, and deferred.
+4. Use these decisions to define the scope/requirements of the new system.
+5. Translate the defined scope/requirements into actionable development tasks or slices.
 
 This is often a practical way to start a replacement system because it turns a vague rewrite into an explicit scope decision.
 
 ### Shared delivery pattern
 
-1. Gather the minimum reliable context.
+1. Gather the minimum context.
 2. Convert the work into small, testable slices.
 3. Validate each slice with deterministic quality gates.
-4. Review changes independently when risk justifies it.
-5. Update durable documentation when behavior, ownership, or operating procedures changed.
-
-That is the main idea behind the presentation: the value is not just automation. It is a more explicit and inspectable software delivery process.
+4. Review changes as needed to ensure quality and build confidence.
+5. Update documentation when behavior, ownership, or operating procedures changed.
 
 ## Further reading
 
@@ -143,9 +178,4 @@ The references below are useful if the audience wants more than a workflow overv
 | Software engineering agents | [SWE-bench: Can Language Models Resolve Real-World GitHub Issues?](https://arxiv.org/abs/2310.06770) | Grounds the discussion in a benchmark built around real maintenance tasks. |
 | Agent benchmarking | [GAIA: a Benchmark for General AI Assistants](https://arxiv.org/abs/2311.12983) | Useful when discussing evaluation beyond toy prompt examples. |
 | Mixture-of-experts models | [Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer](https://arxiv.org/abs/1701.06538) | Important background, but this is a model architecture topic rather than a prompting technique. |
-
-For presentation purposes, the cleanest framing is usually:
-
-1. Prompting techniques shape how work is described to the model.
-2. Agent workflows shape how tasks are decomposed, validated, and handed off.
-3. Model architecture topics such as mixture-of-experts affect capability, scale, and efficiency, but they are not the same thing as prompting.
+| Ralph loop | [what-is-ralph-loop-a-new-era-of-autonomous-coding](https://medium.com/@tentenco/what-is-ralph-loop-a-new-era-of-autonomous-coding-96a4bb3e2ac8) | Illustrates the idea of an AI coding loop that persistently iterates, failing repeatedly but eventually succeeding. |

@@ -1,16 +1,16 @@
 name: warchive-agents
 version: 0.1.0
-description: Canonical local-only Warchive Copilot agents and scoped instructions.
-type: package
+description: Canonical local-only Warchive Copilot agents, skills, and scoped instructions.
+type: hybrid
 includes:
   - .apm/agents/artistic-director.agent.md
   - .apm/agents/bash-operator.agent.md
   - .apm/agents/canvas-operator.agent.md
   - .apm/agents/character-generator.agent.md
-  - .apm/agents/code-explorer.agent.md
+  - .apm/agents/text-explorer.agent.md
   - .apm/agents/code-planner.agent.md
   - .apm/agents/code-reviewer.agent.md
-  - .apm/agents/code-security.agent.md
+  - .apm/agents/security-reviewer.agent.md
   - .apm/agents/code-tester.agent.md
   - .apm/agents/coder.agent.md
   - .apm/agents/composition.agent.md
@@ -25,16 +25,16 @@ includes:
   - .apm/agents/gibbering-tome.agent.md
   - .apm/agents/git-operator.agent.md
   - .apm/agents/goblin.agent.md
-  - .apm/agents/interface-design.agent.md
+  - .apm/agents/interface-designer.agent.md
   - .apm/agents/meta-agent.agent.md
   - .apm/agents/narrative-designer.agent.md
-  - .apm/agents/ollama-troubleshooting.agent.md
-  - .apm/agents/online-shopping.agent.md
+  - .apm/agents/ollama-administrator.agent.md
+  - .apm/agents/online-shopper.agent.md
   - .apm/agents/powershell-operator.agent.md
   - .apm/agents/python-coder.agent.md
   - .apm/agents/roleplay-character.agent.md
-  - .apm/agents/system-administration.agent.md
-  - .apm/agents/systems-architect.agent.md
+  - .apm/agents/system-administrator.agent.md
+  - .apm/agents/system-architect.agent.md
   - .apm/agents/task-orchestrator.agent.md
   - .apm/agents/voice-and-naming.agent.md
   - .apm/agents/web-researcher.agent.md
@@ -53,4 +53,5 @@ includes:
   - .apm/instructions/skill-files.instructions.md
   - .apm/instructions/tscn-file.instructions.md
   - .apm/instructions/vscode.instructions.md
+  - .apm/skills/format-modules/SKILL.md
 dependencies: {}

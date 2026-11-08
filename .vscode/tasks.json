@@ -16,6 +16,32 @@
       "group": "test"
     },
     {
+      "label": "Install Warchive user agents",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\agent-package\\install-user-agents.ps1"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Install Warchive user skills",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\agent-package\\install-user-skills.ps1"
+      ],
+      "problemMatcher": []
+    },
+    {
       "label": "APM: Version",
       "type": "shell",
       "command": "apm",

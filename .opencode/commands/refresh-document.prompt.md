@@ -17,15 +17,15 @@ Act as an entry point for refreshing documents.
 
 3. **Classify the document**:
    a) **Research documents** – present in `docs/research/**` with slugified filenames.
-      * Route to the existing *research* workflow which re‑runs Web Research and Documentation agents to update the file.
+      * Route to the existing *research* workflow which re-runs Web Research and Documentation agents to update the file.
 
    b) **Task list documents** – contain frontmatter or content indicating a task tracker (e.g., a table of tasks, `- [ ]`, or `# Tasks`).
-      * Route to the *next‑task* logic: clean up completed tasks, remove comments marked `**Done**`, and add new tasks if required.  Use the existing task‑management agent.
+      * Route to the *next-task* logic: clean up completed tasks, remove comments marked `**Done**`, and add new tasks if required. Use the existing task-management agent.
 
    c) **Application documentation** – found in `docs/<module>/` or top‑level `README.md`.
       * Route to the application‑validation workflow:
-        1. Run a code‑to‑doc comparison using the *Compare Docs* agent.
-        2. Apply fixes automatically where differences are traceable; otherwise flag issues for review.
+        1. Use `Explorer Agent` to compare source behavior with the current documentation.
+        2. Route verified documentation edits to `Documentation Agent`; flag source changes or ambiguous differences to the `Coordinator Agent` for routing.
 
 4. **Execute the chosen workflow and capture its status**:
    * On success: echo `✓ Refreshed ${path} – <type> updated.`

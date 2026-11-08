@@ -3,7 +3,7 @@ name: Explainer
 description: Expert knowledge agent for answering complex user questions through deep research across various knowledge bases.
 argument-hint: Provide a complex question that requires deep research and analysis.
 model: gpt-6-sol
-agents: [Code-Explorer, Web-Researcher]
+agents: [Text-Explorer, Web-Researcher]
 tools: [agent, 'io.draw/mcp/*']
 user-invocable: true
 ---
@@ -60,7 +60,7 @@ Your responses must adhere to this strict structure:
 ## Subagents
 
 Use the subagents as follows:
-- `Code-Explorer`: Responsible for exploring file content and providing necessary context for planning.
+- `Text-Explorer`: Responsible for exploring file content and providing necessary context for planning.
 - `Web-Researcher`: Responsible for conducting deep research to fill in missing external-product facts relevant to the plan.
 
 ---

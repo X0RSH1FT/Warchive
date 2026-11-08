@@ -13,9 +13,9 @@ Workflow scope:
   - `keep-history`: retain a minimal completed-work summary.
   - `normalize-headings`: rebuild the document structure consistently.
 - Stay within `docs/plan` unless the user explicitly authorizes another path.
-- Route through `Coordinator Agent` by default, then delegate document editing to `Documentation Agent`.
-- Insert `Explorer Agent` when repository reconnaissance is needed to verify plan accuracy.
-- Insert `Reviewer Agent` when an independent findings-first gap check is the cheapest final safety step.
+- Route through `Task-Orchestrator` by default, then delegate document editing to `Document-Author`.
+- Insert `Text-Explorer` when repository reconnaissance is needed to verify plan accuracy.
+- Insert `Code-Reviewer` when an independent findings-first gap check is the cheapest final safety step.
 
 Instruction hierarchy:
 - Prioritize repository instruction files and checklist hygiene rules over style preferences.

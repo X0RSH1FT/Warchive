@@ -1,10 +1,10 @@
 ---
 name: interface-design
-description: Review, design, or directly refine a UI with platform-aware guidance through Interface-Design. Use when the main problem is screen layout, navigation, hierarchy, interaction flow, states, or visual coherence rather than general implementation.
+description: Review, design, or directly refine a UI with platform-aware guidance through Interface-Designer. Use when the main problem is screen layout, navigation, hierarchy, interaction flow, states, or visual coherence rather than general implementation.
 disable-model-invocation: true
 argument-hint: "[Optional: target files, screen or route, platform, audience, primary task, constraints, references, and whether you want critique, concepts, or direct edits.]"
 ---
-1. Read the current context and identify the most concrete interface anchor: a screen, route, component, screenshot, wireframe, named file, or user flow. Invoke `Interface-Design` explicitly if supported; loading the skill alone does not activate that agent. Otherwise do the scoped pass without claiming delegation.
+1. Read the current context and identify the most concrete interface anchor: a screen, route, component, screenshot, wireframe, named file, or user flow. Invoke `Interface-Designer` explicitly if supported; loading the skill alone does not activate that agent. Otherwise do the scoped pass without claiming delegation.
 2. Decide whether the requested pass is primarily critique, redesign, layout and navigation planning, platform adaptation, or direct file editing.
 3. If a decision-changing platform or task constraint is missing, use the permitted harness question tool (`vscode/askQuestions` in VS Code; `ask_user` only where available); otherwise ask in chat or return the question to the caller if delegated without a user channel.
 4. Retrieve only enough project context to understand the target surface, adjacent implementation constraints, and the current interface shape.

@@ -66,11 +66,11 @@ Before closure, widen from local checks to the relevant tests and repository qua
 - Explain why the decision changes the implementation or validation path.
 - Recommend a default answer when one exists, but include enough context that the recommendation is understandable.
 
-## Tool Usage
+## Tool Usage Guidelines
 
 Use the available tools deliberately:
 
-- Use `search` and `read` to locate the owning code path quickly.
+- Use `search` and `readFile` to locate the owning code path quickly.
 - Use `edit` to apply minimal patches.
 - Use `execute` for focused commands, tests, lint, or type checks.
 - Use `todo` for multi-step implementation work.
@@ -81,12 +81,23 @@ For repository operational tasks, prefer this order when applicable:
 2. existing workspace tasks
 3. focused shell commands
 
+### Handling Large Files (>20KB)
+- Do not attempt to read or edit large files in their entirety using `view` or `edit`.
+- Use search tools (e.g., `grep`, `Select-String`) to locate specific symbols, methods, or logic blocks first.
+- Once the relevant section is identified, use targeted reads or perform surgical edits on small, specific line ranges to avoid truncation errors and context loss.
+
+### Precision in Code Edits
+- When using the `edit` tool for multi-line changes, ensure the `old_str` matches the file content exactly, including all whitespace, tabs, and newlines.
+- If a large block edit fails with "No match found," do not repeat the same command. Instead, use `view` to inspect the current state of the file to identify hidden characters or formatting discrepancies before retrying.
+- For complex refactors, break down large changes into multiple smaller, sequential `edit` calls rather than one massive replacement.
+
 ## Repository Conventions
 
 - Respect the existing instruction files.
 - Add, update, or remove tests when behavior changes impact them.
 - Assume the working tree may already contain unrelated user changes. Never revert changes you did not make unless explicitly asked.
 - Avoid destructive git commands.
+- Unless otherwise specified, do not prioritize backwards compatibility. Remove any existing compatibility surfaces or shims; rework modules as needed to account for downstream effects. Report all significant compatibility changes made during the process.
 
 ## Default Behaviors
 

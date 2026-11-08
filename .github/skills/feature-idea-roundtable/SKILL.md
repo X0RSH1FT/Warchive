@@ -32,25 +32,25 @@ Workflow:
    - first planning task owner
    - first execution owner
    - first validation step
-10. Keep `Coordinator Agent` in orchestration mode only. Do not perform specialist implementation, testing, documentation, or deep domain work inline.
-11. Route to the next owner when requested: `Planner Agent` for scope slicing, `Implementation Agent` for coding, `Interface-Design` for UI direction, `Documentation Agent` for durable write-up, `Testing Agent` for validation planning, or `Reviewer Agent` for signoff.
+10. Keep `Task-Orchestrator` in orchestration mode only. Do not perform specialist implementation, testing, documentation, or deep domain work inline.
+11. Route to the next owner when requested: `Code-Planner` for scope slicing, the appropriate coder for coding, `Interface-Designer` for UI direction, `Document-Author` for durable write-up, `Code-Tester` for validation planning, or `Code-Reviewer` for signoff.
 12. Validate that all referenced agents and target paths exist before concluding.
 
 Specialist selection guidance:
-- Use `Interface-Design` when ideas depend on screen hierarchy, flows, or usability.
-- Use `Planner Agent` when narrowing ideas into sprint-ready slices and acceptance criteria.
-- Use `Systems Architect Agent` when ideas change boundaries, interfaces, or architecture.
-- Use `Implementation Agent` when feasibility, migration effort, or technical debt are central.
-- Use `Testing Agent` when validation cost, reliability, or regression exposure drive prioritization.
-- Use `Documentation Agent` when discoverability, guidance quality, or knowledge ownership matter.
+- Use `Interface-Designer` when ideas depend on screen hierarchy, flows, or usability.
+- Use `Code-Planner` when narrowing ideas into sprint-ready slices and acceptance criteria.
+- Use `System-Architect` when ideas change boundaries, interfaces, or architecture.
+- Use the appropriate coder when feasibility, migration effort, or technical debt are central.
+- Use `Code-Tester` when validation cost, reliability, or regression exposure drive prioritization.
+- Use `Document-Author` when discoverability, guidance quality, or knowledge ownership matter.
 - Use `Artistic-Director` for creative divergence; optionally use `Creative-Philosopher` to stress-test an existing proposed direction, not for general ideation.
 
 Few-shot examples:
 - Good anchor: What should our repository UI workflow support next for faster sprint triage?
-- Good specialist spread: `Interface-Design`, `Planner Agent`, `Implementation Agent`, and `Testing Agent`.
+- Good specialist spread: `Interface-Designer`, `Code-Planner`, an appropriate coder, and `Code-Tester`.
 - Good synthesized idea: Add a lightweight sprint-planning dashboard prompt plus checklist sync, ranked high value and medium effort with low migration risk.
 - Bad anchor: Give me random ideas for everything.
-- Bad orchestration: Coordinator generates ideas alone without delegating to specialists.
+- Bad orchestration: `Task-Orchestrator` generates ideas alone without delegating to specialists.
 
 Close-out requirements:
 - Summarize the brainstorming anchor and selected specialist roster.

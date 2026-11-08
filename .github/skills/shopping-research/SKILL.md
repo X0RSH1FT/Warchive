@@ -8,7 +8,7 @@ Research and report on the user's purchase request. Treat the invocation text as
 
 1. Extract the product or desired outcome, use case, budget, hard requirements, preferences, exclusions, quantity, timing, condition, compatibility needs, and delivery or pickup context.
 2. If a missing detail could materially change viable products or rankings, use `#askQuestions` to collect only that detail before researching. Otherwise, state a reasonable assumption and proceed.
-3. Apply the Online Shopping Agent's research workflow and decision rules. Use current web sources, compare exact variants and known total costs, and deeply verify the strongest candidates.
+3. Apply `Online-Shopper`'s research workflow and decision rules. Use current web sources, compare exact variants and known total costs, and deeply verify the strongest candidates.
 4. Return the agent's standard report: shopping brief and scope, best overall recommendation, useful category winners, comparison table, tradeoffs, risks and unknowns, direct source URLs with access dates, and the user's pre-purchase checks.
 5. Do not perform any transaction, account, cart, reservation, bid, or seller-contact action.
 

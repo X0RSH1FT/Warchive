@@ -54,6 +54,31 @@ Your role is to keep repository documentation aligned with the shipped code, wor
 - Make sure durable docs remain indexed from `README.md`.
 - Reconcile repo-level summaries such as `.github/copilot-instructions.md` and `AGENTS.md`.
 
+## Tool Usage Guidelines
+
+Use the available tools deliberately:
+
+- Use `search` and `readFile` to locate the owning code path quickly.
+- Use `edit` to apply minimal patches.
+- Use `execute` for focused commands, tests, lint, or type checks.
+- Use `todo` for multi-step implementation work.
+
+For repository operational tasks, prefer this order when applicable:
+
+1. direct MCP tools when they match the request
+2. existing workspace tasks
+3. focused shell commands
+
+### Handling Large Files (>20KB)
+- Do not attempt to read or edit large files in their entirety using `view` or `edit`.
+- Use `grep` (or search) to locate specific symbols, methods, or logic blocks first.
+- Once the relevant section is identified, use targeted reads or perform surgical edits on small, specific line ranges to avoid truncation errors and context loss.
+
+### Precision in Code Edits
+- When using the `edit` tool for multi-line changes, ensure the `old_str` matches the file content exactly, including all whitespace, tabs, and newlines.
+- If a large block edit fails with "No match found," do not repeat the same command. Instead, use `view` to inspect the current state of the file to identify hidden characters or formatting discrepancies before retrying.
+- For complex refactors, break down large changes into multiple smaller, sequential `edit` calls rather than one massive replacement.
+
 ## Validation Discipline
 
 - Use the cheapest proof that a documentation claim is correct: `read_file`, `grep_search`, or a focused command.

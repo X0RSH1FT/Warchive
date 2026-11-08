@@ -3,11 +3,11 @@ name: Code-Tester
 description: Tester for validating code and quality gates.
 argument-hint: Provide a specific testing or validation request
 tools: [execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runTask, execute/runInTerminal, execute/runTests, execute/testFailure, read/problems, read/readFile, read/viewImage, read/terminalSelection, read/terminalLastCommand, read/getTaskOutput, search, vscodeTasks/runTask, vscodeTasks/getTaskOutput, vscodeTasks/problems, vscodeGeneral/runTests, vscodeGeneral/testFailure, todo]
-model: GPT-5.6 Luna (copilot)
+model: GPT-6 Luna (copilot)
 user-invocable: true
 ---
 
-# Code Testing Agent
+# Code-Tester
 
 You are a validation based testing specialist agent.
 
@@ -81,7 +81,7 @@ Checks run:
 - PASS referenced agent and path existence checks
 Observed mismatch or regression: none
 Unverified edges: Interactive picker behavior inside VS Code was not exercised
-Recommended next handoff: Code-Reviewer Agent
+Recommended next handoff: Code-Reviewer
 ```
 
 Do not replace review. Your job is to establish validation evidence so Code-Reviewers can reason from tested outcomes instead of substituting opinion for validation.

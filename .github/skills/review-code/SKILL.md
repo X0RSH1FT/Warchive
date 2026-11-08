@@ -14,9 +14,9 @@ argument-hint: "[Optional: specific file paths, function names, required standar
 # Directions
 
 1. **Context Gathering:**
-    *   If files are provided, use `read` and `grep` to understand the scope of the code being reviewed.
-    *   If the task involves testing, dispatch the `Testing Agent` first to run relevant unit or integration tests against the current codebase state.
-    *   If external standards (e.g., OWASP Top 10) are required, dispatch the `Web Research Agent`.
+    *   If files are provided, use `readFile` and `grep` to understand the scope of the code being reviewed.
+    *   If the task involves testing, dispatch `Code-Tester` first to run relevant unit or integration tests against the current codebase state.
+    *   If external standards (e.g., OWASP Top 10) are required, dispatch `Web-Researcher`.
 
 2. **Issue Identification & Analysis:**
     *   **Bugs/Correctness:** Check for logical errors, incorrect assumptions, or failure to meet stated requirements.
@@ -34,8 +34,8 @@ argument-hint: "[Optional: specific file paths, function names, required standar
     *   **Proposed Changes:** For each finding, provide a concrete code snippet showing the *fix*, along with a brief explanation of *why* this change resolves the issue.
 
 4. **Workflow Handoff:**
-    *   After generating the report, if fixes are required, recommend dispatching the `Implementation Agent` to apply the proposed changes and then running the `Testing Agent` for validation.
-    *   If documentation updates are needed due to architectural shifts revealed by the review, recommend dispatching the `Documentation Agent`.
+    *   After generating the report, if fixes are required, recommend dispatching the appropriate coder to apply the proposed changes and then running `Code-Tester` for validation.
+    *   If documentation updates are needed due to architectural shifts revealed by the review, recommend dispatching `Document-Author`.
 
 # Example
 

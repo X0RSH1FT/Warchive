@@ -19,8 +19,8 @@ argument-hint: "[Target folder, project name, package name, project type, audien
     - `README.md`, `docs/`, `tests/`, and other project structure patterns when those surfaces add value
 6. Adapt copied patterns to the new project's shape instead of blindly mirroring repo-specific names, commands, docs, or runtime assumptions.
 7. Build a short plan with `#todo` when the bootstrap spans multiple stages such as planning, scaffolding, docs, testing, and review.
-8. Route to `Planner Agent` first when the new project type or carried-forward surface is ambiguous enough that file targeting, acceptance criteria, or sequencing needs to be made explicit.
-9. Route to `Implementation Agent` for the actual scaffolding pass once the target shape is clear.
+8. Route to `Code-Planner` first when the new project type or carried-forward surface is ambiguous enough that file targeting, acceptance criteria, or sequencing needs to be made explicit.
+9. Route to `Python-Coder` for the actual scaffolding pass once the target shape is clear.
 10. During implementation, create the smallest complete repository that still includes a usable development environment:
     - base package or script layout
     - dependency groups and dev tooling

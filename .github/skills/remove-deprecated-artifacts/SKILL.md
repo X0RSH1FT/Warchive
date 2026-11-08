@@ -16,9 +16,9 @@ Workflow:
 7. After scan findings are concrete and before broad edits, use `vscode_askQuestions` to request approval for how issue resolution should proceed when breakages are found (for example: auto-fix all resolvable call sites, stop on ambiguous references, or escalate specific classes of risk).
 8. Use `#askQuestions` to confirm whether this deprecation/removal should be registered in the local app deprecations markdown document, and if yes, confirm the target path when it is not already explicit.
 9. Build and maintain a short `#todo` list for the removal pass: discovery, source changes, tests, docs, and review.
-10. Route to `Implementation Agent` for source-owned removals and dependent code updates once strategy and approval are clear.
-11. Route to `Testing Agent` when the dominant next step is targeted reproduction, test updates, failure triage, or confidence expansion after edits.
-12. Route to `Documentation Agent` when removal changes user-facing behavior, migration guidance, command/config references, or durable docs.
+10. Route to the appropriate coder for source-owned removals and dependent code updates once strategy and approval are clear.
+11. Route to `Code-Tester` when the dominant next step is targeted reproduction, test updates, failure triage, or confidence expansion after edits.
+12. Route to `Document-Author` when removal changes user-facing behavior, migration guidance, command/config references, or durable docs.
 13. Keep the execution loop tight: scan, remove, update dependents, rerun the narrowest falsifying checks, widen validation only as needed.
 14. Ensure removal completeness by resolving all confirmed occurrences from the scan or explicitly documenting why any retained occurrence is intentional.
 15. If unresolved references remain due to ambiguity or risk, use `#askQuestions` to summarize the blocking cases, recommend a default handling path, and request a decision before continuing.
