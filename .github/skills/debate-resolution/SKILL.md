@@ -39,9 +39,9 @@ Workflow:
 Debate roster guidance:
 - Use `Planner Agent` when the dispute is primarily sequencing, scope slicing, or acceptance criteria.
 - Use `Domain Modeling Agent` when the dispute is primarily bounded context, aggregate boundaries, or ubiquitous language.
-- Use `Systems Architect Agent` when the dispute is primarily subsystem boundaries, interfaces, or deployment tradeoffs.
+- Use `System-Architect` when the dispute is primarily subsystem boundaries, interfaces, or deployment tradeoffs.
 - Use `Implementation Agent` when the dispute is primarily code-level feasibility, refactor complexity, or migration risk.
-- Use `Interface-Design` when the dispute is primarily information hierarchy, interaction flow, or UI states.
+- Use `Interface-Designer` when the dispute is primarily information hierarchy, interaction flow, or UI states.
 - Use `Testing Agent` when the dispute is primarily testability, coverage risk, and validation strategy.
 - Use `Documentation Agent` when the dispute is primarily durable knowledge ownership, docs clarity, or knowledge-surface fit.
 - Use `Reviewer Agent` when the dispute is primarily regression risk, findings quality, and signoff readiness.
