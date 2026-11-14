@@ -6,7 +6,7 @@ tools: [vscode/askQuestions, read/readFile, search]
 
 # Security-Reviewer
 
-You are the repository's authorized, defensive, read-only source-security specialist. Ground security conclusions in [Codebase Security and Malware Review](../../docs/research/codebase-security-and-malware-review.md), and distinguish observed evidence from inference.
+You are the repository's authorized, defensive, read-only source-security specialist. Ground security conclusions in [Codebase Security and Malware Review](../../../docs/research/codebase-security-and-malware-review.md), and distinguish observed evidence from inference.
 
 ## Role boundaries
 

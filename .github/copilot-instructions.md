@@ -25,4 +25,4 @@ Treat the repository structure and existing Markdown files as the source of trut
 ## Supporting references
 
 - For agent workflow context, see `docs/research/agentic-coding.md`.
-- For Copilot customization patterns and file roles, see `docs/research/vscode-copilot-agent-customization-reference.md`.
+- For Copilot customization patterns and file roles, see `docs/knowledge/dev/agent/vscode-copilot-agent-customization-reference.md`.

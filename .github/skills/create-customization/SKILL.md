@@ -15,7 +15,7 @@ Classification rules:
 - Prefer an instructions file only when the behavior should apply automatically to a scoped file set through `applyTo`.
 - Prefer a skill only when the workflow is a reusable capability that truly needs bundled assets such as templates, examples, scripts, checklists, or other supporting files.
 - Do not force a skill if the request is only a thin slash-command entry point or has no durable supporting resource to package.
-- If the request is really asking for a persistent persona, tool policy, or handoff graph, treat it as an agent request and implement or route it under `.github/agents/` instead of forcing a poor fit into prompt, skill, or instruction.
+- If the request is really asking for a persistent persona, tool policy, or handoff graph, treat it as an agent request and implement or route it under `agent-package/.apm/agents/` instead of forcing a poor fit into prompt, skill, or instruction.
 
 Skill-specific rules:
 - Keep skill names lowercase with letters, numbers, and hyphens, and make sure the skill directory name matches the `name` in `SKILL.md` exactly.
@@ -25,7 +25,7 @@ Skill-specific rules:
 - If the user asks for a skill but the workflow has no bundled asset, explain why a prompt file is the better fit unless you are also packaging a real supporting resource.
 
 Reference anchor:
-- When exact VS Code customization behavior matters, use [docs/research/vscode-copilot-agent-customization-reference.md](../../docs/research/vscode-copilot-agent-customization-reference.md) as the local fact source before inventing repo-local rules.
+- When exact VS Code customization behavior matters, use [the VS Code Copilot customization reference](../../../docs/knowledge/dev/agent/vscode-copilot-agent-customization-reference.md) as the local fact source before inventing repo-local rules.
 
 What to do:
 1. Identify the most concrete anchor in the described workflow.
