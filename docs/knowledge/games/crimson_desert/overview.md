@@ -29,15 +29,30 @@ Entry point for the game's premise, release facts, editions, and where to find d
 | Places | Pywel biomes, the Abyss, DLC islands and underwater areas; named examples only | [locations.md](locations.md) |
 | Combat | Flexible action combat with weapons, unarmed attacks, kicks, grapples, dodges, counters, slides, ranged | [character-moves.md](character-moves.md) |
 | Bosses | Duels, large-scale battles, skirmishes; rematches | [bosses.md](bosses.md) |
-| Gear | Weapons, armor, enhancement, Abyss Gears | [weapons.md](weapons.md), [armor.md](armor.md), [equipment-enhancements.md](equipment-enhancements.md), [items-materials.md](items-materials.md) |
-| Companions and travel | Mounts (horses, dragons, mechs, wyverns), pets | [mounts.md](mounts.md), [pets.md](pets.md) |
-| Camp, crafting, housing, DLC systems | Camp upgrades, gathering, cooking, fishing, hunting, housing, ships, diving | [systems-progression.md](systems-progression.md) |
+| Gear | Weapons, armor, enhancement, Abyss Gears | [weapons.md](weapons.md), [armor.md](armor.md), [equipment-enhancements.md](equipment-enhancements.md), [items-materials.md](items-materials.md), [recipes-crafting.md](recipes-crafting.md) |
+| Companions and travel | Mounts (horses, dragons, mechs, wyverns), DLC underwater mounts and ships, pets | [mounts.md](mounts.md), [pets.md](pets.md) |
+| Camp, crafting, housing, DLC systems | Camp upgrades, gathering, cooking, fishing, hunting, housing, ships, diving | [systems-progression.md](systems-progression.md), [collectibles-resources.md](collectibles-resources.md) |
 
 ## Base game versus DLC
 
 - Base game and Enhanced: story, combat, camp, gathering, cooking, fishing, hunting, equipment strengthening, minigames ([STEAM-BASE]).
 - *Charting the Unknown*: ship-based ocean and island exploration, diving, underwater treasures and ruins, facility rental and management, expanded housing, deeper NPC bonds ([STEAM-DLC], [OFF-DLC]).
 - Not every post-launch feature is labeled base or DLC in the sources. Where the research does not say, the documents here also do not say.
+
+## Editions, preorders, and DLC availability
+
+Keep four things apart: the *Charting the Unknown* expansion, the preorder and Deluxe bonus items, the Enhanced edition, and a third-party database's "DLC" tag.
+
+| Topic | What is supported | Status | Source |
+|---|---|---|---|
+| Edition notice | The official editions notice lists three separate items: the Khaled preorder, the Grotevant PS5 bonus, and the Kairos, Balgran, and Exclaire Deluxe Pack. Item contents were not re-fetched in this pass | Verified (publisher notice) | [OFF-EDITIONS] |
+| Deluxe Pack on Steam | Listed as its own Steam product, separately purchasable; it is not the expansion or a free patch | Verified (publisher store page) | [STEAM-DELUXE], [STEAM-DLC-LIST] |
+| Charter's Diving Outfit | A third-party guide reports it as a *Charting the Unknown* preorder bonus. The guide is not in the source register, and the relationship to the "Charter's Diving Set" rows from the community DLC index is not established | Reported (third-party) | [APP-DLC-ITEMS] for the set names |
+| Canine Charter's Diving Helm and Suit | Official 2.05.00 notes confirm both can be crafted at a Crafting Station; ingredients not listed. This does not confirm the preorder sets are craftable or that they are the same items | Verified (craftability only) | [PATCH-2.05.00] |
+| Preorder and Deluxe items on Xbox | Claimed through the Add-on menu; enhancement levels on these items were fixed in 2.05.00 for accounts without access | Verified | [XBOX-NOTICE], [PATCH-2.05.00] |
+| VULKK "DLC" marker | A database tag on VULKK entries (for example pets and ships). It does not show that an item needs the paid expansion, the Deluxe Pack, or a preorder | Not an entitlement source | [VULKK-MOUNTS], [VULKK-PETS] |
+
+Entitlement (which purchase or edition grants an item) is **not established** for any item or set catalogued in this knowledge base unless a row above says so. Pages record availability as Base, DLC (as listed), or Not stated; "DLC (as listed)" means a source tagged it, not that entitlement was verified.
 
 ## Coverage limitations
 
@@ -61,3 +76,10 @@ Entry point for the game's premise, release facts, editions, and where to find d
 [PATCH-2.05.00]: https://crimsondesert.pearlabyss.com/en-US/News/Notice/Detail?_boardNo=157
 [KNOWN-ISSUES]: https://crimsondesert.pearlabyss.com/en-US/News/Notice/Detail?_boardNo=68
 [UPDATE-HIGHLIGHTS]: https://crimsondesert.pearlabyss.com/en-US/News/Notice/Detail?_boardNo=118
+[OFF-EDITIONS]: https://crimsondesert.pearlabyss.com/en-US/News/Notice/Detail?_boardNo=49
+[STEAM-DELUXE]: https://store.steampowered.com/app/4024620/Crimson_Desert_Deluxe_Pack/
+[STEAM-DLC-LIST]: https://store.steampowered.com/dlc/3321460/Crimson_Desert/
+[XBOX-NOTICE]: https://crimsondesert.pearlabyss.com/en-US/News/Notice/Detail?_boardNo=155
+[APP-DLC-ITEMS]: https://www.crimsondesert.app/en/dlc/items
+[VULKK-MOUNTS]: https://vulkk.com/database/crimson-desert/mounts/
+[VULKK-PETS]: https://vulkk.com/database/crimson-desert/pets/
