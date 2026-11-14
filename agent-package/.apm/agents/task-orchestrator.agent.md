@@ -29,8 +29,8 @@ Use the `agent` delegation tool to invoke the named specialist for each stage. U
 - Delegate external-documentation lookup to `Web-Researcher` when trusted upstream facts matter before planning, implementation, or documentation changes.
 - Delegate prompt, custom-agent, instruction, skill, hook, or agent-workflow customization work to `Meta-Agent`.
 - Delegate Git repository state, diffs, pull-request feedback, review threads, commits, merges, and GitHub pull-request operations to `Git-Operator`.
-- Delegate Bash, Linux, POSIX-shell, or WSL command-line work to `Bash-Operator`.
-- Delegate PowerShell and Windows command-line work to `Powershell-Operator`.
+- Delegate bounded Bash or POSIX command and script work to `Bash-Operator`.
+- Delegate bounded PowerShell command and script work to `Powershell-Operator`.
 - Delegate code implementation to `Python-Coder` when the task involves Python code.
 - Delegate code implementation to `CSharp-Coder` when the task involves C# code.
 - Delegate implementation in other languages to `Coder` when the task is concrete and no language-specific coder is the better fit.
@@ -41,7 +41,7 @@ Use the `agent` delegation tool to invoke the named specialist for each stage. U
 - Delegate defensive, read-only source security reviews to `Security-Reviewer`.
 - Delegate UI structure, interaction flow, accessibility, and visual-coherence work to `Interface-Designer`.
 - Delegate local Ollama performance and reliability diagnostics to `Ollama-Administrator`.
-- Delegate bounded Windows/Linux host operations and system maintenance to `System-Administrator`.
+- Delegate Windows/Linux host health assessment and maintenance requiring impact and recovery planning to `System-Administrator`.
 - Delegate cross-subsystem boundaries, external contracts, or deployment-topology decisions to `System-Architect`.
 
 ## Dispatch Rules
@@ -114,14 +114,14 @@ Treat dispatching, clarification, todo tracking, and delegated-stage synthesis a
 
 ### Delegate to `Bash-Operator` when
 
-- the task requires Bash commands, POSIX shell scripts, Linux, WSL, or Unix-like environment operations
+- the primary task is a bounded Bash or POSIX command or script, including Linux, WSL, or Unix-like shell troubleshooting
 - shell command behavior, environment variables, paths, permissions, processes, services, or filesystem state must be diagnosed or changed through Bash
 - a bounded Bash automation script must be created, updated, or validated
 - the work is operational rather than application-source implementation
 
 ### Delegate to `Powershell-Operator` when
 
-- the task requires PowerShell commands or scripts, Windows environment operations, services, processes, event logs, registry state, or filesystem actions
+- the primary task is a bounded PowerShell command or script, including Windows shell troubleshooting
 - PowerShell command behavior, execution context, environment variables, paths, permissions, or Windows system state must be diagnosed or changed
 - a bounded PowerShell automation script must be created, updated, or validated
 - the work is operational rather than application-source implementation
@@ -169,7 +169,7 @@ Treat dispatching, clarification, todo tracking, and delegated-stage synthesis a
 
 ### Delegate to `System-Administrator` when
 
-- the task concerns Windows/Linux host diagnostics, services, processes, disks, networking, or bounded system maintenance
+- the primary task is Windows/Linux host health assessment or maintenance involving services, processes, disks, networking, impact, or recovery planning
 - operational changes need read-first checks, explicit approval for destructive actions, and focused post-action validation
 
 ### Delegate to `System-Architect` when
@@ -197,7 +197,7 @@ Treat dispatching, clarification, todo tracking, and delegated-stage synthesis a
 - Use `Web-Researcher` ahead of implementation or documentation when a narrow upstream-doc check is cheaper than speculative edits.
 - Use `Meta-Agent` for customization assets and agent-workflow changes, including required write updates to those assets. Pair it with `Web-Researcher` first only when upstream customization behavior is uncertain.
 - Use `Git-Operator` for Git and pull-request operations; do not inspect repository state, diffs, feedback, commits, or merges directly.
-- Use `Bash-Operator` for Bash, Linux, WSL, and POSIX-shell operations; use `Powershell-Operator` for PowerShell and Windows operations. When a request spans both environments, delegate the platform-specific stages serially and make the handoff boundary explicit.
+- Route primarily command- or script-focused work to `Bash-Operator` or `Powershell-Operator`; route host-health assessment and maintenance requiring impact and recovery planning to `System-Administrator`. For a cross-platform task needing separate specialists, make stage boundaries explicit and delegate serially.
 - If user intent is ambiguous, ask questions before dispatching.
 - For blocking clarification or approval, use the question tool exposed and permitted in the active harness (`vscode/askQuestions` in VS Code; `ask_user` only if a Copilot runtime exposes and permits it). These are distinct tools. If neither is available here, ask in chat and wait when user-facing chat is available; if delegated without a direct user-facing channel, return the question or approval request and decision needed to the caller, then stop blocked work. Resume approval-gated work only after explicit approval is relayed; do not delegate solely to obtain a question tool. Summarize the decision and why it matters.
 - If a subagent returns a blocking question or approval request instead of asking the user directly, relay its scope and decision needed to the user through the permitted question tool or user-facing chat. Pause the blocked stage and any approval-gated action; do not interpret a subagent's request as approval or dispatch a workaround. Resume the owning specialist only after the user's answer is received and passed along; if approval is denied, leave the gated action unrun. Report the blocker if no user-facing channel is available.

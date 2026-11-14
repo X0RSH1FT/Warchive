@@ -15,7 +15,8 @@ If the task needs broad host-wide changes, unclear sudo actions, or risky data d
 ## Safety Contract
 
 - Default to read-only inspection first.
-- Require explicit approval before destructive commands.
+- Require explicit approval before destructive actions, including deletion, and before registry changes, permission or ownership changes, package installation or removal, service restarts, process termination, or configuration changes with material impact. Requested low-impact changes may proceed within scope; previews do not replace approval.
+- Present the exact action, target, impact, and rollback before approval. Use a question tool only if exposed and permitted; otherwise ask in chat and wait, or return the approval request to the caller and stop if delegated without user-facing chat. Resume only after approval is relayed.
 - Keep scope constrained to approved paths, services, or packages.
 - Do not disable security controls, alter auth policy, or make persistence changes without explicit instruction and risk confirmation.
 
@@ -23,9 +24,9 @@ Archive and encryption safety notes:
 
 - Validate required tooling (`tar`, `openssl`) before archive and crypto actions.
 - Keep source and target paths explicit; avoid broad wildcard operations.
-- Do not hardcode passphrases in scripts; prefer environment-based input such as `OPENSSL_PASSPHRASE`.
+- Never put passphrases in command arguments, scripts, history, logs, or reports. Use a suitable secret-management flow and assess its exposure; reading from an environment variable does not protect a secret later expanded into an argument.
 - Use dry-run mode before apply mode for multi-file operations.
-- On decrypt failure, remove partial output files before continuing.
+- On decrypt failure, remove only known newly created partial output within the approved scope; report cleanup failures and never remove pre-existing output without approval.
 
 ## Workflow
 
@@ -50,23 +51,21 @@ Read-only diagnostics:
 Bounded maintenance:
 
 - `rm -rf <path>` only after explicit approval and scoped confirmation
-- `systemctl restart <service>` after status and dependency checks
+- `systemctl restart <service>` after status and dependency checks and explicit approval
 - distro package cache cleanup commands only when requested and approved
 
 Archive workflows:
 
 - `tar -cf <target.tar> -C <source-parent> <subdir>` for per-subdirectory archive creation
 - `tar -xf <archive.tar> -C <target>` for bounded archive extraction
-- `openssl enc -aes-256-cbc -pbkdf2 -salt -in <source.tar> -out <target.tar.enc> -pass pass:<value>` for encryption
-- `openssl enc -d -aes-256-cbc -pbkdf2 -in <source.tar.enc> -out <target.tar> -pass pass:<value>` for decryption
+- For encryption or decryption, select a tool and secret-input method appropriate to the user's security requirements; verify its version-specific behavior and do not pass secret values in process arguments.
 
 ## Supporting Utilities
 
 - Use [scripts/linux-disk-audit.sh](scripts/linux-disk-audit.sh) for bounded read-only disk inventory.
 - Use [scripts/linux-safe-temp-cleanup.sh](scripts/linux-safe-temp-cleanup.sh) for scoped temp cleanup with dry-run mode.
 - Use [scripts/linux-backup-subdirs-to-tar.sh](scripts/linux-backup-subdirs-to-tar.sh) to archive immediate subdirectories into `.tar` files with progress and summary output.
-- Use [scripts/linux-encrypt-tar-files.sh](scripts/linux-encrypt-tar-files.sh) to encrypt `.tar` files to `.enc` using OpenSSL with per-file result reporting.
-- Use [scripts/linux-decrypt-tar-files.sh](scripts/linux-decrypt-tar-files.sh) to decrypt `.enc` files back to original names with partial-file cleanup on failures.
+- Do not use [scripts/linux-encrypt-tar-files.sh](scripts/linux-encrypt-tar-files.sh) or [scripts/linux-decrypt-tar-files.sh](scripts/linux-decrypt-tar-files.sh) until remediated: they expand passphrases into process arguments.
 
 ## Few-Shot Examples
 
@@ -78,6 +77,6 @@ Archive workflows:
 ## Validation
 
 1. Capture pre-action baseline.
-2. Run action only after approval.
+2. Run a requested low-impact action or an explicitly approved gated action only within scope.
 3. Capture post-action check with same scoped lens.
 4. Report commands run, outcomes, file counts, size deltas, and residual risk.
