@@ -9,6 +9,88 @@ $groups = @(
     @{ Path = '.apm/skills'; Filter = '*'; ManifestPattern = '^\.apm/skills/[^/]+/.+$'; Recurse = $true }
 )
 
+function Get-FrontMatter {
+    param([string]$Content)
+
+    $match = [regex]::Match($Content, '\A---\r?\n(?<frontmatter>.*?)\r?\n---(?:\r?\n|$)', [Text.RegularExpressions.RegexOptions]::Singleline)
+    if (-not $match.Success) { return $null }
+    return $match.Groups['frontmatter'].Value
+}
+
+function Get-MarkdownBodyLines {
+    param([string]$Path)
+
+    $insideFence = $false
+    $fenceMarker = ''
+    $lineNumber = 0
+    foreach ($line in [IO.File]::ReadAllLines($Path)) {
+        $lineNumber++
+        if ($line -match '^\s*(`{3,}|~{3,})') {
+            $marker = $Matches[1].Substring(0, 3)
+            if (-not $insideFence) {
+                $insideFence = $true
+                $fenceMarker = $marker
+            }
+            elseif ($marker[0] -eq $fenceMarker[0]) {
+                $insideFence = $false
+                $fenceMarker = ''
+            }
+            continue
+        }
+        if (-not $insideFence) {
+            [pscustomobject]@{ Number = $lineNumber; Text = $line }
+        }
+    }
+}
+
+function Get-MarkdownLinks {
+    param([string]$Path)
+
+    foreach ($line in Get-MarkdownBodyLines -Path $Path) {
+        $text = [regex]::Replace($line.Text, '`+[^`]*`+', '')
+        foreach ($match in [regex]::Matches($text, '\[[^\]]+\]\(\s*(?<target><[^>]+>|[^)\s]+)(?:\s+[^)]*)?\)')) {
+            [pscustomobject]@{
+                Target = $match.Groups['target'].Value.Trim('<', '>')
+                Line = $line.Number
+                Optional = ($line.Text -match '(?i)\b(?:when present|if unavailable|if (?:that reference )?is unavailable|when available|if present|optional)\b')
+            }
+        }
+    }
+}
+
+function Get-LocalLinkPath {
+    param(
+        [string]$SourcePath,
+        [string]$Target
+    )
+
+    $localTarget = ($Target -split '[?#]', 2)[0]
+    if ([string]::IsNullOrWhiteSpace($localTarget)) { return $null }
+    $localTarget = [Uri]::UnescapeDataString($localTarget)
+    return [IO.Path]::GetFullPath((Join-Path (Split-Path -Parent $SourcePath) $localTarget))
+}
+
+function ConvertTo-PackagedInstallPath {
+    param(
+        [string]$VirtualPath,
+        [string]$InstalledAgentsRoot,
+        [string]$InstalledSkillsRoot,
+        [string]$Package
+    )
+
+    foreach ($root in @(
+        @{ Installed = $InstalledAgentsRoot; Packaged = (Join-Path $Package '.apm/agents') },
+        @{ Installed = $InstalledSkillsRoot; Packaged = (Join-Path $Package '.apm/skills') }
+    )) {
+        $prefix = $root.Installed.TrimEnd('\', '/') + [IO.Path]::DirectorySeparatorChar
+        if ($VirtualPath.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) {
+            $relativePath = $VirtualPath.Substring($prefix.Length)
+            return Join-Path $root.Packaged $relativePath
+        }
+    }
+    return $null
+}
+
 $text = [IO.File]::ReadAllText($manifest)
 $block = [regex]::Match($text, '\Aname: [^\r\n]+\r?\nversion: [^\r\n]+\r?\ndescription: [^\r\n]+\r?\ntype: (?:instructions|skill|hybrid|prompts)\r?\nincludes:\r?\n(?<items>(?:  - [^\r\n]+\r?\n|[ \t]*\r?\n)+)dependencies: \{\}(?:\r?\n)?\z')
 if (-not $block.Success) { throw 'Missing or malformed manifest includes list or unexpected manifest structure.' }
@@ -60,7 +142,99 @@ if (Test-Path -LiteralPath (Join-Path $package '../.github/instructions') -PathT
 if (($actual -join "`n") -cne ($expected -join "`n")) {
     throw 'Manifest includes must match the complete, sorted package agent, instruction, and skill file sets.'
 }
+
+$requiredResources = @(
+    '.apm/skills/warchive-agent-knowledge/resources/codebase-security-and-malware-review.md',
+    '.apm/skills/warchive-agent-knowledge/resources/ollama-troubleshooting-windows.md',
+    '.apm/skills/warchive-agent-knowledge/resources/roleplay-character-packet-template.md'
+)
+foreach ($resource in $requiredResources) {
+    if (-not (Test-Path -LiteralPath (Join-Path $package $resource) -PathType Leaf)) {
+        throw "Required bundled knowledge resource not found: $resource"
+    }
+}
+
+$agentFiles = @(Get-ChildItem -LiteralPath (Join-Path $package '.apm/agents') -File -Filter '*.agent.md' | Sort-Object Name)
+$agentNames = @{}
+$agentTargets = @()
+foreach ($agentFile in $agentFiles) {
+    $content = [IO.File]::ReadAllText($agentFile.FullName)
+    $frontMatter = Get-FrontMatter -Content $content
+    if ($null -eq $frontMatter) { throw "Agent frontmatter not found: $($agentFile.Name)" }
+
+    $nameMatch = [regex]::Match($frontMatter, '(?m)^name:\s*(?<value>.+?)\s*$')
+    if (-not $nameMatch.Success) { throw "Agent name not found in frontmatter: $($agentFile.Name)" }
+    $agentName = $nameMatch.Groups['value'].Value.Trim().Trim('"', "'")
+    if ([string]::IsNullOrWhiteSpace($agentName)) { throw "Agent name is empty: $($agentFile.Name)" }
+    if ($agentNames.ContainsKey($agentName)) { throw "Duplicate agent frontmatter name '$agentName' in $($agentFile.Name) and $($agentNames[$agentName])." }
+    $agentNames[$agentName] = $agentFile.Name
+
+    $agentsList = [regex]::Match($frontMatter, '(?m)^agents:\s*\[(?<items>[^\]]*)\]')
+    if ($agentsList.Success) {
+        foreach ($target in ($agentsList.Groups['items'].Value -split ',')) {
+            $target = $target.Trim().Trim('"', "'")
+            if ($target) { $agentTargets += [pscustomobject]@{ File = $agentFile.Name; Name = $target } }
+        }
+    }
+    foreach ($targetMatch in [regex]::Matches($frontMatter, '(?m)^\s+agent:\s*(?<value>[^\r\n#]+)')) {
+        $target = $targetMatch.Groups['value'].Value.Trim().Trim('"', "'")
+        if ($target) { $agentTargets += [pscustomobject]@{ File = $agentFile.Name; Name = $target } }
+    }
+    foreach ($line in Get-MarkdownBodyLines -Path $agentFile.FullName) {
+        $targetMatch = [regex]::Match($line.Text, '(?im)^#{1,6}\s+(?:Optionally\s+)?Delegate to `(?<value>[^`]+)`')
+        if ($targetMatch.Success) {
+            $agentTargets += [pscustomobject]@{ File = $agentFile.Name; Name = $targetMatch.Groups['value'].Value.Trim() }
+        }
+    }
+}
+foreach ($target in $agentTargets) {
+    if (-not $agentNames.ContainsKey($target.Name)) {
+        throw "Unknown agent target '$($target.Name)' in $($target.File)."
+    }
+}
+
+$supportedMarkdownFiles = @()
+$supportedMarkdownFiles += @(Get-ChildItem -LiteralPath (Join-Path $package '.apm/agents') -File -Filter '*.agent.md')
+$supportedMarkdownFiles += @(Get-ChildItem -LiteralPath (Join-Path $package '.apm/instructions') -File -Filter '*.instructions.md')
+$supportedMarkdownFiles += @(Get-ChildItem -LiteralPath (Join-Path $package '.apm/skills') -Directory | ForEach-Object {
+    Get-Item -LiteralPath (Join-Path $_.FullName 'SKILL.md') -ErrorAction Stop
+})
+
+$installLayoutRoot = Join-Path $package '.copilot-install-layout'
+$installedAgentsRoot = Join-Path $installLayoutRoot 'agents'
+$installedSkillsRoot = Join-Path $installLayoutRoot 'skills'
+foreach ($file in $supportedMarkdownFiles) {
+    $agentsSourceRoot = Join-Path $package '.apm/agents'
+    $skillsSourceRoot = Join-Path $package '.apm/skills'
+    $isAgentFile = $file.FullName.StartsWith($agentsSourceRoot + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)
+    $isSkillFile = $file.FullName.StartsWith($skillsSourceRoot + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)
+    if ($isAgentFile) {
+        $virtualSource = Join-Path $installedAgentsRoot $file.Name
+    }
+    elseif ($isSkillFile) {
+        $skillName = Split-Path -Leaf (Split-Path -Parent $file.FullName)
+        $virtualSource = Join-Path (Join-Path $installedSkillsRoot $skillName) $file.Name
+    }
+
+    foreach ($link in Get-MarkdownLinks -Path $file.FullName) {
+        if ($link.Target -match '^(?i:[a-z][a-z0-9+.-]*:|//)' -or $link.Target.StartsWith('#')) { continue }
+        $sourceTarget = Get-LocalLinkPath -SourcePath $file.FullName -Target $link.Target
+        if ($null -eq $sourceTarget) { continue }
+        if (-not (Test-Path -LiteralPath $sourceTarget -PathType Leaf)) {
+            if ($link.Optional) { continue }
+            throw "Required Markdown link does not resolve in the package workspace: $($file.FullName):$($link.Line) -> $($link.Target)"
+        }
+        if (-not ($isAgentFile -or $isSkillFile) -or $link.Optional) { continue }
+
+        $virtualTarget = Get-LocalLinkPath -SourcePath $virtualSource -Target $link.Target
+        $packagedTarget = ConvertTo-PackagedInstallPath -VirtualPath $virtualTarget -InstalledAgentsRoot $installedAgentsRoot -InstalledSkillsRoot $installedSkillsRoot -Package $package
+        if ($null -eq $packagedTarget -or -not (Test-Path -LiteralPath $packagedTarget -PathType Leaf)) {
+            throw "Required Markdown link does not resolve in the installed agents/skills layout: $($file.FullName):$($link.Line) -> $($link.Target)"
+        }
+    }
+}
+
 $agentCount = @($actual | Where-Object { $_ -like '.apm/agents/*' }).Count
 $instructionCount = @($actual | Where-Object { $_ -like '.apm/instructions/*' }).Count
 $skillFileCount = @($actual | Where-Object { $_ -like '.apm/skills/*' }).Count
-Write-Host "Verified $agentCount package agents, $instructionCount package instructions, $skillFileCount skill files, no workspace duplicates, and exhaustive manifest includes."
+Write-Host "Verified $agentCount package agents, $instructionCount package instructions, $skillFileCount skill files, agent names and targets, required knowledge resources, supported Markdown links, installed-layout links, no workspace duplicates, and exhaustive manifest includes."

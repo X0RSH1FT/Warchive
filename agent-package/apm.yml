@@ -54,4 +54,8 @@ includes:
   - .apm/instructions/tscn-file.instructions.md
   - .apm/instructions/vscode.instructions.md
   - .apm/skills/format-modules/SKILL.md
+  - .apm/skills/warchive-agent-knowledge/SKILL.md
+  - .apm/skills/warchive-agent-knowledge/resources/codebase-security-and-malware-review.md
+  - .apm/skills/warchive-agent-knowledge/resources/ollama-troubleshooting-windows.md
+  - .apm/skills/warchive-agent-knowledge/resources/roleplay-character-packet-template.md
 dependencies: {}

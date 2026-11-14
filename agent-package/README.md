@@ -12,7 +12,15 @@ Run the **Check APM package** VS Code task, or from the repository root in Power
 ./agent-package/check-package.ps1
 ```
 
-The check derives expected file counts and names from `apm.yml`, verifies that the agent, instruction, and skill package files match the manifest, checks for workspace instruction duplicates anywhere under `.github/instructions/`, and requires a complete, sorted include list. Update `apm.yml` when adding or removing package files. It accepts only the current simple manifest shape (plain metadata, explicit path list with optional blank lines, and `dependencies: {}`); unexpected or duplicate keys and list entries fail without a YAML dependency. It does not compare contents or copy files. Keep package assets in the recognized `.apm/agents/`, `.apm/instructions/`, and `.apm/skills/` layouts.
+The check derives expected file counts and names from `apm.yml`, verifies the exact sorted manifest paths, checks agent frontmatter names and declared delegation targets, validates local Markdown links in supported customization files, requires the bundled agent knowledge resources, and checks required agent/skill links against the supported installed layout. It ignores code examples, external URLs, fragments, and explicitly optional references. It also checks for workspace instruction duplicates anywhere under `.github/instructions/`. Update `apm.yml` when adding or removing package files. It accepts only the current simple manifest shape (plain metadata, explicit path list with optional blank lines, and `dependencies: {}`); unexpected or duplicate keys and list entries fail without a YAML dependency. It does not copy files or inspect the real user profile.
+
+Run the isolated checker tests with Pester 3.4:
+
+```powershell
+Invoke-Pester -Script ./agent-package/tests/check-package.Tests.ps1
+```
+
+The `warchive-agent-knowledge` skill bundles reference docs needed by installed agents as `resources/`; repository instructions and docs are not installed.
 
 ## Install user agents
 

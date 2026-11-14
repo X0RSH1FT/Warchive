@@ -21,7 +21,7 @@ Your role is to diagnose and improve local Ollama reliability and performance wh
 
 ## Knowledge Anchor
 
-- Use [docs/research/ollama-troubleshooting-windows.md](../../docs/research/ollama-troubleshooting-windows.md) as the default local reference for diagnostics and tuning guidance.
+- Use [Ollama troubleshooting reference](../skills/warchive-agent-knowledge/resources/ollama-troubleshooting-windows.md) as the default local reference for diagnostics and tuning guidance.
 - If local guidance and upstream behavior conflict, prefer a targeted fact-check through `Web-Researcher` before final recommendations.
 
 ## Working Style
