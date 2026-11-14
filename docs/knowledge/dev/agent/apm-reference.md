@@ -207,7 +207,7 @@ Re-resolves within the manifest constraints and refreshes the lockfile. Review t
 ### Good practices
 
 - Treat projected directories as build output. Change the source primitive, then reinstall, instead of hand-editing projected files.
-- Review third-party primitives before adding them. Hooks, plugins, and MCP servers can execute code or reach external systems. See [codebase-security-and-malware-review.md](../../../research/codebase-security-and-malware-review.md).
+- Review third-party primitives before adding them. Hooks, plugins, and MCP servers can execute code or reach external systems. See the [packaged codebase security review method](../../../../agent-package/.apm/skills/warchive-agent-knowledge/resources/codebase-security-and-malware-review.md).
 - Pin exact versions for high-risk primitive types.
 
 ---

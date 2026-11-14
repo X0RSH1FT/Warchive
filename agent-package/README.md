@@ -20,7 +20,7 @@ Run the isolated checker tests with Pester 3.4:
 Invoke-Pester -Script ./agent-package/tests/check-package.Tests.ps1
 ```
 
-The `warchive-agent-knowledge` skill bundles reference docs needed by installed agents as `resources/`; repository instructions and docs are not installed.
+The [warchive-agent-knowledge skill](.apm/skills/warchive-agent-knowledge/SKILL.md) routes character-packet, defensive security-review, and Windows Ollama tasks to portable shared references under `resources/`. Agents must read the relevant resource explicitly; a Markdown link does not load it. Essential role and approval rules remain in the agents. Skill-specific assets stay with their skill; general research stays in `docs/` and is not installed. Repository instructions and docs are not installed.
 
 ## Install user agents
 
