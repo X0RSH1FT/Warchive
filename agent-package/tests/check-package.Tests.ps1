@@ -73,4 +73,65 @@ Describe 'check-package.ps1 customization validation' {
         }
         $failed | Should Be $true
     }
+
+    It 'fails when a bundled resource has a broken backlink to an agent' {
+        $failed = Test-PackageCheckerFailure {
+            param($package, $root)
+            $resource = Join-Path $package '.apm/skills/warchive-agent-knowledge/resources/roleplay-character-packet-template.md'
+            $content = [IO.File]::ReadAllText($resource).Replace('../../../agents/character-generator.agent.md', '../../../agents/missing-agent.agent.md')
+            [IO.File]::WriteAllText($resource, $content)
+            & (Join-Path $package 'check-package.ps1')
+        }
+        $failed | Should Be $true
+    }
+
+    It 'checks angle-bracket local destinations with titles in skill resources' {
+        $failed = Test-PackageCheckerFailure {
+            param($package, $root)
+            $resource = Join-Path $package '.apm/skills/warchive-agent-knowledge/resources/roleplay-character-packet-template.md'
+            Add-Content -LiteralPath $resource -Value "`nSee [required reference](<../../../agents/missing-agent.agent.md> \"required title\")."
+            & (Join-Path $package 'check-package.ps1')
+        }
+        $failed | Should Be $true
+    }
+
+    It 'does not let optional wording hide a missing packaged dependency' {
+        $failed = Test-PackageCheckerFailure {
+            param($package, $root)
+            $resource = Join-Path $package '.apm/skills/warchive-agent-knowledge/resources/roleplay-character-packet-template.md'
+            Add-Content -LiteralPath $resource -Value "`nSee [optional packaged agent](../../../agents/missing-agent.agent.md) when available."
+            & (Join-Path $package 'check-package.ps1')
+        }
+        $failed | Should Be $true
+    }
+
+    It 'installs agents and skills together with required references resolving inside the isolated layout' {
+        Invoke-WithTemporaryPackage {
+            param($package, $root)
+            $installRoot = Join-Path $root 'isolated/copilot'
+            $agentsDestination = Join-Path $installRoot 'agents'
+            $skillsDestination = Join-Path $installRoot 'skills'
+            & (Join-Path $package 'install-user-agents.ps1') -Destination $agentsDestination
+            & (Join-Path $package 'install-user-skills.ps1') -Destination $skillsDestination
+
+            $skillRoot = Join-Path $skillsDestination 'warchive-agent-knowledge'
+            $skillFile = Join-Path $skillRoot 'SKILL.md'
+            $packetResource = Join-Path $skillRoot 'resources/roleplay-character-packet-template.md'
+            $securityResource = Join-Path $skillRoot 'resources/codebase-security-and-malware-review.md'
+            $ollamaResource = Join-Path $skillRoot 'resources/ollama-troubleshooting-windows.md'
+            foreach ($path in @($skillFile, $packetResource, $securityResource, $ollamaResource)) {
+                Test-Path -LiteralPath $path -PathType Leaf | Should Be $true
+            }
+
+            $characterAgent = [IO.Path]::GetFullPath((Join-Path (Split-Path -Parent $packetResource) '../../../agents/character-generator.agent.md'))
+            $directorAgent = [IO.Path]::GetFullPath((Join-Path (Split-Path -Parent $packetResource) '../../../agents/artistic-director.agent.md'))
+            Test-Path -LiteralPath $characterAgent -PathType Leaf | Should Be $true
+            Test-Path -LiteralPath $directorAgent -PathType Leaf | Should Be $true
+            [IO.File]::ReadAllText($packetResource) | Should Match 'portable field and handoff reference'
+            [IO.File]::ReadAllText($characterAgent) | Should Match '# Character-Generator'
+            [IO.File]::ReadAllText($directorAgent) | Should Match '# Artistic-Director'
+            [IO.File]::ReadAllText($securityResource) | Should Match 'Codebase Security and Malware Review'
+            [IO.File]::ReadAllText($ollamaResource) | Should Match 'Ollama Troubleshooting Reference For Windows Local Setups'
+        }
+    }
 }

@@ -91,6 +91,16 @@ function ConvertTo-PackagedInstallPath {
     return $null
 }
 
+function Test-IsUnderDirectory {
+    param(
+        [string]$Path,
+        [string]$Directory
+    )
+
+    $prefix = [IO.Path]::GetFullPath($Directory).TrimEnd([char[]]@('\', '/')) + [IO.Path]::DirectorySeparatorChar
+    return [IO.Path]::GetFullPath($Path).StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)
+}
+
 $text = [IO.File]::ReadAllText($manifest)
 $block = [regex]::Match($text, '\Aname: [^\r\n]+\r?\nversion: [^\r\n]+\r?\ndescription: [^\r\n]+\r?\ntype: (?:instructions|skill|hybrid|prompts)\r?\nincludes:\r?\n(?<items>(?:  - [^\r\n]+\r?\n|[ \t]*\r?\n)+)dependencies: \{\}(?:\r?\n)?\z')
 if (-not $block.Success) { throw 'Missing or malformed manifest includes list or unexpected manifest structure.' }
@@ -196,39 +206,40 @@ foreach ($target in $agentTargets) {
 $supportedMarkdownFiles = @()
 $supportedMarkdownFiles += @(Get-ChildItem -LiteralPath (Join-Path $package '.apm/agents') -File -Filter '*.agent.md')
 $supportedMarkdownFiles += @(Get-ChildItem -LiteralPath (Join-Path $package '.apm/instructions') -File -Filter '*.instructions.md')
-$supportedMarkdownFiles += @(Get-ChildItem -LiteralPath (Join-Path $package '.apm/skills') -Directory | ForEach-Object {
-    Get-Item -LiteralPath (Join-Path $_.FullName 'SKILL.md') -ErrorAction Stop
-})
+$supportedMarkdownFiles += @(Get-ChildItem -LiteralPath (Join-Path $package '.apm/skills') -File -Filter '*.md' -Recurse)
 
 $installLayoutRoot = Join-Path $package '.copilot-install-layout'
 $installedAgentsRoot = Join-Path $installLayoutRoot 'agents'
 $installedSkillsRoot = Join-Path $installLayoutRoot 'skills'
+$agentsSourceRoot = Join-Path $package '.apm/agents'
+$skillsSourceRoot = Join-Path $package '.apm/skills'
 foreach ($file in $supportedMarkdownFiles) {
-    $agentsSourceRoot = Join-Path $package '.apm/agents'
-    $skillsSourceRoot = Join-Path $package '.apm/skills'
     $isAgentFile = $file.FullName.StartsWith($agentsSourceRoot + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)
     $isSkillFile = $file.FullName.StartsWith($skillsSourceRoot + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)
     if ($isAgentFile) {
         $virtualSource = Join-Path $installedAgentsRoot $file.Name
     }
     elseif ($isSkillFile) {
-        $skillName = Split-Path -Leaf (Split-Path -Parent $file.FullName)
-        $virtualSource = Join-Path (Join-Path $installedSkillsRoot $skillName) $file.Name
+        $relativeSkillPath = $file.FullName.Substring($skillsSourceRoot.Length).TrimStart([char[]]@('\', '/'))
+        $virtualSource = Join-Path $installedSkillsRoot $relativeSkillPath
     }
 
     foreach ($link in Get-MarkdownLinks -Path $file.FullName) {
         if ($link.Target -match '^(?i:[a-z][a-z0-9+.-]*:|//)' -or $link.Target.StartsWith('#')) { continue }
         $sourceTarget = Get-LocalLinkPath -SourcePath $file.FullName -Target $link.Target
         if ($null -eq $sourceTarget) { continue }
+        $sourceIsPackaged = (Test-IsUnderDirectory -Path $sourceTarget -Directory $agentsSourceRoot) -or
+            (Test-IsUnderDirectory -Path $sourceTarget -Directory $skillsSourceRoot)
         if (-not (Test-Path -LiteralPath $sourceTarget -PathType Leaf)) {
-            if ($link.Optional) { continue }
+            if ($link.Optional -and -not $sourceIsPackaged) { continue }
             throw "Required Markdown link does not resolve in the package workspace: $($file.FullName):$($link.Line) -> $($link.Target)"
         }
-        if (-not ($isAgentFile -or $isSkillFile) -or $link.Optional) { continue }
+        if (-not ($isAgentFile -or $isSkillFile)) { continue }
 
         $virtualTarget = Get-LocalLinkPath -SourcePath $virtualSource -Target $link.Target
         $packagedTarget = ConvertTo-PackagedInstallPath -VirtualPath $virtualTarget -InstalledAgentsRoot $installedAgentsRoot -InstalledSkillsRoot $installedSkillsRoot -Package $package
         if ($null -eq $packagedTarget -or -not (Test-Path -LiteralPath $packagedTarget -PathType Leaf)) {
+            if ($link.Optional -and -not $sourceIsPackaged) { continue }
             throw "Required Markdown link does not resolve in the installed agents/skills layout: $($file.FullName):$($link.Line) -> $($link.Target)"
         }
     }
