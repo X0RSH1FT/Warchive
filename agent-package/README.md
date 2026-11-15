@@ -1,3 +1,20 @@
+
+## Personal environment guidance
+
+Warchive is public, so its agents, skills, and package documentation must not
+contain personal host inventory or private checkout paths. The user agent and
+skill installers copy only the generic `.apm/agents/` and `.apm/skills/`
+content; they do not install personal guidance or repository instructions.
+
+Keep personal cross-host guidance in a separate VS Code user-scoped instruction,
+managed under **Agent Customizations > Instructions > User** for the selected
+harness. Have that instruction explicitly direct the agent to read the private
+Bit-Control environment index from the workspace when present, or from the
+private local checkout when Bit-Control is not open. If neither copy is
+available, the agent should mark the details unknown and ask. Do not treat a
+Markdown link as an instruction to load the target file. Verify that the user
+instruction is listed for the intended harness and test it in a new chat.
+
 # Local agent package
 
 This opt-in APM package's `.apm/agents/`, `.apm/instructions/`, and `.apm/skills/` are the sources for Warchive's Copilot agent definitions, scoped instruction files, and skills, explicitly listed in `apm.yml`.
