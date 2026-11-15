@@ -40,6 +40,44 @@ Describe 'check-package.ps1 customization validation' {
         $failed | Should Be $true
     }
 
+    It 'validates link destinations when labels contain inline code' {
+        $failed = Test-PackageCheckerFailure {
+            param($package, $root)
+            $agent = Join-Path $package '.apm/agents/canvas-operator.agent.md'
+            Add-Content -LiteralPath $agent -Value "`nSee [``reference``](../../../docs/missing.md)."
+            & (Join-Path $package 'check-package.ps1')
+        }
+        $failed | Should Be $true
+    }
+
+    It 'validates missing links between escaped literal backticks' {
+        $failed = Test-PackageCheckerFailure {
+            param($package, $root)
+            $agent = Join-Path $package '.apm/agents/canvas-operator.agent.md'
+            Add-Content -LiteralPath $agent -Value @'
+See \`[reference](../../../docs/missing-escaped-ticks.md)\`
+'@
+            & (Join-Path $package 'check-package.ps1')
+        }
+        $failed | Should Be $true
+    }
+
+    It 'ignores links inside inline and fenced code' {
+        $failed = Test-PackageCheckerFailure {
+            param($package, $root)
+            $agent = Join-Path $package '.apm/agents/canvas-operator.agent.md'
+            Add-Content -LiteralPath $agent -Value @'
+Inline example: `[reference](../../../docs/missing-inline.md)`
+
+```
+[reference](../../../docs/missing-fenced.md)
+```
+'@
+            & (Join-Path $package 'check-package.ps1')
+        }
+        $failed | Should Be $false
+    }
+
     It 'allows a missing link explicitly marked optional' {
         $failed = Test-PackageCheckerFailure {
             param($package, $root)

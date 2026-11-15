@@ -47,8 +47,17 @@ function Get-MarkdownLinks {
     param([string]$Path)
 
     foreach ($line in Get-MarkdownBodyLines -Path $Path) {
-        $text = [regex]::Replace($line.Text, '`+[^`]*`+', '')
-        foreach ($match in [regex]::Matches($text, '\[[^\]]+\]\(\s*(?<target><[^>]+>|[^)\s]+)(?:\s+[^)]*)?\)')) {
+        $inlineCodeSpans = [regex]::Matches($line.Text, '(?<!`)(?<!\\)(?:\\\\)*(?<delimiter>`+).*?(?<!`)(?<!\\)(?:\\\\)*\k<delimiter>(?!`)', [Text.RegularExpressions.RegexOptions]::Singleline)
+        foreach ($match in [regex]::Matches($line.Text, '\[[^\]]+\]\(\s*(?<target><[^>]+>|[^)\s]+)(?:\s+[^)]*)?\)')) {
+            $insideInlineCode = $false
+            foreach ($span in $inlineCodeSpans) {
+                if ($span.Index -le $match.Index -and $match.Index -lt ($span.Index + $span.Length)) {
+                    $insideInlineCode = $true
+                    break
+                }
+            }
+            if ($insideInlineCode) { continue }
+
             [pscustomobject]@{
                 Target = $match.Groups['target'].Value.Trim('<', '>')
                 Line = $line.Number
