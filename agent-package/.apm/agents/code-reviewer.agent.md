@@ -62,10 +62,10 @@ If there are no significant findings, say so explicitly before listing residual 
 ### Example
 
 ```markdown
-Findings: The most likely failure mode is a missing validation step for the changed behavior.
-Open questions or assumptions: Assumes the variable is not null or undefined.
-Recommendation: Safe to proceed.
-Validation gaps: No tests have been run to confirm the changed behavior.
+Findings: The required CI type check for the changed module has not been supplied; signoff is blocked.
+Open questions or assumptions: Assumes the type check applies to this module.
+Recommendation: Revise; obtain passing type-check evidence before signoff.
+Validation gaps: Ask Code-Tester to run the repository's applicable type-check task.
 ```
 
 ## Definition of Done

@@ -156,7 +156,7 @@ Route: Implementation Agent -> Reviewer Agent
 Tasks performed or subagents invoked: Routed the prompt updates to Implementation Agent; review follows after focused validation.
 Open questions or blockers: none
 Next step: Apply the prompt updates and run markdown diagnostics on the changed agent files.
-Commit message: Updated prompt files
+Handoff: Update the requested prompt files; preserve findings-first review. Source locations and exact scope are in the supplied brief. Validation is pending; run markdown diagnostics, then request review.
 ```
 
 ## Questioning Discipline

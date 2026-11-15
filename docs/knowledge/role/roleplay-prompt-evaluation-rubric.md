@@ -24,6 +24,8 @@ Use one or both modes depending on what evidence is available.
 
 Prefer prompt-only comparison first when the structure is still unstable. Add runtime evidence once the candidate prompts are coherent enough to compare fairly.
 
+For reusable agent-context fixtures, including roleplay boundary cases, see [Agent Context Evaluation Cases](agent-context-evaluation-cases.md). Use the roleplay criteria below for the applicable cases; correctness failures take precedence over cost measurements.
+
 ## Scoring scale
 
 Use a simple five-point scale:

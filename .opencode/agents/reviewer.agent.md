@@ -78,12 +78,12 @@ If there are no significant findings, say so explicitly before listing residual 
 
 ```markdown
 Findings:
-1. None.
+1. The required CI type check for the changed module has not been supplied; signoff is blocked.
 
-Open questions or assumptions: Assumes the referenced agent names still match the `.github/agents/` files.
-Recommendation: Safe to proceed.
-Validation gaps: Interactive agent routing in VS Code chat was not exercised.
-Commit message: Tighten workflow agent response contracts
+Open questions or assumptions: Assumes the type check applies to this module.
+Recommendation: Revise; obtain passing type-check evidence before signoff.
+Validation gaps: The applicable CI type check has not been verified.
+Next action: Run the repository's applicable type-check task and review its result.
 ```
 
 ## Definition of Done
