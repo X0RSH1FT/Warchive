@@ -19,7 +19,7 @@ argument-hint: "[Target doc path, topic, or refresh scope. Optional: audience, r
 10. Require source-anchored documentation updates rather than prose written from plan language alone.
 11. For single-page work, verify cited symbols, file paths, commands, config keys, and links before concluding.
 12. When a doc refresh changes indexes or ownership boundaries, update sibling links in the same pass and keep `README.md` and `.github/copilot-instructions.md` aligned where relevant.
-13. Prefer diagnostics, targeted search, and focused command checks as the first validation path for doc changes.
+13. Prefer targeted read/search checks for the `Document-Author`. Route execution-based diagnostics or commands to a permitted validation tool or `Code-Tester`; if unavailable, mark them unverified instead of attributing them to the author.
 14. If the documentation pass discovers that the missing fact is still undecided in source, reroute to the appropriate coder or `Task-Orchestrator` instead of hardening an assumption into prose.
 15. After the documentation pass, summarize what changed, what was verified, whether plan-derived documentation work is exhausted, and which plan-derived follow-up pass is next when it is not. Label any extra idea as a suggestion outside the plan.
 16. Provide a concise, imperative commit message scoped to the changed files.

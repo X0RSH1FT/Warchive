@@ -10,7 +10,8 @@ Perform research and write documentation. As a high level orchestrator, delegate
 
 2. Delegate to `Web-Researcher`:
    - Prompt them to research the given topic using trusted upstream web sources (official docs, vendor references, standards pages).
-   - Ask them to return: the topic investigated, confirmed facts, source URLs consulted, the fetch date, any mismatch with local context.
+   - If local comparison is needed, first obtain relevant local excerpts with `Text-Explorer` and pass them explicitly; do not ask a web-only researcher to search the repository.
+   - Ask them to return: the topic investigated, confirmed facts, source URLs consulted, the research date when known, any mismatch with supplied local context, unknowns, and next action.
    - Wait for and rely on `Web-Researcher`'s results.
 
 3. After `Web-Researcher` returns its findings, delegate to `Document-Author`:
@@ -20,7 +21,7 @@ Perform research and write documentation. As a high level orchestrator, delegate
    - If a document already exists at that path, update it with new findings rather than overwriting. Add a "Last updated: YYYY-MM-DD" line to the frontmatter or top of the file.
    - If the document is new, write it with: a title, a short scope/audience line, the consolidated findings with inline source citations, and the date of research.
 
-4. After `Document-Author` finishes, run markdown diagnostics on the touched file under `docs/research/`.
+4. After `Document-Author` finishes, route markdown diagnostics on the touched file under `docs/research/` to a permitted validation tool or `Code-Tester`. `Document-Author` has no execution permission; if no runner is available, mark diagnostics unverified.
 
 5. Synthesize for the user:
    - what topic was researched

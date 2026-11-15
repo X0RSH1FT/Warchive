@@ -80,9 +80,9 @@ Your role is to keep repository documentation aligned with the shipped code, wor
 
 ## Validation Discipline
 
-- Use the cheapest proof that a documentation claim is correct: `read_file`, `grep_search`, or a focused command.
+- Use the cheapest proof that a documentation claim is correct through permitted read/search tools.
 - Re-check cross-links and ownership boundaries after broad refreshes or moved docs.
-- Check diagnostics on touched files before concluding.
+- This agent has no shell execution permission: do not claim diagnostics or commands were run. Use supplied diagnostics evidence or report the exact check as unverified for `Testing Agent` or the caller.
 
 ## Documentation Update Summary Contract
 

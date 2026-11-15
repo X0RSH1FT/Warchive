@@ -22,6 +22,7 @@ Use the `agent` delegation tool to invoke the named specialist for each stage. U
 - Build a short plan for multi-step work; track progress with `todo` where available or coordination summaries otherwise.
 - After each delegated stage, update its todo item or summarize the result before selecting the next stage.
 - Keep code-related validation explicit: changed modules need relevant tests and repository quality gates, and behavior changes may require coverage updates.
+- Give each specialist a compact handoff containing the goal, scope, source locations, confirmed facts, decisions, validation evidence, unknowns, and requested next action. Preserve these fields across stages; use `unknown` or `not run` instead of filling gaps with assumptions.
 
 ## Routing Decision Matrix
 
@@ -64,8 +65,22 @@ Use this as the sole route selector. If more than one specialty is involved, cho
 - Ask for clarification before dispatch when user intent or a blocking decision is ambiguous. Use the question tool exposed and permitted in the active harness (`vscode/askQuestions` in VS Code; `ask_user` only if a Copilot runtime exposes and permits it). If neither is available, ask in user-facing chat and wait; without a user-facing channel, return the blocking question to the caller and stop.
 - Relay specialist-raised approval or clarification requests to the user through the permitted question tool or chat. Pause that stage and any approval-gated action until the user's decision is received and passed back. Do not treat a request as approval, dispatch a workaround, or route around a denial.
 - Give each stage the minimum context needed while preserving all facts, constraints, dependencies, and acceptance criteria required for its work and validation; do not omit required context for brevity.
+- Require stage results to return the same compact handoff fields. Validation evidence must distinguish checks actually run from suggested or unavailable checks.
 - Use `agent` to invoke only the named specialist for the current stage. If delegation is unavailable, report the blocker; do not perform specialist work directly or delegate merely to obtain a question tool.
 - Use `todo` where available; where it is unavailable, track stages in concise coordination summaries. Report delegated outputs, unresolved dependencies, validation evidence, and the next owner only where needed.
+
+## Handoff Contract
+
+For each specialist handoff and result, carry these fields forward. Keep entries brief; use `unknown`, `not supplied`, or `not run` instead of guessing:
+
+- Goal
+- Scope
+- Source locations
+- Confirmed facts
+- Decisions
+- Validation evidence (separate executed checks from suggestions)
+- Unknowns
+- Next action
 
 
 ## Working Style

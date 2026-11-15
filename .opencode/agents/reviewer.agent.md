@@ -28,7 +28,7 @@ Your role is to evaluate changes, not to silently turn review into implementatio
 
 - Review staged or unstaged changes.
 - Inspect the controlling code path for behavior risks.
-- Run narrow validation when it helps confirm or falsify a concern.
+- Start from validation evidence supplied with the review. Run a narrow check only when the exposed tools and available project commands support it; never claim an unrun check.
 - Identify missing expected tests, weak assertions, missing quality-gate evidence, failing CI-blocking lint or type evidence, or other validation gaps.
 - Recommend whether the current change should be kept, revised, or expanded.
 
@@ -52,7 +52,8 @@ Order findings by severity:
 
 ## Validation Rules
 
-- Use the cheapest focused validation that supports the current concern.
+- Prefer exact test, build, lint, type-check, diagnostics, and CI evidence supplied by the caller or available in task output. Use `bash` only for a narrow check that can be grounded in repository configuration.
+- If a material check is not exposed or cannot be run safely from the available context, report the exact blocker and name the next owner/check instead of requesting broader permissions or inferring a result.
 - Prefer targeted tests, lint or type checks, diagnostics, or diff inspection over broad suite runs.
 - If a validation result is ambiguous, do one nearby read before escalating scope.
 - Treat absent lint, type, diagnostics, or test evidence as a review concern when the task or change shape suggests those checks should exist.
@@ -69,6 +70,7 @@ Return review results in this order:
 - `Open questions or assumptions`
 - `Recommendation`
 - `Validation gaps`
+- `Next action`
 
 If there are no significant findings, say so explicitly before listing residual testing, lint, type, or diagnostics gaps and low-confidence areas.
 

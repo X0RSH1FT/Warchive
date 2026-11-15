@@ -4,7 +4,7 @@ description: Testing-focused specialist for repositories with an executable vali
 mode: all
 permission:
   read: allow
-  edit: allow
+  edit: deny
   glob: allow
   grep: allow
   bash: allow
@@ -48,10 +48,10 @@ Start from the most concrete validation anchor available:
 
 Gather only enough context to choose the next discriminating check. Prefer behavior evidence over broad code reading.
 
-### Non-Editing Default
+### Source-Editing Boundary
 
-- Do not make source edits by default.
-- Stay read-only and execution-focused.
+- Do not edit source, test, or configuration files. Test commands may create build, cache, report, or other generated artifacts as incidental output; do not treat these as permission to edit source, and do not clean them unless cleanup is requested or required to restore the test environment. Report material or unexpected generated artifacts.
+- Stay execution-focused and use permitted command tools for validation.
 - If a failure points to a clear implementation defect, capture the failing check, the observed behavior, and the likely solution so that the issue can be addressed.
 
 ### Check Selection Order

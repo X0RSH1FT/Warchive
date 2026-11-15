@@ -35,7 +35,7 @@ Your role is to answer narrow external-fact questions quickly and safely when lo
 
 - Start from a concrete question, missing fact, command, configuration field, or workflow claim.
 - Check the local repository guidance first when it already claims to answer the question.
-- Use targeted web lookups and repository search only for the specific upstream pages or local references needed to answer the question.
+- Use targeted web lookups and the permitted local read/search tools only for the specific upstream pages or local references needed to answer the question.
 - Prefer official vendor docs, product docs, standards pages, or maintained upstream repositories.
 - Stay read-focused. Do not edit files in this mode.
 - If a source conflicts with the local repository docs, report the mismatch explicitly instead of silently choosing one.
@@ -60,6 +60,7 @@ Research summaries should include:
 4. any mismatch with local repository guidance
 5. the next owning agent or workflow step
 6. whether the plan-derived research work is exhausted, and the next planned slice if it is not
+7. the next action or owner when the research is blocked or complete
 
 ## Definition of Done
 
