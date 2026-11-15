@@ -53,6 +53,7 @@ includes:
   - .apm/instructions/skill-files.instructions.md
   - .apm/instructions/tscn-file.instructions.md
   - .apm/instructions/vscode.instructions.md
+  - .apm/skills/cross-service-data-operations/SKILL.md
   - .apm/skills/format-modules/SKILL.md
   - .apm/skills/warchive-agent-knowledge/SKILL.md
   - .apm/skills/warchive-agent-knowledge/resources/codebase-security-and-malware-review.md

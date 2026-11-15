@@ -37,7 +37,7 @@ Run the isolated checker tests with Pester 3.4:
 Invoke-Pester -Script ./agent-package/tests/check-package.Tests.ps1
 ```
 
-The [warchive-agent-knowledge skill](.apm/skills/warchive-agent-knowledge/SKILL.md) routes character-packet, defensive security-review, and Windows Ollama tasks to portable shared references under `resources/`. Agents must read the relevant resource explicitly; a Markdown link does not load it. Essential role and approval rules remain in the agents. Skill-specific assets stay with their skill; general research stays in `docs/` and is not installed. Repository instructions and docs are not installed.
+The [warchive-agent-knowledge skill](.apm/skills/warchive-agent-knowledge/SKILL.md) routes character-packet, defensive security-review, and Windows Ollama tasks to portable shared references under `resources/`. The [cross-service data operations skill](.apm/skills/cross-service-data-operations/SKILL.md) provides reusable discovery, transaction-safety, privilege-separation, and verification practices. It deliberately contains no host inventory; resolve environment-specific facts from the consumer's private instructions and owning service docs. Agents must read the relevant resource explicitly; a Markdown link does not load it. Essential role and approval rules remain in the agents. Skill-specific assets stay with their skill; general research stays in `docs/` and is not installed. Repository instructions and docs are not installed.
 
 ## Install user agents
 

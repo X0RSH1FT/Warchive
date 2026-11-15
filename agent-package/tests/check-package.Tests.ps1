@@ -116,10 +116,11 @@ Describe 'check-package.ps1 customization validation' {
 
             $skillRoot = Join-Path $skillsDestination 'warchive-agent-knowledge'
             $skillFile = Join-Path $skillRoot 'SKILL.md'
+            $crossServiceSkill = Join-Path $skillsDestination 'cross-service-data-operations/SKILL.md'
             $packetResource = Join-Path $skillRoot 'resources/roleplay-character-packet-template.md'
             $securityResource = Join-Path $skillRoot 'resources/codebase-security-and-malware-review.md'
             $ollamaResource = Join-Path $skillRoot 'resources/ollama-troubleshooting-windows.md'
-            foreach ($path in @($skillFile, $packetResource, $securityResource, $ollamaResource)) {
+            foreach ($path in @($skillFile, $crossServiceSkill, $packetResource, $securityResource, $ollamaResource)) {
                 Test-Path -LiteralPath $path -PathType Leaf | Should Be $true
             }
 
@@ -132,6 +133,18 @@ Describe 'check-package.ps1 customization validation' {
             [IO.File]::ReadAllText($directorAgent) | Should Match '# Artistic-Director'
             [IO.File]::ReadAllText($securityResource) | Should Match 'Codebase Security and Malware Review'
             [IO.File]::ReadAllText($ollamaResource) | Should Match 'Ollama Troubleshooting Reference For Windows Local Setups'
+
+            $crossServiceContent = [IO.File]::ReadAllText($crossServiceSkill)
+            $crossServiceContent | Should Match 'transaction boundaries'
+            $crossServiceContent | Should Match 'service-scoped'
+            $sensitivePatterns = @(
+                '(?i)(?:password|token|secret|api[_-]?key)\s*[:=]\s*\S+',
+                '(?<![\w.])/(?:home|root|opt|var|etc|srv)/[^\s`)]+',
+                '(?<![\d.])(?:10\.(?:\d{1,3}\.){2}\d{1,3}|172\.(?:1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3})(?![\d.])'
+            )
+            foreach ($pattern in $sensitivePatterns) {
+                [regex]::IsMatch($crossServiceContent, $pattern) | Should Be $false
+            }
         }
     }
 }
