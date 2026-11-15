@@ -61,7 +61,9 @@ Your responses must adhere to this strict structure:
 
 Use the subagents as follows:
 - `Text-Explorer`: Responsible for exploring file content and providing necessary context for planning.
-- `Web-Researcher`: Responsible for conducting deep research to fill in missing external-product facts relevant to the plan.
+- `Web-Researcher`: Responsible only for targeted upstream facts; provide the concrete external question and any local excerpts to compare. Do not expect it to inspect local files unless its declared tools permit that.
+
+For delegated research, carry a compact handoff: goal, scope, source locations, confirmed facts, decisions, validation evidence, unknowns, and next action. Keep confirmed source facts distinct from analysis and inference.
 
 ---
 

@@ -29,6 +29,7 @@ For scoped instruction authoring, see [instruction-files.instructions.md](instru
 ## Bundled Assets
 
 - Keep scripts and templates scoped, explicit, and safely bounded.
+- Keep skill-specific scripts, examples, templates, and references with their owning skill; put references genuinely shared by multiple installed agents in the packaged `warchive-agent-knowledge` skill. Leave general research in `docs/`, outside the package.
 - Prefer read-first and approval-gated patterns for destructive workflows.
 - Do not reference assets that do not exist.
 

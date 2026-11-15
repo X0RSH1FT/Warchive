@@ -12,9 +12,19 @@ Run the **Check APM package** VS Code task, or from the repository root in Power
 ./agent-package/check-package.ps1
 ```
 
-The check derives expected file counts and names from `apm.yml`, verifies that the agent, instruction, and skill package files match the manifest, checks for workspace instruction duplicates anywhere under `.github/instructions/`, and requires a complete, sorted include list. Update `apm.yml` when adding or removing package files. It accepts only the current simple manifest shape (plain metadata, explicit path list with optional blank lines, and `dependencies: {}`); unexpected or duplicate keys and list entries fail without a YAML dependency. It does not compare contents or copy files. Keep package assets in the recognized `.apm/agents/`, `.apm/instructions/`, and `.apm/skills/` layouts.
+The check derives expected file counts and names from `apm.yml`, verifies the exact sorted manifest paths, checks agent frontmatter names and declared delegation targets, validates supported local Markdown links in agents, instructions, and all packaged skill Markdown (including resource documents), requires the bundled agent knowledge resources, and checks required agent/skill links against the supported installed layout. It recognizes single-line inline links such as `[label](path)` and `[label](<path> "title")`; labels cannot contain `]`, unbracketed destinations cannot contain whitespace or `)`, and optional title text cannot contain `)`. Fenced code, inline code, external URLs, and fragments are ignored. Explicitly optional wording allows workspace references to be absent, but cannot waive a dependency whose path is inside the packaged agents or skills. It also checks for workspace instruction duplicates anywhere under `.github/instructions/`. Update `apm.yml` when adding or removing package files. It accepts only the current simple manifest shape (plain metadata, explicit path list with optional blank lines, and `dependencies: {}`); unexpected or duplicate keys and list entries fail without a YAML dependency. It does not copy files or inspect the real user profile.
+
+Run the isolated checker tests with Pester 3.4:
+
+```powershell
+Invoke-Pester -Script ./agent-package/tests/check-package.Tests.ps1
+```
+
+The [warchive-agent-knowledge skill](.apm/skills/warchive-agent-knowledge/SKILL.md) routes character-packet, defensive security-review, and Windows Ollama tasks to portable shared references under `resources/`. Agents must read the relevant resource explicitly; a Markdown link does not load it. Essential role and approval rules remain in the agents. Skill-specific assets stay with their skill; general research stays in `docs/` and is not installed. Repository instructions and docs are not installed.
 
 ## Install user agents
+
+The supported installed layout uses sibling directories under one `.copilot` root: `<root>\agents\<agent>.agent.md` and `<root>\skills\<skill-name>\...`. The defaults use `$HOME\.copilot\agents` and `$HOME\.copilot\skills`. If overriding destinations, pass `<same-root>\agents` to the agent installer and `<same-root>\skills` to the skill installer so relative links between packaged resources and agents remain valid. This verifies structural reference portability only; host-specific discovery, activation, and automatic loading depend on the consuming application and are not provided by these copy scripts.
 
 Run the **Install Warchive user agents** VS Code task, or from the repository root in PowerShell run:
 
@@ -22,7 +32,7 @@ Run the **Install Warchive user agents** VS Code task, or from the repository ro
 ./agent-package/install-user-agents.ps1
 ```
 
-The script copies `.agent.md` files from `.apm/agents/` to `$HOME\.copilot\agents`, creating the destination if needed and overwriting files with matching names. It leaves other files alone and does not remove agents that are no longer in the package. Use `-WhatIf` to preview the operations, or pass `-Destination` to install to a different directory.
+The script copies `.agent.md` files from `.apm/agents/` to `$HOME\.copilot\agents`, creating the destination if needed and overwriting files with matching names. It leaves other files alone and does not remove agents that are no longer in the package. Use `-WhatIf` to preview the operations, or pass `-Destination` as described above.
 
 ## Install user skills
 
@@ -32,7 +42,7 @@ Run the **Install Warchive user skills** VS Code task, or from the repository ro
 ./agent-package/install-user-skills.ps1
 ```
 
-The script copies each skill directory from `.apm/skills/` to `$HOME\.copilot\skills`, including supporting files, and overwrites matching files without deleting unrelated or stale files. Use `-WhatIf` to preview the operations, or pass `-Destination` to install to a different directory.
+The script copies each skill directory from `.apm/skills/` to `$HOME\.copilot\skills`, including supporting files, and overwrites matching files without deleting unrelated or stale files. Use `-WhatIf` to preview the operations, or pass `-Destination` as described above. Both installers leave stale files behind; manually remove retired package files only when appropriate. Automatic cleanup is intentionally not performed.
 
 ## Pack locally
 

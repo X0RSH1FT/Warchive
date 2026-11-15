@@ -40,6 +40,31 @@ Core execution path:
 6. Prefer built-in-safe customization through `workbench.colorCustomizations`. Do not require an extension unless the user explicitly asks for one.
 7. Do not add `workbench.colorTheme` unless the user explicitly asks to pin a base theme.
 
+Agents window:
+- Treat the Agents window and the main editor as separate targets. When the user asks to customize the Agents window, prefer its surfaced `agents.*`, `activeSessionView.*`, and `agentsChatInput.*` color IDs rather than recoloring general editor surfaces.
+- The Agents window shares VS Code user settings. Unless the user asks for workspace scope, update the user `settings.json` opened with **Preferences: Open User Settings (JSON)**; do not put these personal colors in the repository's `.vscode/settings.json`.
+- Read the active color theme and scope the overrides to its exact name inside `workbench.colorCustomizations`, preserving other themes and existing settings. For example:
+
+  ```json
+  {
+    "workbench.colorCustomizations": {
+      "[Active Theme Name]": {
+        "agents.background": "#08060D",
+        "activeSessionView.background": "#100914",
+        "activeSessionView.foreground": "#F8EAF6",
+        "agentsPanel.border": "#8F168B",
+        "agentsChatInput.background": "#0B0710",
+        "agentsChatInput.foreground": "#FFEAF8",
+        "agentsChatInput.border": "#8F168B",
+        "agentsChatInput.focusBorder": "#FF00FF"
+      }
+    }
+  }
+  ```
+
+- These Agents-specific IDs cover the window, chat/session area, panel border, and input. Shared IDs such as `button.*`, `focusBorder`, and `textLink.foreground` can add brighter accents, but also affect matching controls elsewhere in VS Code; use them only when requested or clearly appropriate.
+- The **Chat: Set Background...** command sets a decorative chat background, not the Agents window's theme colors. Offer it as a separate option only when the user asks for an image or pattern background.
+
 Concrete settings to consider:
 - `window.titleBarStyle` when custom title bar coloring is needed
 - `workbench.colorCustomizations.titleBar.activeBackground`

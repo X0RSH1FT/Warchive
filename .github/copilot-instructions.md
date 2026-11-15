@@ -8,9 +8,9 @@ Treat the repository structure and existing Markdown files as the source of trut
 
 ## Stable context
 
-- `docs/` holds durable reference and research material.
+- `docs/knowledge/` holds general durable references; `docs/research/` holds research material. Portable shared agent references live in the package knowledge skill.
 - `inbox/` is temporary capture space and should not be treated as canonical.
-- `scripts/` contains ingestion and validation tooling.
+- `scripts/` contains task-specific tooling.
 - `visuals/` contains diagrams, sketches, and image assets.
 - `.github/` holds repository-scoped Copilot customizations.
 
@@ -24,5 +24,5 @@ Treat the repository structure and existing Markdown files as the source of trut
 
 ## Supporting references
 
-- For agent workflow context, see `docs/research/agentic-coding.md`.
-- For Copilot customization patterns and file roles, see `docs/research/vscode-copilot-agent-customization-reference.md`.
+- For agent workflow context, see `docs/knowledge/dev/agent/agentic-coding.md`.
+- For Copilot customization patterns and file roles, see `docs/knowledge/dev/agent/vscode-copilot-agent-customization-reference.md`.

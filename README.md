@@ -10,7 +10,7 @@ The tone can stay playful and a little cyberpunk, but the content is meant to be
 
 - Keeping stable documentation about agent workflows and Copilot customization patterns.
 - Organizing prompt and instruction assets alongside supporting docs.
-- Holding tooling and visual assets that support ingestion, validation, and presentation work.
+- Holding task-specific tooling and visual assets that support documentation and presentation work.
 - Providing a temporary inbox for material that has not been classified yet.
 
 ## Where to start
@@ -19,33 +19,34 @@ If you are new to the repo, start here:
 
 1. Read this file for the high-level map.
 2. Open the README inside the area you plan to work in, or start with `.github/copilot-instructions.md` if you are working on repository customizations.
-3. Use the research docs in `docs/research/` when you need background on agentic coding or VS Code Copilot customization behavior.
+3. Use `docs/knowledge/dev/agent/` when you need background on agentic coding or VS Code Copilot customization behavior.
 
 ## Repository layout
 
 | Path | Purpose | Start here |
 |---|---|---|
 | `.github/` | Repository-wide Copilot instructions, prompts, skills, and related workspace customizations. | [.github/copilot-instructions.md](.github/copilot-instructions.md) |
-| `agent-package/` | Canonical local APM package for 35 agents and 15 scoped instruction files. | [agent-package/README.md](agent-package/README.md) |
-| `docs/` | Durable documentation, research material, and sprint planning notes. | `docs/research/` |
+| `agent-package/` | Local APM package for agents, scoped instructions, and portable skills. | [agent-package/README.md](agent-package/README.md) |
+| `docs/` | General reference and research material. | [docs/knowledge/dev/agent/](docs/knowledge/dev/agent/) |
 | `inbox/` | Fast capture area for temporarily unclassified material. | [inbox/README.md](inbox/README.md) |
-| `scripts/` | Ingestion and validation tooling. | [scripts/README.md](scripts/README.md) |
+| `scripts/` | Task-specific tooling. | [scripts/powershell/](scripts/powershell/) |
 | `visuals/` | Diagrams, sketches, and image assets. | [visuals/README.md](visuals/README.md) |
 
 ## Key reference docs
 
-- [docs/research/agentic-coding.md](docs/research/agentic-coding.md): practical notes on agentic delivery loops, validation, and role splits.
-- [docs/research/codebase-security-and-malware-review.md](docs/research/codebase-security-and-malware-review.md): repository-agnostic guidance for authorized codebase security and malware reviews.
-- [docs/research/vscode-copilot-agent-customization-reference.md](docs/research/vscode-copilot-agent-customization-reference.md): local reference for always-on instructions, scoped instructions, prompts, agents, skills, and related VS Code Copilot behavior.
-- [docs/research/opencode-agent-configuration-reference.md](docs/research/opencode-agent-configuration-reference.md): local reference for OpenCode rules, config precedence, agents, permissions, commands, skills, custom tools, and MCP-related tool behavior.
+- [docs/knowledge/dev/agent/agentic-coding.md](docs/knowledge/dev/agent/agentic-coding.md): practical notes on agentic delivery loops, validation, and role splits.
+- [agent-package/.apm/skills/warchive-agent-knowledge/SKILL.md](agent-package/.apm/skills/warchive-agent-knowledge/SKILL.md): task index for portable character, security, and Ollama references used by installed agents.
+- [docs/knowledge/dev/agent/vscode-copilot-agent-customization-reference.md](docs/knowledge/dev/agent/vscode-copilot-agent-customization-reference.md): local reference for always-on instructions, scoped instructions, prompts, agents, skills, and related VS Code Copilot behavior.
+- [docs/knowledge/dev/agent/opencode-agent-configuration-reference.md](docs/knowledge/dev/agent/opencode-agent-configuration-reference.md): local reference for OpenCode rules, config precedence, agents, permissions, commands, skills, custom tools, and MCP-related tool behavior.
 - [docs/knowledge/dev/agent/apm-reference.md](docs/knowledge/dev/agent/apm-reference.md): reference guide to the Agent Package Manager (APM): manifest, lockfile, workflow, and agent usage.
+- [docs/knowledge/games/crimson_desert/README.md](docs/knowledge/games/crimson_desert/README.md): source-backed Crimson Desert knowledge base (weapons, armor, quests, bosses, mounts, systems) with evidence status and patch caveats.
 - [docs/research/ollama-troubleshooting-windows.md](docs/research/ollama-troubleshooting-windows.md): Windows-local troubleshooting reference for Ollama performance, configuration pressure, and diagnostic flow.
 
 ## Working model
 
 Warchive is easier to maintain when each area keeps a clear job:
 
-- Put stable reference material under `docs/`.
+- Put general reference material under `docs/`; keep shared portable agent references in the package knowledge skill and skill-specific assets with their skill.
 - Use `inbox/` for short-lived capture, then move content into a durable home.
 - Keep tooling under `scripts/` and supporting visual material under `visuals/`.
 - Keep repository-wide Copilot context under `.github/copilot-instructions.md`; packaged agents and scoped instructions under `agent-package/.apm/`.

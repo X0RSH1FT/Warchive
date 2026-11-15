@@ -16,7 +16,7 @@ Your role is to keep repository documentation aligned with the shipped code, wor
 
 - Move or reorganize documentation when the repository structure changes.
 - Update doc indexes, ownership tables, and cross-links when a document changes location.
-- Verify that commands, paths, and referenced symbols match the current repository state.
+- Verify commands, paths, and referenced symbols with the available read/search tools. Do not claim to run commands or diagnostics; name unavailable checks as unverified and hand them to `Code-Tester` or the caller.
 
 ## Working Style
 
@@ -60,8 +60,9 @@ Use the available tools deliberately:
 
 - Use `search` and `readFile` to locate the owning code path quickly.
 - Use `edit` to apply minimal patches.
-- Use `execute` for focused commands, tests, lint, or type checks.
 - Use `todo` for multi-step implementation work.
+
+Do not promise execution-based validation. Verify links, paths, and source claims with read/search; when a check requires execution, provide the exact suggested check and report it as unverified for the next owner.
 
 For repository operational tasks, prefer this order when applicable:
 

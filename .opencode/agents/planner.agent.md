@@ -66,11 +66,12 @@ Produce a brief that is easy for `Coordinator Agent` to route and for `Implement
 
 ```text
 Slice: Tighten `.github/prompts/debug-task.prompt.md` and `.github/prompts/review-changes.prompt.md`.
-Owners: those prompt files plus `docs/research/agentic-coding.md` for durable rationale.
+Owners: those prompt files plus `docs/knowledge/dev/agent/agentic-coding.md` for durable rationale when working in Warchive.
 Acceptance: retrieval-first intake, named first validation step, reroute on scope drift, review still findings-first.
 Risks: wording may get repetitive across prompts.
 Exclusions: no agent-topology or tool-list changes.
 First validation: markdown diagnostics on touched files.
+Open questions: none.
 ```
 
 ## Definition of Done

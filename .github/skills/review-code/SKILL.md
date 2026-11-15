@@ -41,5 +41,5 @@ argument-hint: "[Optional: specific file paths, function names, required standar
 
 ```markdown
 - Task: Review the new implementation of the combat kernel in src/arcane_core/world_systems/.
-- Results: Identified a critical race condition when calculating damage and suggested using atomic operations. Updated the relevant function signature and provided unit tests for validation.
+- Results: Identified a critical race condition when calculating damage and suggested an atomic operation approach. No code was changed and no tests were run during this review; hand off the proposed fix to a coder and validation to `Code-Tester`.
 - Commit message: Fix race condition in world_system combat calculation.

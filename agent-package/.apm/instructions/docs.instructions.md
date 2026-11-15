@@ -10,8 +10,8 @@ Use these rules when editing Markdown files under `docs/`.
 
 ## Ownership By Directory
 
-- `docs/app/` owns durable reference material for shipped behavior and stable project guidance.
-- `docs/research/` owns exploratory reviews, comparisons, and design notes that are not the canonical shipped reference.
+- `docs/knowledge/` owns durable general references; `docs/research/` owns exploratory reviews, comparisons, and design notes.
+- Portable references required by multiple installed agents belong in the packaged `warchive-agent-knowledge` skill, not duplicated in `docs/`. Skill-specific assets stay with their owning skill.
 - Keep `README.md` as the user-facing overview; do not duplicate that role inside `docs/`.
 
 ## Authoring Rules
