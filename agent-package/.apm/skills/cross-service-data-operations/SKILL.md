@@ -29,6 +29,10 @@ host inventory to this reusable skill.
 4. Keep credentials and private keys out of source, logs, screenshots, and
    reports. Do not display secret values while reviewing configuration; report
    only whether a sensitive value is present or needs attention.
+5. Identify the repository that owns database schema (DDL, migrations, and
+   reusable SQL queries) separately from the repositories that own ingestion
+   code, tests, dashboard exports, and host operations. Make schema changes in
+   the schema owner, and update the consuming repositories' documentation.
 
 ## 2. Bound changes and protect data
 
@@ -46,7 +50,9 @@ host inventory to this reusable skill.
    Make retries safe, avoid marking work successful before its data commit,
    and keep external side effects outside database transactions when they
    cannot be rolled back. Test failure and rollback behavior against an
-   isolated database, never a production target.
+   isolated database, never a production target. Add schema changes as
+   forward-only migrations; do not rewrite an applied one, and grant reporting
+   roles access to views only, not base tables.
 4. Estimate workload and storage impact. Confirm the relevant backup coverage
    before a consequential data change, but treat backup creation and restore
    testing as separate, explicitly authorized work.
@@ -68,5 +74,7 @@ host inventory to this reusable skill.
    recorder behavior unless the request explicitly includes them.
 5. Report source edits, deployment, and live verification as separate states.
    State what was tested, what was actually changed live, and what remains
-   unknown. Commit or publish only when requested; do not claim a live result
+   unknown. Applying a migration or schema change to a non-test database needs
+   explicit user approval; a deployment of one repository does not imply it.
+   Commit or publish only when requested; do not claim a live result
    from repository evidence alone.

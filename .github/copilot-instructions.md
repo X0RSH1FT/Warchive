@@ -21,6 +21,10 @@ Treat the repository structure and existing Markdown files as the source of trut
 - Do not duplicate long procedural guidance in always-on instructions; link or defer to the owning doc.
 - When documenting a folder, use that folder's README as the local entry point.
 - Verify paths, commands, and referenced files before finalizing changes.
+- For cross-service data work, keep the owner split generic: a database-schema
+  repository owns DDL, migrations, and reusable SQL; runtime repositories keep
+  code, tests, and dashboard exports; host/database administration stays in the
+  user's private operations guidance. Do not copy personal host inventory here.
 
 ## Supporting references
 
