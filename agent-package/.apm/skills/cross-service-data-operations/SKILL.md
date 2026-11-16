@@ -26,9 +26,15 @@ host inventory to this reusable skill.
    current versions, configuration, service state, client location, and
    deployment path through authorized, read-only checks before planning an
    operational change.
-4. Keep credentials and private keys out of source, logs, screenshots, and
-   reports. Do not display secret values while reviewing configuration; report
-   only whether a sensitive value is present or needs attention.
+4. When creating or reading a credential or other secret is needed, load the
+   applicable user-scoped secret-handling instructions and ask the user to
+   perform the sensitive operation privately. Do not run vault commands or read
+   secret values or unlock factors. Provide a compatible KeePassXC command
+   template with non-secret placeholders, or explain when none is suitable for
+   the type or version. Do not request values or output; report only non-secret
+   status. Provider issuance, service application, and rotation are separate
+   user-operated steps and require appropriate authorization. Keep credentials
+   and private keys out of source, logs, screenshots, and reports.
 5. Identify the repository that owns database schema (DDL, migrations, and
    reusable SQL queries) separately from the repositories that own ingestion
    code, tests, dashboard exports, and host operations. Make schema changes in

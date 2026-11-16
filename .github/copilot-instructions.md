@@ -21,6 +21,9 @@ Treat the repository structure and existing Markdown files as the source of trut
 - Do not duplicate long procedural guidance in always-on instructions; link or defer to the owning doc.
 - When documenting a folder, use that folder's README as the local entry point.
 - Verify paths, commands, and referenced files before finalizing changes.
+- When a credential or other secret must be created or read, explicitly load
+  applicable user-scoped secret-handling instructions. Never run vault commands
+  or read secrets or unlock factors; ask if the private policy is unavailable.
 - For cross-service data work, keep the owner split generic: a database-schema
   repository owns DDL, migrations, and reusable SQL; runtime repositories keep
   code, tests, and dashboard exports; host/database administration stays in the
