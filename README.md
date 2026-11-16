@@ -45,6 +45,9 @@ If you are new to the repo, start here:
 
 ## Working model
 
+See the [Internet Outage Atlas owner map](docs/knowledge/dev/data/internet-outage-atlas.md)
+for source semantics and repository boundaries.
+
 Warchive is easier to maintain when each area keeps a clear job:
 
 - Put general reference material under `docs/`; keep shared portable agent references in the package knowledge skill and skill-specific assets with their skill.
