@@ -1,6 +1,6 @@
 ---
 name: create-test
-description: Warchive - Orchestrate comprehensive testing cycles for code changes or new features by generating test cases, running validation, and documenting coverage.
+description: Orchestrate comprehensive testing cycles for code changes or new features by generating test cases, running validation, and documenting coverage.
 disable-model-invocation: true
 argument-hint: "[Optional: target files, functions, feature description, or specific test type (e.g., unit, integration).]"
 ---

@@ -1,6 +1,6 @@
 ---
 name: document-update
-description: Warchive - Coordinate a documentation task for this repository, whether a single page, targeted rewrite, customization update, or broader refresh across README.md, docs/knowledge/, docs/research/, and .github.
+description: Coordinate a documentation task for this repository, whether a single page, targeted rewrite, customization update, or broader refresh across README.md, docs/knowledge/, docs/research/, and .github.
 disable-model-invocation: true
 argument-hint: "[Target doc path, topic, or refresh scope. Optional: audience, related docs, docs to skip, or whether this is durable knowledge, active planning, or a customization doc update.]"
 ---

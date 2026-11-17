@@ -1,6 +1,6 @@
 ---
 name: review-code
-description: Warchive - Analyze provided code, identify bugs, suggest improvements, ensure adherence to architectural standards, and propose concrete fixes or refactoring steps.
+description: Analyze provided code, identify bugs, suggest improvements, ensure adherence to architectural standards, and propose concrete fixes or refactoring steps.
 disable-model-invocation: true
 argument-hint: "[Optional: specific file paths, function names, required standards (e.g., performance, security), or a bug report.]"
 ---

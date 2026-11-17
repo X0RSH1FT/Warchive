@@ -1,6 +1,6 @@
 ---
 name: planning-checklist
-description: Warchive - Create or refresh active checklist-style planning notes that stay clean, current, and actionable in docs/sprint.
+description: Create or refresh active checklist-style planning notes that stay clean, current, and actionable in docs/sprint.
 disable-model-invocation: true
 argument-hint: "[Task goal, target file or slug, optional scope, validation plan, unresolved groups, and optional mode: strict or keep-history.]"
 ---

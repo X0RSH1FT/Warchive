@@ -1,6 +1,6 @@
 ---
 name: security-review
-description: Warchive - Run an authorized, evidence-based read-only security review of a defined repository scope and coordinate remediation follow-up.
+description: Run an authorized, evidence-based read-only security review of a defined repository scope and coordinate remediation follow-up.
 disable-model-invocation: true
 argument-hint: "[Optional: repository revision, file paths, components, suspected risk, or review constraints.]"
 ---

@@ -1,6 +1,6 @@
 ---
 name: address-test-issues
-description: Warchive - Run the repository's full test suite, relevant CI/CD-style quality gates, and validation checks.
+description: Run the repository's full test suite, relevant CI/CD-style quality gates, and validation checks.
 disable-model-invocation: true
 argument-hint: "[Optional: changed files, changed modules, known commands, failing gates, expected coverage changes, or extra validation constraints.]"
 ---

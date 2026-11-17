@@ -1,4 +1,4 @@
-# warchive
+# Warchive
 
 Warchive is a repository for agent prompts, working guidance, and knowledge documents. It is a practical archive first: a place to keep reusable instructions, research references, and support material organized enough for both humans and coding agents to navigate.
 

@@ -1,6 +1,6 @@
 ---
 name: cross-service-data-operations
-description: Use the portable cross-service discovery, safety, and verification workflow included in Warchive's installable skill package.
+description: Use the portable cross-service discovery, safety, and verification workflow included in warchive's installable skill package.
 ---
 
 # Cross-Service Data Operations

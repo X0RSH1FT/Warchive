@@ -1,6 +1,6 @@
 ---
 name: initialize-docs
-description: Warchive - Coordinate the comprehensive initialization or full refresh of core durable documentation for a codebase project, ensuring all key architectural and functional areas are covered.
+description: Coordinate the comprehensive initialization or full refresh of core durable documentation for a codebase project, ensuring all key architectural and functional areas are covered.
 disable-model-invocation: true
 argument-hint: "[Target codebase/project name, initial scope (e.g., 'API layer', 'Core data model'), or specific components to document.]"
 ---

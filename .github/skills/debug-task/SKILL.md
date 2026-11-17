@@ -1,6 +1,6 @@
 ---
 name: debug-task
-description: Warchive - Debug a failing test, command, traceback, runtime symptom, or regression. Use when the goal is to reproduce a problem, isolate the owning code path, and route the work through testing or implementation.
+description: Debug a failing test, command, traceback, runtime symptom, or regression. Use when the goal is to reproduce a problem, isolate the owning code path, and route the work through testing or implementation.
 disable-model-invocation: true
 argument-hint: "[Optional: failing test, command, traceback, symptom, expected behavior, recent change, or target files.]"
 ---
