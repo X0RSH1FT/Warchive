@@ -1,6 +1,6 @@
 ---
 name: research-document
-description: Warchive - Research a topic using the web and consolidate findings into a knowledge-base document under docs/research/.
+description: Research a topic using the web and consolidate findings into a knowledge-base document under docs/research/.
 disable-model-invocation: true
 argument-hint: "[Research topic: what to investigate and document]"
 ---

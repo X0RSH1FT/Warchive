@@ -1,6 +1,6 @@
 ---
 name: warchive-agent-knowledge
-description: "Find portable Warchive references for character packets and handoffs, authorized codebase security reviews, or Windows Ollama troubleshooting. Use when an installed agent needs task-specific shared knowledge."
+description: "Find portable warchive references for character packets and handoffs, authorized codebase security reviews, or Windows Ollama troubleshooting. Use when an installed agent needs task-specific shared knowledge."
 ---
 
 # Warchive Agent Knowledge

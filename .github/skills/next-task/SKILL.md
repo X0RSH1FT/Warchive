@@ -1,6 +1,6 @@
 ---
 name: next-task
-description: Warchive - Triage a repository task, route the next specialist-owned task from attached work docs when needed, or research a codebase or subsystem against a baseline, and hand work to planning, research, implementation, documentation, testing, and review specialists from a single entry point.
+description: Triage a repository task, route the next specialist-owned task from attached work docs when needed, or research a codebase or subsystem against a baseline, and hand work to planning, research, implementation, documentation, testing, and review specialists from a single entry point.
 disable-model-invocation: true
 argument-hint: "[Optional: explicit goal, files, constraints, work doc, implementation doc, comparison target, or attached context.]"
 ---

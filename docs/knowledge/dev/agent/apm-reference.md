@@ -4,7 +4,7 @@ APM is a dependency manager for agent configuration. It fetches, verifies, locks
 
 **Audience:** developers who maintain agent setups, and AI agents that need to reason about the configuration they run under.
 
-> **Verification note:** This guide is based on the project's core research summary, not on APM source in this repository. Nothing in Warchive installs or invokes APM yet. The command names `apm install`, `apm update`, and `apm list`, and the concepts below, come from that summary. The `apm.yml` field names, the `apm init` step, the lockfile name, and the registry layout are **illustrative**. Check them against the APM release you use before relying on them.
+> **Verification note:** This guide is based on the project's core research summary, not on APM source in this repository. Nothing in warchive installs or invokes APM yet. The command names `apm install`, `apm update`, and `apm list`, and the concepts below, come from that summary. The `apm.yml` field names, the `apm init` step, the lockfile name, and the registry layout are **illustrative**. Check them against the APM release you use before relying on them.
 
 ---
 
@@ -99,7 +99,7 @@ The field names below are illustrative.
 # apm.yml
 name: warchive-agents
 version: 0.1.0
-description: Agent configuration for the Warchive control repository
+description: Agent configuration for the warchive control repository
 
 dependencies:
   prompts:
@@ -292,7 +292,7 @@ In an isolated pilot project, [`apm init [PROJECT_NAME] [OPTIONS]`](https://micr
 
 ### Warchive's local agent and instruction package
 
-This section documents Warchive's sole sources for 35 agent definitions in `agent-package/.apm/agents/` and 15 scoped instruction files in `agent-package/.apm/instructions/`, not a registry or remote distribution. All 35 agents were verified byte-identical to their former workspace copies before removal; the 15 instructions were moved from `.github/instructions/`. Both sets are explicitly listed under `includes` in `agent-package/apm.yml`. `.github/agents/` and `.github/instructions/` have no active definitions in this repository. `.github/copilot-instructions.md` remains at the repository root customization location, outside the package. `.opencode/agents/` agents are excluded.
+This section documents warchive's sole sources for 35 agent definitions in `agent-package/.apm/agents/` and 15 scoped instruction files in `agent-package/.apm/instructions/`, not a registry or remote distribution. All 35 agents were verified byte-identical to their former workspace copies before removal; the 15 instructions were moved from `.github/instructions/`. Both sets are explicitly listed under `includes` in `agent-package/apm.yml`. `.github/agents/` and `.github/instructions/` have no active definitions in this repository. `.github/copilot-instructions.md` remains at the repository root customization location, outside the package. `.opencode/agents/` agents are excluded.
 
 From the repository root in PowerShell, run the read-only package check after changes and before packing:
 
@@ -338,7 +338,7 @@ The [lockfile specification](https://microsoft.github.io/apm/reference/lockfile-
 | `dependencies.mcp_servers` | MCP server configurations. |
 | `targets` | Harnesses to project into. |
 
-### Related Warchive references
+### Related warchive references
 
 - [vscode-copilot-agent-customization-reference.md](vscode-copilot-agent-customization-reference.md): the VS Code Copilot customization surfaces APM would project into.
 - [opencode-agent-configuration-reference.md](opencode-agent-configuration-reference.md): the OpenCode configuration surfaces APM would project into.

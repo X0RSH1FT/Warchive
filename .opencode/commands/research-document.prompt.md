@@ -1,6 +1,6 @@
 ---
 name: research-document
-description: "Warchive - Research a topic using the web and consolidate findings into a knowledge-base document under docs/research/."
+description: "warchive - Research a topic using the web and consolidate findings into a knowledge-base document under docs/research/."
 argument-hint: "[Research topic: what to investigate and document]"
 agent: Coordinator Agent
 ---

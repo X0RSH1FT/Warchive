@@ -1,6 +1,6 @@
 ---
 name: debate-resolution
-description: Warchive - Resolve an issue or design decision through a structured multi-agent debate led by `Task-Orchestrator`, then route the winning direction to the next execution owner.
+description: Resolve an issue or design decision through a structured multi-agent debate led by `Task-Orchestrator`, then route the winning direction to the next execution owner.
 disable-model-invocation: true
 argument-hint: "[Issue or design question, optional constraints, candidate options, decision deadline, and preferred confidence level.]"
 ---

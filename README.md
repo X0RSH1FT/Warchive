@@ -1,4 +1,4 @@
-# warchive
+# Warchive
 
 Warchive is a repository for agent prompts, working guidance, and knowledge documents. It is a practical archive first: a place to keep reusable instructions, research references, and support material organized enough for both humans and coding agents to navigate.
 
@@ -36,6 +36,7 @@ If you are new to the repo, start here:
 
 - [docs/knowledge/dev/agent/agentic-coding.md](docs/knowledge/dev/agent/agentic-coding.md): practical notes on agentic delivery loops, validation, and role splits.
 - [agent-package/.apm/skills/warchive-agent-knowledge/SKILL.md](agent-package/.apm/skills/warchive-agent-knowledge/SKILL.md): task index for portable character, security, and Ollama references used by installed agents.
+- [agent-package/.apm/skills/cross-service-data-operations/SKILL.md](agent-package/.apm/skills/cross-service-data-operations/SKILL.md): portable owner discovery, transaction safety, privilege separation, and verification across dependent services.
 - [docs/knowledge/dev/agent/vscode-copilot-agent-customization-reference.md](docs/knowledge/dev/agent/vscode-copilot-agent-customization-reference.md): local reference for always-on instructions, scoped instructions, prompts, agents, skills, and related VS Code Copilot behavior.
 - [docs/knowledge/dev/agent/opencode-agent-configuration-reference.md](docs/knowledge/dev/agent/opencode-agent-configuration-reference.md): local reference for OpenCode rules, config precedence, agents, permissions, commands, skills, custom tools, and MCP-related tool behavior.
 - [docs/knowledge/dev/agent/apm-reference.md](docs/knowledge/dev/agent/apm-reference.md): reference guide to the Agent Package Manager (APM): manifest, lockfile, workflow, and agent usage.

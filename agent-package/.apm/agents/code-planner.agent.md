@@ -52,7 +52,7 @@ Produce a brief that is easy to consume:
 
 ```text
 Task: Tighten `.github/prompts/debug-task.prompt.md` and `.github/prompts/review-changes.prompt.md`.
-Owners: those prompt files plus `docs/knowledge/dev/agent/agentic-coding.md` for durable rationale when working in Warchive.
+Owners: those prompt files plus `docs/knowledge/dev/agent/agentic-coding.md` for durable rationale when working in warchive.
 Acceptance: retrieval-first intake, named first validation step, reroute on scope drift, review still findings-first.
 Risks: wording may get repetitive across prompts.
 Exclusions: no agent-topology or tool-list changes.

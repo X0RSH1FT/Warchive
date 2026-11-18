@@ -2,7 +2,7 @@
 
 **Research Date:** May 20, 2026  
 **Author:** GitHub Copilot  
-**Context:** Warchive local knowledge base for working with VS Code Copilot agent files and related customizations
+**Context:** warchive local knowledge base for working with VS Code Copilot agent files and related customizations
 
 ---
 
@@ -21,7 +21,7 @@
 11. [Context Engineering Guidance](#11-context-engineering-guidance)
 12. [TDD Workflow Guidance](#12-tdd-workflow-guidance)
 13. [Troubleshooting and Operational Notes](#13-troubleshooting-and-operational-notes)
-14. [Recommended Authoring Patterns for Warchive](#14-recommended-authoring-patterns-for-warchive)
+14. [Recommended Authoring Patterns for warchive](#14-recommended-authoring-patterns-for-warchive)
 15. [Quick Reference Templates](#15-quick-reference-templates)
 16. [Sources](#16-sources)
 
@@ -178,7 +178,7 @@ Conditions noted in the docs:
 - a parent folder contains `.git`
 - the parent repository is trusted
 
-This matters if Warchive is ever opened from a subfolder instead of the repo root.
+This matters if warchive is ever opened from a subfolder instead of the repo root.
 
 ### 3.5 Agent Customizations editor
 
@@ -825,9 +825,9 @@ When building repository workflows, prefer stable mechanisms first.
 
 ---
 
-## 14. Recommended Authoring Patterns for Warchive
+## 14. Recommended Authoring Patterns for warchive
 
-These recommendations distinguish Warchive's `.github/` workspace customizations from its packaged sources: `agent-package/.apm/agents/` and `agent-package/.apm/instructions/`. APM lists these in `agent-package/apm.yml`; `.github/copilot-instructions.md` stays outside the package. `.github/instructions/` describes the usual projected or manually copied workspace location, not the canonical source in this repository. Packaging is not proof of installation in a consumer.
+These recommendations distinguish warchive's `.github/` workspace customizations from its packaged sources: `agent-package/.apm/agents/` and `agent-package/.apm/instructions/`. APM lists these in `agent-package/apm.yml`; `.github/copilot-instructions.md` stays outside the package. `.github/instructions/` describes the usual projected or manually copied workspace location, not the canonical source in this repository. Packaging is not proof of installation in a consumer.
 
 ### 14.1 Keep `.github/copilot-instructions.md` architectural, not procedural
 
@@ -837,7 +837,7 @@ Do not turn it into a dump of every specialized workflow.
 
 ### 14.2 Keep file-specific behavior in `*.instructions.md`
 
-Warchive already benefits from scoped rules for:
+warchive already benefits from scoped rules for:
 
 - Python files
 - customization docs and other focused file groups when they exist
